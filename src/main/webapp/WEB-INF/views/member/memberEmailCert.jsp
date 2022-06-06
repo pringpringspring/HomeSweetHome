@@ -35,12 +35,21 @@ boolean available = (boolean) request.getAttribute("available");
                     <div class="pop-cert-inner">
                         <label for="emailId" id="email-label"><strong>email</strong></label>	
                         <input type="email" id="emailId" name="emailId" value="<%= memberEmail %>" required readonly>
-                        <button type="button" class="btn" id="emailSend" onclick="sendCertcode()">인증코드 전송</button>
+                        <button type="button" class="btn" id="emailSend" onclick="sendCertcode();">인증코드 전송</button>
                     </div>
                     <div class="pop-cert-inner">
                         <label for="certificationcode" id="certificationcode-label"><strong>인증코드</strong></label>	
                         <input type="text" id="certificationcode" placeholder="인증코드 6자리" name="certificationcode"  >
                         <button type="button" class="btn" onclick="checkCertCode();">인증코드 확인</button>
+                    </div>
+                    <div class="pop-cert-timer">
+	                    <p class="timer-text">* 3분 이내로 인증번호를 입력해주세요.</p>
+	                    <div class="btn-inner">
+		                    <span>남은 시간 </span>
+		                    <span class="timer"></span>
+		                    <button type="button" onclick="refreshAuthTime();">시간 초기화(최대 1회)</button>
+	                    </div>
+	                    <input type="hidden" id="timer-valid" value="0" />
                     </div>
                     <div class="pop-cert-inner-btn" id="cancel-inner">
                         <button type="button" class="btn-cancel" onclick="self.close();">닫기</button>
@@ -80,24 +89,26 @@ const generateRandomCode = () => {
 
 
 const certificationCode = generateRandomCode();
-console.log(certificationCode);
+
 function sendCertcode() {
   const inputName =  document.querySelector("#nameId").value;
   const inputEmail = document.querySelector("#emailId").value;
   const certcode = certificationCode;
-    
+
   let templateParams  = {
       name : inputName,
       email : inputEmail,
       message : certcode
   };
   
-  console.log(templateParams);
+  //인증 타이머 시작
+  sendAuthTime();  
+  
+  //이메일 전송
   emailjs.send('service_q105rgm', 'template_xtqu1tv', templateParams)
         .then(function(response){
-        console.log('Success!', response.status, response.text);
+        	alert("이메일을 보냈습니다. 확인해주세요.")
          }, function(error){
-        console.log('Failed...', error);
     }); 
 };
 
@@ -118,6 +129,52 @@ function checkCertCode(){
     }
     
 };
+
+let timer;
+let isRunning = false; 
+let leftSec;
+
+function sendAuthTime(){    	
+	// 남은 시간	
+	const display = document.querySelector('.timer');
+	leftSec = 180;	
+	// 이미 타이머가 작동중이면 중지	
+	if (isRunning){	   
+		clearInterval(timer);
+	}	
+	// 타이머를 화면에 출력
+	startTimer(leftSec, display);
+} 
+
+function refreshAuthTime(){   
+	let timerVal = document.querySelector("#timer-valid").value;
+	if(timerVal == 0){
+	document.querySelector("#timer-valid").value = 1;	
+	clearInterval(timer);
+	sendAuthTime();		
+	}	
+} 
+
+function startTimer(count, display) { 
+	document.querySelector(".pop-cert-timer").style.visibility= "visible";	
+		let minutes;
+		let seconds;        
+		timer = setInterval(function () {       
+			minutes = parseInt(count / 60, 10);       
+			seconds = parseInt(count % 60, 10);       
+			minutes = minutes < 10 ? "0" + minutes : minutes;       
+			seconds = seconds < 10 ? "0" + seconds : seconds;         
+			display.textContent = minutes + ":" + seconds;         
+			// 타이머 끝       
+			if (--count < 0) {	     
+				clearInterval(timer);	     
+				display.textContent = "";	    
+				isRunning = false;
+				alert("제한 시간을 초과하였습니다. 다시 시도해주세요.")
+				self.close();
+			} 
+		}, 1000);
+	}
 
 </script>
 </body>

@@ -95,6 +95,28 @@ public class MemberService {
 		close(conn);
 		return member;
 	}
+
+	public Member findMemberIdByEmail(String memberEmail) {
+		Connection conn = getConnection();
+		Member member = memberDao.findMemberIdByEmail(conn, memberEmail);
+		close(conn);
+		return member;
+	}
+
+	public int resetPasswordOfMember(Member updateMember) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = memberDao.resetPasswordOfMember(conn, updateMember);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
 	
 	
 }

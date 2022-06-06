@@ -123,7 +123,7 @@ public class MemberDao {
 				member = handleMemberResultSet(rset);
 			}
 		} catch (Exception e) {
-			throw new MemberException("회원 - 아이디 중복확인 조회 오류", e);
+			throw new MemberException("회원 - 아이디 중복확인 조회 | 회원찾기 오류", e);
 		} finally {
 			close(rset);
 			close(pstmt);
@@ -217,5 +217,43 @@ public class MemberDao {
 			close(pstmt);
 		}
 		return member;
+	}
+
+	public Member findMemberIdByEmail(Connection conn, String memberEmail) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findMemberIdByEmail");
+		Member member = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberEmail);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				member = handleMemberResultSet(rset);
+			}
+		} catch (Exception e) {
+			throw new MemberException("아이디 찾기 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return member;
+	}
+
+	public int resetPasswordOfMember(Connection conn, Member member) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("resetPasswordOfMember");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new MemberException("비밀번호 재설정 오류!", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 }

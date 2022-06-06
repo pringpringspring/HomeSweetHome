@@ -1,17 +1,16 @@
 
 /* ====================================== section ===================================== */
-hr {width: 1284px;}
+hr {width: 68.8%;}
 
 .input-wrapper .input-container{
     position: relative;
     display: flex;
     align-items: center;
-    width: 300px;
-    height: 46px;
+    width: 18.75rem;  
+    height: 1.75rem; 
     background: #FFFFFF;
     border: 1px solid #CACACA;
     border-radius: 4px;
-    padding: 0px 42px 0px 16px;
     margin: 0 auto;
 }
 
@@ -22,8 +21,8 @@ hr {width: 1284px;}
 
 #input-user-id, #input-password, #input-order-no, #input-email  {
     border: 0px;
-    width: 350px;
-    height: 40px;
+    width: 17.5rem;
+    height: 1.9rem;
     font-size: 1.3rem;
     background-color: #fff;
 }
@@ -46,7 +45,7 @@ section p, section a {
 }
 .social-login{
 	display: flex;
-	width: 1284px;
+	width: 68.8%;
 	flex-direction: column;
 	align-items: center;
 	margin: 0 auto;
@@ -60,8 +59,8 @@ section p, section a {
 }
 
 #kakao-icon, #google-icon {
-	width: 50px;
-	height: 50px;
+	width: 3rem;
+	height: 3rem;
 	cursor : pointer;
 }
 
@@ -76,7 +75,7 @@ button {
     color:  black;
     font-family: 'Jua', sans-serif;
 	font-size: 4rem;
-	margin: 10px 0px 0px;
+	margin: 0.5rem 0 0;
     text-align: center;
 }
 
@@ -103,7 +102,7 @@ button {
     letter-spacing: -0.25px;
     color: #333333;
 }
-
+#loginFrm{margin-bottom:0;}
 .id-input{
     margin-top: 50px;
 }
@@ -115,10 +114,10 @@ button {
 .row{
     display: flex;
     justify-content: flex-end;
-    margin-top: 11px;
-    width: 360px;
+    width: 21.25rem;
     height: 40px;
     margin: 0 auto;
+    padding-top: 0;
 }
 
 
@@ -132,46 +131,47 @@ button {
 
 .link-divider-item{
     width: 1px;
-    height: 10px;
-    margin: 0px 8px;
+    height: 0.6rem;
+    margin: 0px 0.5rem;
     background: #DDDDDD;
 }
 
 #order-finder-wrapper {
-	position: hidden;
+	display:none;
 }
 
 #btn-non-member-order {
-	width: 400px;
+	width: 20rem;
 	font-size: 2rem;
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	background-color: #FFF;
-    border: none;
+    border: 1px solid #fff;
     color: #000;
-    margin: 0 695px;
-    cursor: pointer;
-   
+    cursor: pointer; 
 }
 
 #btn-login, #btn-non-member-finder{
-    width: 365px;
-    height: 48px;
-    margin: 0 720px;
-    border-radius: 5px;
+    width: 20rem;
+    height: 3rem;
+    border-radius: 0.3rem;
     font-size: 2rem;
-    line-height: 18px;
+    line-height: 1.1rem;
     cursor: pointer;
 }
 
 #btn-non-member-finder{ 
-	width: 360px;
-    margin: 0 715px;
+	width: 20rem;
 }
-
+.btn-wrapper{
+	width: 20rem;
+	margin: 0 auto;
+}
 /* ====================================== popup ====================================== */
 .openBtn {
     display: flex;
     justify-content: left;
+    height: 2rem;
+    padding-top: 0;
 }
 
 .openButton{
@@ -184,7 +184,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-left:5px; 
-    padding:4px 6px; 
-    height: 30px;
+    padding: 4px 6px; 
+    height: 1.9rem;
 }
 

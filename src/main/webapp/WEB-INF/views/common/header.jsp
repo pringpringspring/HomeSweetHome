@@ -25,6 +25,19 @@ window.onload = () => {
 	alert("<%= msg %>");
 <% } %>
 }
+
+showAdminSubMenu = () =>{
+	let changeVal = document.querySelector(".admin-menu-val").value;
+	if(changeVal == 0){
+		document.querySelector(".admin-menu-title").style.display = "block";
+		document.querySelector(".admin-menu-val").value = 1;
+	}
+	else{
+		document.querySelector(".admin-menu-title").style.display = "none";
+		document.querySelector(".admin-menu-val").value = 0;
+	}
+};
+
 showSubMenu = () => {
 	let changeVal = document.querySelector(".member-sub-menu-val").value;
 	if(changeVal == 0){
@@ -36,6 +49,7 @@ showSubMenu = () => {
 		document.querySelector(".member-sub-menu-val").value = 0;
 	}
 };
+
 </script>
 </head>
 	
@@ -80,26 +94,32 @@ showSubMenu = () => {
 									</div>
 								<% } else if(loginMember != null && loginMember.getMemberRole() == MemberRole.A) { %>
 									<div class="login-admin-menu-wrapper">
-										<ul>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/memberList">회원목록</a>
-											</li>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/manageProduct">상품관리</a> 
-											</li>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/statistics">통계확인</a>
-											</li>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/productManagement">상품 재고관리</a>
-											</li>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/eventManagement">이벤트관리</a>
-											</li>
-											<li>
-												<a class="admin-menu" href="<%= request.getContextPath() %>/admin/announcement">공지사항</a>
-											</li>
-										</ul>
+										<div class="admin-menu-title-text"><button type="button" onclick="showAdminSubMenu();">관리자 메뉴</button>
+										<input type="hidden" class="admin-menu-val" value="0" />
+											<ul class="admin-menu-title">
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/memberList">회원목록</a>
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/manageProduct">상품관리</a> 
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/statistics">통계확인</a>
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productManagement">상품 재고관리</a>
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/eventManagement">이벤트관리</a>
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/announcement">공지사항</a>
+												</li>
+											</ul>
+										</div> 
+										<div>
+											<a class="admin-menu-signout" href="<%= request.getContextPath() %>/member/signout">로그아웃</a>
+										</div>
 									</div>
 								<% } else { %>
 									<div class="login-member-menu-wrapper">

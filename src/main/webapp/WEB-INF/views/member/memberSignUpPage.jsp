@@ -303,7 +303,6 @@ user_nickname.onblur = () => {
 	// 닉네임 중복체크 비동기화
 		if(user_nickname.value){
 			const nickname = document.querySelector("#user_nickname").value;
-			console.log(nickname);
 			$.ajax({
 				url : "<%= request.getContextPath() %>/member/nicknameCheck",
 				method : "GET",

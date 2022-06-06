@@ -45,7 +45,8 @@ values (
 commit;
 select * from  member order by enroll_date;
 --delete from member where member_id = ';
-
+-- He5Pi8y1UOXqccN0PFCc2I0EG7+CoAM0f+EydSVuWFNmNhioqBkHsbln1/A0ee/9bG1mEc2YLFhH65AIUn3gjA==
+-- zNJ7Pyr+VYkjztPg7P9P2WndOr0jrPYsJbwuHE8504YtU8D2gr+T9Yk1yCqqxXU9k0ce6MInKZ/qitfKChmfcQ==
 -- 배송지 테이블
 -- drop table address;
 

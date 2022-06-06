@@ -52,6 +52,7 @@
 }
 .btn-cancel {
     font-family: 'Dongle', sans-serif;
+    font-weight: bold;
 	font-size: 1rem;
     width: 82px;
     height: 40px;
@@ -59,7 +60,7 @@
     cursor: pointer;
     border: none;
     color: #fff;
-    margin-top: 30px;
+    margin-top: 0.5rem;
     background-color:  #34C5F0;
 }
 
@@ -71,9 +72,10 @@
 
   .pop-cert-inner button {
     font-family: 'Dongle', sans-serif;
-	font-size: 0.65rem;
+    font-weight: bold;
+	font-size: 1rem;
     width: 82px;
-    height: 40px;
+    height: 48px;
     border-radius: 5px;
     cursor: pointer;
     border: none;
@@ -82,8 +84,8 @@
   }
 
   #nameId {
-      width: 180px;
-      height: 40px;
+      width: 13rem;
+      height: 3rem;
       font-size: 1rem;
       padding: 0px;
       border: #000 1px solid;
@@ -93,8 +95,8 @@
   }
 
   #emailId, #certificationcode {
-      width: 180px;
-      height: 40px;
+      width: 13rem;
+      height: 3rem;
       font-size: 1rem;
       border: #000 1px solid;
       border-radius: 5px;
@@ -104,3 +106,14 @@
 	 width: 128px;
 }
 #email-label{ width: 128px;}
+.pop-cert-timer{ visibility: hidden; font-family:'Noto Sans KR', sans-serif;} 
+.btn-inner {display:flex; justify-content: space-evenly; width: 15rem; margin: 0 auto;}
+.btn-inner button{ font-family: 'Dongle', sans-serif;
+    font-weight: bold;
+	font-size: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color:  #34C5F0;}
+.timer-text{ margin: 0 auto;}

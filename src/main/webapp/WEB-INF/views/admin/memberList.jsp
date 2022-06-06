@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
-	List<Member> list = (List<Member>) request.getAttribute("list");
+	List<Member> memberList = (List<Member>) request.getAttribute("memberList");
 	String pagebar = (String) request.getAttribute("pagebar");
 	
 	String searchType = request.getParameter("searchType");
@@ -54,8 +54,8 @@
 		</thead>
 		<tbody>
 <%
-		if(list != null && !list.isEmpty()){
-			for(Member member : list){
+		if(memberList != null && !memberList.isEmpty()){
+			for(Member member : memberList){
 %>			
 			<tr>
 				<td><%= member.getMemberId() %></td>
