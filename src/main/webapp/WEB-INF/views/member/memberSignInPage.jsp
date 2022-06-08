@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signin.css" />	
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 <% 
 String saveId = null; 
@@ -50,8 +51,8 @@ else {
 								<div class="social-login">
 									<p>SNS계정으로 간편 로그인/회원가입</p>	
 									<div class="social-site">
-										<div id="kakao"><img id="google-icon" src="<%=request.getContextPath() %>/images/google.png" alt="카카오 아이콘" /></div>
-										<div id="google"><img id="kakao-icon" src="<%=request.getContextPath() %>/images/kakaotalk.png" alt="구글 아이콘" /></div>
+										<div id="GgCustomLogin"><a href="javascript:void(0)"><img id="google-icon" src="<%=request.getContextPath() %>/images/google.png" alt="카카오 아이콘" /></div>
+										<div id="kakaoLogin""><img id="kakao-icon" src="<%=request.getContextPath() %>/images/kakaotalk.png" alt="구글 아이콘" /></div>
 									</div>								
 								</div>
 								<hr />
@@ -82,6 +83,42 @@ else {
 								</div>
 							</div>
 						</article>
+						
+<script>
+//처음 실행하는 함수
+function init() {
+	gapi.load('auth2', function() {
+		gapi.auth2.init();
+		options = new gapi.auth2.SigninOptionsBuilder();
+		options.setPrompt('select_account');
+        // 추가는 Oauth 승인 권한 추가 후 띄어쓰기 기준으로 추가
+		options.setScope('email profile openid https://www.googleapis.com/auth/user.birthday.read');
+        // 인스턴스의 함수 호출 - element에 로그인 기능 추가
+        // GgCustomLogin은 li태그안에 있는 ID, 위에 설정한 options와 아래 성공,실패시 실행하는 함수들
+		gapi.auth2.getAuthInstance().attachClickHandler('GgCustomLogin', options, onSignIn, onSignInFailure);
+	})
+}
+
+function onSignIn(googleUser) {
+	var access_token = googleUser.getAuthResponse().access_token
+	$.ajax({
+		url: 'https://people.googleapis.com/v1/people/me'
+		, data: {personFields:'birthdays', key:'AIzaSyDZ6JSp-pdG9nuMfkAgUOK61-RdQ9d2bzo', 'access_token': access_token}
+		, method:'GET'
+	})
+	.done(function(e){
+        //프로필을 가져온다.
+		var profile = googleUser.getBasicProfile();
+		console.log(profile)
+	})
+	.fail(function(e){
+		console.log(e);
+	})
+}
+function onSignInFailure(t){		
+	console.log(t);
+}
+</script>					
 <script>
 <% if(loginMember == null) { %>
 document.loginFrm.onsubmit = (e) => {
@@ -126,4 +163,5 @@ showOrderFinder = () => {
 	}
 }
 </script>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

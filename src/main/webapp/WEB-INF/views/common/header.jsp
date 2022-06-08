@@ -17,8 +17,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Dongle:wght@300;400;700&family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/common.css" />
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
 <title>Home Sweet Home</title>
+<!-- 구글 로그인용 -->
+<meta name ="google-signin-client_id" content="876270899044-a3f5488k6dks11e8h33suurud5ov5am7">
 <script>
 window.onload = () => {
 <% if(msg != null){ %>

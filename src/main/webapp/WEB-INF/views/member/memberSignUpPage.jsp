@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signup.css" />
 <script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="<%= request.getContextPath() %>/js/memberSignUp.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <form class="form" id="signupFrm" name="signUpFrm" method="POST">
 	<p class="signupTitle">회원정보 입력</p>
