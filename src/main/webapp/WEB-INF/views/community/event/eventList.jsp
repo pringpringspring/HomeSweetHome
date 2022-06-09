@@ -58,7 +58,4 @@ img:hover{
 	%>
 
 
-<div style="cursor:pointer;" onclick="window.scrollTo(0,0);">∧</div>
-
-
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>    

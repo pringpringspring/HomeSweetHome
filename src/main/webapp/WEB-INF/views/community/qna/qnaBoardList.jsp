@@ -32,13 +32,12 @@ String searchKeyword = request.getParameter("searchKeyword");
 	</div>
 </nav>
 <div class="sort">
-<select id="list">
-<option class="latest"  id="new" value="1 ">최신순</option>
-<option class="latest"  id="old" value="2" >과거순</option>
-</select>
-
-
+<h5>
+<a href="javascript:regdate();">최신순 |</a>
+<a href="javascript:regdate();">조회수순</a>
+</h5>
 </div>
+
 <div class="button-wrap">
 	<input type="button" value="질문하기" id="btn-add" name="btn-add"
 		onclick="location.href='<%=request.getContextPath()%>/qna/qnaBoardEnroll';" />
@@ -107,13 +106,30 @@ if (board.getAttachCount() > 0) {
 	}
 	%>
 </div>
-<div style="cursor:pointer;" onclick="window.scrollTo(0,0);">∧</div>
+
+
+<!--탑버튼 -->
+     <a style="display:scroll;position:fixed;bottom:92px; right:45px;" rel="nofollow"
+     href="#" >
+     <img src="<%=request.getContextPath()%>/images/top_button.png" width=20px></a>
+
+     <a style="display:scroll;position:fixed;bottom:55px; right:45px;" rel="nofollow"
+     href="#scrollbottom" ><img src="<%=request.getContextPath()%>/images/bot_button.png" width=20px></a>
+     <div id="scrollbottom"></div>
+
+
 </div>
 <div id='pageBar'><%=request.getAttribute("pagebar")%></div>
 
 
 
 <script>
+
+
+
+
+
+
 //질문하기 버튼
 function checkbox(box){
     var check = document.getElementsByName("btn-add");

@@ -67,5 +67,12 @@ boolean canEdit = ( (loginMember != null)
 </section>
 
 
-<div style="cursor:pointer;" onclick="window.scrollTo(0,0);">∧</div>
+     <a style="display:scroll;position:fixed;bottom:92px; right:45px;" rel="nofollow"
+     href="#" >
+     <img src="<%=request.getContextPath()%>/images/top_button.png" width=20px></a>
+
+     <a style="display:scroll;position:fixed;bottom:55px; right:45px;" rel="nofollow"
+     href="#scrollbottom" ><img src="<%=request.getContextPath()%>/images/bot_button.png" width=20px></a>
+     <div id="scrollbottom"></div>
+     <div id="scrollbottom"></div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
