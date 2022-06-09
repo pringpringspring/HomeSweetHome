@@ -33,8 +33,8 @@ String searchKeyword = request.getParameter("searchKeyword");
 </nav>
 <div class="sort">
 <h5>
-<a href="javascript:regdate();">최신순 |</a>
-<a href="javascript:regdate();">조회수순</a>
+<a href="<%=request.getContextPath()%>/community/qna">최신순 |</a>
+<a href="<%=request.getContextPath()%>/community/qna/ReadcntDesc">조회수순</a>
 </h5>
 </div>
 
@@ -124,10 +124,20 @@ if (board.getAttachCount() > 0) {
 
 
 <script>
+/* var readcntdesc = function(url){
 
-
-
-
+	$.ajax({
+		type: 'get',
+		url: "/ReadcntDesc",
+		data: "",
+		success: function(data) {
+			$('#sort_list').html(data);
+		},
+		error: function(request, status, error) {
+			alert(error);
+		}
+	});
+}; */
 
 
 //질문하기 버튼

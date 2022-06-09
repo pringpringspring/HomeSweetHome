@@ -13,6 +13,17 @@ public class QnaBoardExt extends QnaBoard{
 	private List<Attachment> attachments; 
 	private List<QnaBoardComment> comments; 
 
+	private String sort;
+	
+	
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
 	public int getAttachCount() {
 		return attachCount;
 	}

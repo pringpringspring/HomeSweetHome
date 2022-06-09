@@ -463,7 +463,32 @@ public class QnaBoardDao {
 	}
 
 
+//정렬
+	public List<QnaBoardExt> sortRead(Connection conn, Map<String, Object> param) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<QnaBoardExt> list = new ArrayList<>();
+		
+		String sql = prop.getProperty("sortRead");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (int) param.get("start"));
+			pstmt.setInt(2, (int) param.get("end"));
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				QnaBoardExt board = handleBoardResultSet(rset);
+				board.setAttachCount(rset.getInt("attach_cnt"));
+				board.setCommentCount(rset.getInt("comment_cnt"));
+				list.add(board);
+			}
 
-	
-
+		} catch (Exception e) {
+			throw new QnaBoardException("조회순 정렬 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 }
+

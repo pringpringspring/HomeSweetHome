@@ -208,6 +208,11 @@ public class QnaBoardService {
 		}	
 	
 	
-
+	public List<QnaBoardExt> sortRead(Map<String, Object> param) {
+		Connection conn = getConnection();
+		List<QnaBoardExt> list = bd.sortRead(conn, param);
+		close(conn);
+		return list;
+	}
 
 }
