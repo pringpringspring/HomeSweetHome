@@ -13,8 +13,8 @@ public class QnaBoardComment {
 	
 	private int commentLevel;
 	private int commentRef;
-	
-	
+
+
 	public QnaBoardComment() {
 		super();
 		// TODO Auto-generated constructor stub

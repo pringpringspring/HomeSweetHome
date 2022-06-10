@@ -1,9 +1,8 @@
 package community.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.List;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -11,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import community.model.dto.QnaBoardComment;
 import community.model.dto.QnaBoardExt;
+import community.model.dto.QnaCommentLike;
 import community.model.service.QnaBoardService;
 
 
@@ -87,5 +88,31 @@ public class qnaBoardViewServlet extends HttpServlet {
 		}
 	}
 
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String memberId = request.getParameter("memberId");
+			int cono = Integer.parseInt(request.getParameter("cono"));
+	
+			List<QnaBoardComment> replylist = bs.selectCommentList(cono);
+			QnaCommentLike cl =bs.selectLikeOne(cono, memberId);
+			boolean exitistLike = cl == null ? false : true;
+			if(exitistLike) {
+				//like 삭제
+				int result = bs.deleteLike(cl);
+				System.out.println("insertLike="+result);
+			}else {
+				//like 추가
+				QnaCommentLike like = new QnaCommentLike(memberId, cono, "T");
+				int result = bs.insertLike(cono);
+				System.out.println("insertLike="+result);
+			}
+			
+			QnaCommentLike resultCl = bs.selectLikeOne(cono, memberId);
+			boolean like = resultCl == null ? false : true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+			throw e;
+		}
+	}
 }

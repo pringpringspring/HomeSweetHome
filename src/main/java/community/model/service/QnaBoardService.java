@@ -214,5 +214,47 @@ public class QnaBoardService {
 		close(conn);
 		return list;
 	}
+	
+	
+	
+	public QnaCommentLike selectLikeOne(int no, String memberId) {
+		Connection conn = getConnection();
+		QnaCommentLike cl= bd.selectLikeOne(conn, no, memberId);
+		close(conn);
+		return cl;
+	}
+
+	public int deleteLike(QnaCommentLike cl) {
+		Connection conn = getConnection();
+		int result =bd.deleteLike(conn, cl);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int insertLike(int no) {
+		Connection conn = getConnection();
+		int result = bd.insertLike(conn, no);
+		if(result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public List<QnaBoardComment> selectCommentList(int no) {
+		Connection conn = getConnection();
+		List<QnaBoardComment> list = bd.selectCommentList(conn,no);
+		close(conn);
+		return list;
+	}
+
+	
+
+
 
 }

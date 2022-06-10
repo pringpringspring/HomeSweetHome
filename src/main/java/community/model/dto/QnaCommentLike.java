@@ -1,34 +1,21 @@
 package community.model.dto;
 
+import java.io.Serializable;
+import java.sql.Date;
 
-
-public class QnaCommentLike extends QnaBoardComment{
-	private int likeNo;
-	private int commentNo;
+public class QnaCommentLike  implements Serializable{
 	private String memberId;
-	private int boardNo;
+	private int commentNo;
+	private String like;
 	public QnaCommentLike() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public QnaCommentLike(int likeNo, int commentNo, String memberId, int boardNo) {
+	public QnaCommentLike(String memberId, int commentNo, String like) {
 		super();
-		this.likeNo = likeNo;
-		this.commentNo = commentNo;
 		this.memberId = memberId;
-		this.boardNo = boardNo;
-	}
-	public int getLikeNo() {
-		return likeNo;
-	}
-	public void setLikeNo(int likeNo) {
-		this.likeNo = likeNo;
-	}
-	public int getCommentNo() {
-		return commentNo;
-	}
-	public void setCommentNo(int commentNo) {
 		this.commentNo = commentNo;
+		this.like = like;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -36,11 +23,25 @@ public class QnaCommentLike extends QnaBoardComment{
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-	public int getBoardNo() {
-		return boardNo;
+	public int getCommentNo() {
+		return commentNo;
 	}
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+	public void setCommentNo(int commentNo) {
+		this.commentNo = commentNo;
 	}
+	public String getLike() {
+		return like;
+	}
+	public void setLike(String like) {
+		this.like = like;
+	}
+	@Override
+	public String toString() {
+		return "QnaCommentLike [memberId=" + memberId + ", commentNo=" + commentNo + ", like=" + like + "]";
+	}
+
+
 	
-}
+	
+	}
+

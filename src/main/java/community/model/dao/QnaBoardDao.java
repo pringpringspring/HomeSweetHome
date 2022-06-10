@@ -1,6 +1,6 @@
 package community.model.dao;
 
-import static common.JdbcTemplate.*;
+import static common.JdbcTemplate.close;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import common.JdbcTemplate;
 import community.model.dto.Attachment;
 import community.model.dto.QnaBoard;
 import community.model.dto.QnaBoardComment;
 import community.model.dto.QnaBoardExt;
+import community.model.dto.QnaCommentLike;
 import community.model.exception.QnaBoardException;
 
 
@@ -490,5 +490,135 @@ public class QnaBoardDao {
 		}
 		return list;
 	}
+	
+	//좋아요
+	/*
+	 * public void bGood(int no) { Connection conn = JdbcTemplate.getConnection();
+	 * PreparedStatement pstmt = null; String sql = prop.getProperty("likeComment");
+	 * try { pstmt = conn.prepareStatement(sql); pstmt.setInt(1, no);
+	 * pstmt.executeUpdate();
+	 * 
+	 * }catch(Exception e) { throw new QnaBoardException("좋아요 오류", e); }finally {
+	 * JdbcTemplate.close(pstmt); } }
+	 */
+	
+	public int insertLike(Connection conn, int no) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+			throw new QnaBoardException("로그인 후 이용해주세요",e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	
+	public QnaCommentLike selectLikeOne(Connection conn, int no, String memberId) {
+		QnaCommentLike cl = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectLikeOne");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, no);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				cl = new QnaCommentLike();
+				cl.setMemberId(rset.getString("member_id"));
+				cl.setCommentNo(rset.getInt("comment_no"));
+				cl.setLike(rset.getString("likeit"));
+			}
+		} catch (Exception e) {
+			//e.printStackTrace();
+			throw new QnaBoardException("로그인 후 이용해주세요",e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return cl;
+	}
+
+	public int deleteLike(Connection conn, QnaCommentLike cl) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteLike"); 
+
+		try {
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//쿼리문미완성
+			pstmt.setString(1, cl.getMemberId());
+			pstmt.setInt(2, cl.getCommentNo());
+			
+			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			//DML은 executeUpdate()
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+			throw new QnaBoardException("로그인 후 이용해주세요",e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<QnaBoardComment> selectCommentList(Connection conn, int no) {
+		List<QnaBoardComment> list = new ArrayList<>();
+		QnaBoardComment cbr = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCommentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				cbr = new QnaBoardComment();
+
+				cbr.setNo(rset.getInt("comment_no"));
+				cbr.setBoardNo(rset.getInt("board_no"));
+				cbr.setMemberId(rset.getString("member_id"));
+				cbr.setContent(rset.getString("content"));
+				cbr.setLikeCnt(rset.getInt("like_count"));
+				cbr.setRegDate(rset.getDate("reg_date"));
+				cbr.setCommentLevel(rset.getInt("comment_level"));
+				cbr.setCommentRef(rset.getInt("comment_ref"));
+				
+				list.add(cbr);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	
+
+	
+	
+	
 }
 

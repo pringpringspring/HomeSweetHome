@@ -8,14 +8,15 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <%
-
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
 	List<QnaBoardComment> comments = board.getBoardComments();
 
 	boolean canEdit = loginMember != null 
 			&& (loginMember.getMemberId().equals(board.getMemberId()) 
 					|| loginMember.getMemberRole() == MemberRole.A);	
+	
 %>
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
 <section id="board-container">
 	<table id="tbl-board-view">
@@ -92,7 +93,11 @@
 						<%= bc.getContent() %>
 					</td>
 					<td>
+					<form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
 						<button class="btn-like" value="<%= bc.getNo() %>" onclick="likeUpDown()">좋아요</button>
+						<input type="hidden" id="likememberId" name="memberId" value="<%=loginMember.getMemberId()%>"/>
+						<input type="hidden" id="likeno" name="cono" value="<%=bc.getNo()%>"/>
+						</form>
 						<div id="like_result"><%=bc.getLikeCnt() %></div>														
 						<button class="btn-reply" value="<%= bc.getNo() %>">답글</button>
 						<% if(canDelete){ %>
@@ -136,6 +141,28 @@
 
 
 <script>
+$(document).ready(function(){
+    $("#likeUpDown").click(function(){
+		$.ajax({
+			url: "<%= request.getContextPath() %>/qna/qnaBoardView?no=<%=board.getNo()%>",
+			method: "POST", 
+			dataType: "text", 
+			data:  {"memberId": $("#likememberId").val(),
+					"cono" : $("#likeno").val()
+				}, 
+			success: function(data){
+				history.go(0);
+			},
+			error: function(xhr, textStatus, errorThrown){
+				alert("인증번호가 일치하지 않습니다.")
+				console.log("ajax 요청 실패!");
+				console.log(xhr, textStatus, errorThrown);
+			}
+		});
+    });
+});
+
+
 
 document.querySelectorAll(".btn-delete").forEach((button) => {
 	button.onclick = (e) => {
