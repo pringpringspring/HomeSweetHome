@@ -27,7 +27,7 @@ String searchKeyword = request.getParameter("searchKeyword");
 			<!--돋보기-->
 			<input type="text" name="searchKeyword" class="search-box"
 				placeholder="궁금한 것을 검색해보세요."
-				value="<%="member_id".equals(searchType) ? searchKeyword : ""%>" />
+				value="<%="content".equals(searchType) ? searchKeyword : ""%>" />
 		</form>
 	</div>
 </nav>
