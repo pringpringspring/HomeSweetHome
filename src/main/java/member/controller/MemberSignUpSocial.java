@@ -16,23 +16,33 @@ import member.model.dto.MemberRole;
 import member.model.service.MemberService;
 
 /**
- * Servlet implementation class MemberSignUpPageServlet
+ * Servlet implementation class MemberSignUpSocial
  */
-@WebServlet("/member/signUpPage")
-public class MemberSignUpPageServlet extends HttpServlet {
+@WebServlet("/member/memberSignUpSocial")
+public class MemberSignUpSocial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberService memberService = new MemberService();
 
 	/**
-	 * 회원정보 작성 페이지 이동
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/member/memberSignUpPage.jsp")
+		String memberId = request.getParameter("id");
+		String gender = request.getParameter("gender");
+		String email = request.getParameter("email");
+		String socialType = request.getParameter("socialType");
+		
+		request.setAttribute("id", memberId);
+		request.setAttribute("gender", gender);
+		request.setAttribute("email", email);
+		request.setAttribute("socialType", socialType);
+		 
+		request.getRequestDispatcher("/WEB-INF/views/member/memberSignUpSocialPage.jsp")
 		.forward(request, response);
 	}
-	
+
 	/**
-	 * 신규회원 등록
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -45,13 +55,10 @@ public class MemberSignUpPageServlet extends HttpServlet {
 
 				// 1.2. 회원
 				String memberId = request.getParameter("id");
-				// 단방향 암호화 처리
-				String password = HomeSweetHomeUtils.encrypt(request.getParameter("password"), memberId);
 				String memberName = request.getParameter("user_name");
 				String nickname = request.getParameter("user_nickname");
 				String phone = request.getParameter("phone");
 				String email = request.getParameter("email");
-				
 				String year = request.getParameter("year");
 				String month = request.getParameter("month");
 				int _day = Integer.parseInt(request.getParameter("day"));
@@ -64,14 +71,20 @@ public class MemberSignUpPageServlet extends HttpServlet {
 				}
 				String _birthday = year + "-" + month + "-" + day;
 				
-				String gender = request.getParameter("gender");
+				String _gender = request.getParameter("gender");
+				String gender = "";
+				if(_gender != null) {
+					gender = _gender == "male" ? "M" : "F";					
+				}
 				
-				System.out.println(_birthday);
+		
 				Date birthday = null;
 				if(_birthday != null && !"".equals(_birthday))
 					birthday = Date.valueOf(_birthday);
-
-			Member member = new Member(memberId, password, memberName, nickname, MemberRole.U, phone, email, birthday, gender, null, null);
+				
+			String socialType = request.getParameter("socialType");
+			System.out.println("servlet : socialType = " + socialType);
+			Member member = new Member(memberId, null, memberName, nickname, MemberRole.U, phone, email, birthday, gender, socialType, null);
 			Address addressInfo = new Address();
 			addressInfo.setMemberId(memberId);
 			addressInfo.setPostCode(postCode);
@@ -93,9 +106,7 @@ public class MemberSignUpPageServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/");
 		} catch(Exception e) {
 			e.printStackTrace();
-
 			throw e;
 		}
 	}
-
 }

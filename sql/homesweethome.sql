@@ -17,8 +17,8 @@ alter user homesweethome quota unlimited on users;
 
 -- 회원 테이블
 create table member (
-	member_id	 varchar2(20)		NOT NULL,
-	password	varchar2(300)		NOT NULL,
+	member_id	 varchar2(50)		NOT NULL,
+	password	varchar2(300),
 	member_name	varchar2(50)		NOT NULL,
 	nickname	varchar2(100),
 	member_role	char(1)	DEFAULT 'U'	NOT NULL,
@@ -26,33 +26,52 @@ create table member (
 	email	varchar2(200)		NOT NULL,
 	birthday	date	,
 	gender	char(1),
-	enroll_date	date	DEFAULT sysdate	NOT NULL,
+    member_social varchar2(10) default 'non' not null,
+    enroll_date	date	DEFAULT sysdate	NOT NULL,
     constraint pk_member_id primary key(member_id),
     constraint ck_member_role check(member_role in ('U', 'A')),
     constraint ck_member_gender check(gender in ('M', 'F')),
-    constraint uq_member_email unique(email)
+    constraint uq_member_email unique(email),
+    constraint ck_member_social check(member_social in ('non', 'kakao', 'google', 'naver'))
 );
-
+commit;
+--drop table member;
+--alter table  member modify member_id varchar2(50);
+--alter table  member add   member_social varchar2(10) default 'non' not null;
+--alter table  member add  ck_member_social check(member_social in ('non', 'kakao', 'google', 'naver'));
+select
+        constraint_name,
+        uc.table_name,
+        ucc.column_name,
+        uc.constraint_type,
+        uc.search_condition
+from
+        user_constraints uc 
+                join user_cons_columns ucc
+                        using(constraint_name)
+where
+        uc.table_name = 'MEMBER';
 --회원 추가
 insert into member
 values (
-    'honggd', '1234', '홍길동', '신출귀몰',  'U', '01012341234', 'honggd@naver.com', to_date('19920101', 'yyyymmdd'), 'M', default
-)
-;insert into member
+    'admin', 'I22NjLc4MurqLYSka1vS6Loemy9zyL1iLdsxCfl7p/X7mMpE4jnenlGOwQzu/0RU9JuUGk2Wvr135asB83fZGQ==', '관리자', '관리자',  'A', '01011111111', 'admin@naver.com', to_date('19920308', 'yyyymmdd'), 'M', 'non', default
+);  -- 비밀번호 asdf456!
+insert into member
 values (
-    'admin', 'I22NjLc4MurqLYSka1vS6Loemy9zyL1iLdsxCfl7p/X7mMpE4jnenlGOwQzu/0RU9JuUGk2Wvr135asB83fZGQ==', '관리자', '관리자',  'A', '01011111111', 'admin@naver.com', to_date('19920308', 'yyyymmdd'), 'M', default
-);
+    'honggd', '7oM2uUt7/ZM2z6Dm1bvy4MpBvC6CjacpWwZPfojluZFX44fczavYurPeTLahxXThi74ysNUxJteydlEKh8GAGQ==', '홍길동', '신출귀몰',  'U', '01012341234', 'honggd@naver.com', to_date('19920101', 'yyyymmdd'), 'M', 'non', default
+); -- 비밀번호 asdf456!
+
 commit;
 select * from  member order by enroll_date;
---delete from member where member_id = ';
+--delete from member where member_id = 'google103542600240152876199';
 -- He5Pi8y1UOXqccN0PFCc2I0EG7+CoAM0f+EydSVuWFNmNhioqBkHsbln1/A0ee/9bG1mEc2YLFhH65AIUn3gjA==
 -- zNJ7Pyr+VYkjztPg7P9P2WndOr0jrPYsJbwuHE8504YtU8D2gr+T9Yk1yCqqxXU9k0ce6MInKZ/qitfKChmfcQ==
 -- 배송지 테이블
--- drop table address;
+--drop table address;
 
 CREATE TABLE address (
 	address_no	number		NOT NULL,
-    member_id varchar2(20) not null,
+    member_id varchar2(50) not null,
     address_title varchar2(20) default '배송지' not null,
 	post_code	varchar2(30)		NOT NULL,
 	address	varchar2(200)		NOT NULL,
@@ -62,61 +81,100 @@ CREATE TABLE address (
     constraint fk_address_member_id  foreign key(member_id) references member(member_id)
 );
 
+--alter table  address modify member_id varchar2(50);
 -- 주소 추가
-insert into address 
-values (
-   seq_address_no.nextval, 'honggd',  default,  '06234', '서울특별시 강남구 테헤란로 10길 9 그랑프리빌딩 5F', '2관 5층 M강의장',  '(역삼동)'
-);
 insert into address 
 values (
    seq_address_no.nextval, 'admin',  default,  '06234',  '서울특별시 강남구 테헤란로 10길 9 그랑프리빌딩 5F', '2관 5층 M강의장',  '(역삼동)'
 );
+
+insert into address 
+values (
+   seq_address_no.nextval, 'honggd',  default,  '06234', '서울특별시 강남구 테헤란로 10길 9 그랑프리빌딩 5F', '2관 5층 M강의장',  '(역삼동)'
+);
+
 --  배송지 테이블 시퀀스 코드
 create sequence seq_address_no nocache;
 -- drop sequence seq_address_no;
 select * from address  order by address_no;
+--delete from address where member_id = 'kakao2275196037';
+
 
 -- 상품 대분류 테이블
 CREATE TABLE main_category (
-	main_code	number		NOT NULL,
+	main_code	varchar2(30)		NOT NULL,
 	main_category_name	varchar2(30)		NOT NULL,
     constraint pk_main_category_main_code  primary key(main_code)
 );
 
---  상품 대분류 테이블 시퀀스 코드
-create sequence seq_main_category_no nocache;
-
+insert into main_category values ('furniture', '가구');
+insert into main_category values ('electroics', '전자제품');
+insert into main_category values ('lighting', '조명');
+select * from main_category;
 -- 상품 소분류 테이블
 CREATE TABLE sub_category (
-	sub_code	number		NOT NULL,
+	sub_code	varchar2(30)		NOT NULL,
+    main_code varchar2(30) not null,
 	sub_category_name	varchar2(30)		NOT NULL,
-    constraint pk_sub_category_sub_code  primary key(sub_code)
+    constraint pk_sub_category_sub_code  primary key(sub_code),
+     constraint fk_sub_category_main_code foreign key(main_code) references main_category(main_code)
 );
+insert into sub_category values ( 'bookshelf', 'furniture', '책장');
+insert into sub_category values ( 'desk', 'furniture', '책상');
+insert into sub_category values ( 'table', 'furniture', '식탁');
+insert into sub_category values ( 'table_chair', 'furniture', '식탁의자');
+insert into sub_category values ( 'office_chair', 'furniture', '사무용의자');
+insert into sub_category values ( 'tv', 'electroics', 'TV');
+insert into sub_category values ( 'air_conditioner', 'electroics', '에어컨');
+insert into sub_category values ( 'refrigerator', 'electroics', '냉장고');
+insert into sub_category values ( 'kimchi_refrigerator', 'electroics', '김치냉장고');
+insert into sub_category values ( 'oven', 'electroics', '오븐');
+insert into sub_category values ( 'microwave', 'electroics', '전자레인지');
+insert into sub_category values ( 'washing_machine', 'electroics', '세탁기');
+insert into sub_category values ( 'led_lighting', 'lighting', 'LED등');
+insert into sub_category values ( 'desk_stand', 'lighting', '데스크 스탠드');
+insert into sub_category values ( 'mood', 'lighting', '무드등');
 
---  상품 소분류 테이블 시퀀스 코드
-create sequence seq_sub_category_no nocache;
 
+select * from sub_category;
+--drop table main_category;
+--drop table sub_category;
+commit;
 -- 브랜드 테이블
 CREATE TABLE brand (
 	brand_id	varchar2(30)		NOT NULL,
 	brand_name	varchar2(30)		NOT NULL,
     constraint pk_brand_brand_id  primary key(brand_id)
 );
+select * from brand;
+--drop table brand;
+insert into brand values ( 'furniture_dodot', 'dodot');
+insert into brand values ( 'furniture_desker', 'desker');
+insert into brand values ( 'furniture_livart', 'livart');
+insert into brand values ( 'furniture_hansam', '한샘');
+insert into brand values ( 'electroics_samsung', '삼성');
+insert into brand values ( 'electroics_lg', '엘지');
+insert into brand values ( 'electroics_carrier', '캐리어');
+insert into brand values ( 'electroics_winia', '위니아딤채');
+insert into brand values ( 'lighting_samsung', '삼성전자');
+insert into brand values ( 'lighting_philips', '필립스');
+insert into brand values ( 'lighting_lightingbank', '조명뱅크');
 
+
+select * from brand;
 -- 상품 테이블
 CREATE TABLE product (
-	product_id	varchar2(30)		NOT NULL,
+	product_id	varchar2(80)		NOT NULL,
 	product_name	varchar2(30)		NOT NULL,
-	main_code	number		NOT NULL,
-	sub_code	number		NOT NULL,
+	main_code	varchar2(30)		NOT NULL,
+	sub_code varchar2(30)		NOT NULL,
 	brand_id	varchar2(30)		NOT NULL,
 	product_height	number		NOT NULL,
-	product_width	number		NULL,
+	product_width	 number		NULL,
 	product_depth	number		NOT NULL,
 	product_color	varchar2(10)		NOT NULL,
 	product_price	number		NOT NULL,
 	reg_date	date	DEFAULT sysdate	NOT NULL,
-	p_review_code	varchar2(100)		NOT NULL,
 	p_content	varchar2(4000)		NULL,           -- 상품 설명 컬럼
     constraint pk_product_product_id primary key(product_id),
     constraint fk_product_main_code foreign key(main_code) references main_category(main_code),
@@ -124,16 +182,24 @@ CREATE TABLE product (
     constraint fk_product_brand_id foreign key(brand_id) references brand(brand_id)
 );
 
+select * from product;
+--alter table  product modify product_id	varchar2(80);
+--delete from product where product_id = 'furniture_dodot5단 철제 책장';
+commit;
+--drop table product;
+--drop table product_image;
 -- 상품 이미지 테이블
 CREATE TABLE product_image (
 	attach_no	number		NOT NULL,
-	product_id	varchar2(30)		NOT NULL,
+	product_id	varchar2(80)		NOT NULL,
 	original_filename	varchar2(255)		NULL,
 	renamed_filename	varchar2(255)		NULL,
 	reg_date	date	DEFAULT sysdate,
     constraint pk_product_image_attach_no primary key(attach_no),
-    constraint fk_product_image_product_id foreign key(product_id) references product(product_id)
+    constraint fk_product_image_product_id foreign key(product_id) references product(product_id) on delete cascade
 );
+--drop table product_image;
+select * from product_image;
 -- 상품 이미지 테이블 시퀀스 코드
 create sequence seq_product_image_no nocache;
 

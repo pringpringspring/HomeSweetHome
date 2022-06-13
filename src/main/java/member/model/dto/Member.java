@@ -13,6 +13,7 @@ public class Member {
 	private String email;
 	private Date birthday;
 	private String gender;
+	private String socialType;
 	private Date enrollDate;
 
 	public Member() {
@@ -20,7 +21,7 @@ public class Member {
 	}
 
 	public Member(String memberId, String password, String memberName, String nickname, MemberRole memberRole,
-			String phone, String email, Date birthday, String gender, Date enrollDate) {
+			String phone, String email, Date birthday, String gender, String socialType, Date enrollDate) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
@@ -31,6 +32,7 @@ public class Member {
 		this.email = email;
 		this.birthday = birthday;
 		this.gender = gender;
+		this.socialType = socialType;
 		this.enrollDate = enrollDate;
 	}
 
@@ -106,6 +108,14 @@ public class Member {
 		this.gender = gender;
 	}
 
+	public String getSocialType() {
+		return socialType;
+	}
+
+	public void setSocialType(String socialType) {
+		this.socialType = socialType;
+	}
+
 	public Date getEnrollDate() {
 		return enrollDate;
 	}
@@ -118,6 +128,7 @@ public class Member {
 	public String toString() {
 		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName + ", nickname="
 				+ nickname + ", memberRole=" + memberRole + ", phone=" + phone + ", email=" + email + ", birthday="
-				+ birthday + ", gender=" + gender + ", enrollDate=" + enrollDate + "]";
+				+ birthday + ", gender=" + gender + ", socialType=" + socialType + ", enrollDate=" + enrollDate + "]";
 	}
+
 }

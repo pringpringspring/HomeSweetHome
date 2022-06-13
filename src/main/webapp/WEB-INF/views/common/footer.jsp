@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 </section>
 
+<script>
+
+</script>
 <footer>
 	<div class="footer-container">
 		<address class="layout-footer-cs">

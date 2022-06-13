@@ -118,5 +118,64 @@ public class MemberService {
 		return result;
 	}
 	
+	public int updateMember(Member member) {
+		int result = 0;
+		Connection conn = getConnection();
+		try{
+			result = memberDao.updateMember(conn, member);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public int updatePassword(Member member) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = memberDao.updatePassword(conn, member);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public int deleteMember(String member) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = memberDao.deleteMember(conn, member);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public List<Member> findBySomething(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		List<Member> searchList = memberDao.findBySomething(conn, searchParam);
+		close(conn);
+		return searchList;
+	}
+
+	public int getFindContents(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		int getFindContents = memberDao.getFindContents(conn, searchParam);
+		close(conn);
+		return getFindContents;
+	}
+	
 	
 }
