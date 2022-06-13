@@ -178,7 +178,7 @@ function logoutWithKakao() {
 									</div>
 								<% } else { %>
 									<div class="login-member-menu-wrapper">
-										<a class="member-menu" href="<%= request.getContextPath() %>/member/scrap">
+										<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
 											<img class="scrap-btn" src= "<%=request.getContextPath() %>/images/bookmark-white.png;" />
 										</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/notification">

@@ -316,6 +316,7 @@ public class MemberDao {
 		}
 		return result;
 	}
+	
 	public List<Member> findBySomething(Connection conn, Map<String, String> searchParam) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -361,5 +362,4 @@ public class MemberDao {
 		}
 		return findContents;
 	}
-	
 }
