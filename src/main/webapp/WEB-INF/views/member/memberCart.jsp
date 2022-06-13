@@ -3,8 +3,7 @@
 <!-- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signin.css" />  보류 -->
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script>
-<% 
- %>
+
 </script>
 <div class="commerce-cart-wrap">
 	<div class="container">
@@ -136,6 +135,7 @@
 </ul>
 <dl class="commerce-cart__summary commerce-cart__content__summary">
 	<div class="commerce-cart__summary__row"><dt>총 상품금액</dt><dd><span class="number">78,900</span>원</dd></div><div class="commerce-cart__summary__row"><dt>총 배송비</dt><dd>+ <span class="number">0</span>원</dd></div><div class="commerce-cart__summary__row"><dt>총 할인금액</dt><dd>- <span class="number">54,000</span>원</dd></div><div class="commerce-cart__summary__row commerce-cart__summary__row--total"><dt>결제금액</dt><dd><span class="number">24,900</span>원</dd></div></dl></div></div><div class="commerce-cart__side-bar-wrap col-12 col-md-5 col-lg-4"><div class="sticky-container commerce-cart__side-bar-container" style="position: sticky; top: 81px; transition: top 0.1s ease 0s;"><div class="sticky-child commerce-cart__side-bar" style="position: relative;"><dl class="commerce-cart__summary commerce-cart__side-bar__summary"><div class="commerce-cart__summary__row"><dt>총 상품금액</dt><dd><span class="number">78,900</span>원</dd></div><div class="commerce-cart__summary__row"><dt>총 배송비</dt><dd>+ <span class="number">0</span>원</dd></div><div class="commerce-cart__summary__row"><dt>총 할인금액</dt><dd>- <span class="number">54,000</span>원</dd></div><div class="commerce-cart__summary__row commerce-cart__summary__row--total"><dt>결제금액</dt><dd><span class="number">24,900</span>원</dd></div></dl><div class="commerce-cart__side-bar__order"><button class="_1eWD8 _3SroY _27do9 commerce-cart__side-bar__order__btn" type="button">1개 상품 구매하기</button></div></div></div></div></div></div><div class="sticky-container commerce-cart__footer-wrap" style="position: sticky; bottom: 0px; transition: bottom 0.1s ease 0s;"><div class="sticky-child commerce-cart__footer" style="position: relative;"><div class="commerce-cart__footer__total"><span class="count">1개 </span><span class="cost">24,900원</span></div><button class="_1eWD8 _3SroY _16Bs1 commerce-cart__footer__order" type="button">바로구매</button></div></div></div>
+
 <script>
 
 </script>
