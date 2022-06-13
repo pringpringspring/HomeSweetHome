@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MemberCartServlet
+ * Servlet implementation class MemberMypageServlet
  */
-@WebServlet("/member/cart")
-public class MemberCartServlet extends HttpServlet {
+@WebServlet("/member/mypage")
+public class MemberMypageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -21,8 +21,9 @@ public class MemberCartServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 내정보 보기 페이지
-		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberCart.jsp");
-		reqDispatcher.forward(request, response);	
+		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberMypage.jsp");
+		reqDispatcher.forward(request, response);		
 	}
+
 
 }

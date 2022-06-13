@@ -10,18 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MemberCartServlet
+ * Servlet implementation class MemberPasswordServlet
  */
-@WebServlet("/member/cart")
-public class MemberCartServlet extends HttpServlet {
+@WebServlet("/member/memberPassword")
+public class MemberPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 내정보 보기 페이지
-		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberCart.jsp");
+		// 비밀번호 변경 페이지
+		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberPasswordUpdate.jsp");
 		reqDispatcher.forward(request, response);	
 	}
 
