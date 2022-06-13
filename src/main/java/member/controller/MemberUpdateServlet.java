@@ -34,7 +34,13 @@ public class MemberUpdateServlet extends HttpServlet {
 		String gender = request.getParameter("gender");
 		
 		// null값에 들어갈 것 확인하기!
-		Member member = new Member(memberId, null, memberName, nickname, null, phone, email, null, gender, null);
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberName(memberName);
+		member.setNickname(nickname);
+		member.setPhone(phone);
+		member.setEmail(email);
+		member.setGender(gender);
 		// 3. 업무로직 - service에 updateMember요청
 		int result = memberService.updateMember(member);
 		String msg = "회원정보를 성공적으로 수정했습니다."; 

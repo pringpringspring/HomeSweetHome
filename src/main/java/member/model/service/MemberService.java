@@ -117,7 +117,7 @@ public class MemberService {
 		}
 		return result;
 	}
-
+	
 	public int updateMember(Member member) {
 		int result = 0;
 		Connection conn = getConnection();
@@ -162,5 +162,20 @@ public class MemberService {
 		}
 		return result;
 	}
+
+	public List<Member> findBySomething(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		List<Member> searchList = memberDao.findBySomething(conn, searchParam);
+		close(conn);
+		return searchList;
+	}
+
+	public int getFindContents(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		int getFindContents = memberDao.getFindContents(conn, searchParam);
+		close(conn);
+		return getFindContents;
+	}
+	
 	
 }
