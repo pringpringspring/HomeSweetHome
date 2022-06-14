@@ -121,7 +121,7 @@ function logoutWithKakao() {
 							<a class="community-menu" href="<%= request.getContextPath() %>/community/communityMain"> 
 							<span class="main-nav-community">커뮤니티</span>
 							</a> 
-							<a class="store-menu" href="<%= request.getContextPath() %>/sotre/storeMain"> 
+							<a class="store-menu" href="<%= request.getContextPath() %>/store/storeMain"> 
 							<span class="main-nav-store">스토어</span>
 							</a>
 						</div>
@@ -248,12 +248,12 @@ function logoutWithKakao() {
 						</div>
 						<div class = store-menu-container>
 							<div class="store-menu-wrapper">
-									<a index="0" class="store-home-menu" href="<%= request.getContextPath() %>/store/home">
+									<a index="0" class="store-home-menu" href="<%= request.getContextPath() %>/store/storeMain">
 										<div class="store-home-wrapper">
 												<p class="home-text">홈</p>
 										</div>
 									</a>
-									<a index="1" class="store-category-menu" href="<%= request.getContextPath() %>/store/category">
+									<a index="1" class="store-category-menu" href="<%= request.getContextPath() %>/store/storeCategory">
 										<div class="category-wrapper">
 											<p class="category-text">카테고리</p>
 										</div>
