@@ -4,7 +4,6 @@
     pageEncoding="UTF-8"%>
 <%
 	Member loginMember = (Member) session.getAttribute("loginMember");
-	
 	String msg = (String) session.getAttribute("msg");
 	if(msg != null)
 		session.removeAttribute("msg");
@@ -17,11 +16,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Dongle:wght@300;400;700&family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/common.css" />
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.1.js" charset="utf-8"></script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
 <title>Home Sweet Home</title>
-<!-- 구글 로그인용 -->
-<meta name ="google-signin-client_id" content="876270899044-a3f5488k6dks11e8h33suurud5ov5am7">
+
 <script>
 window.onload = () => {
 <% if(msg != null){ %>
@@ -52,6 +52,58 @@ showSubMenu = () => {
 		document.querySelector(".member-sub-menu-val").value = 0;
 	}
 };
+
+//네이버 로그인
+const naverLogOut = new naver.LoginWithNaverId({
+			clientId: "pEzgO6fzteyhuwakBpZd",	
+			} );
+naverLogOut.init(); 
+
+
+<% if(loginMember != null){ 
+		String socialType = loginMember.getSocialType();
+		System.out.println("socialType = "  + loginMember.getSocialType());
+		%>
+			
+		
+function signOut() {
+	const memberSocialType = "<%= socialType %>";	
+	const kakao = "kakao";
+	const google = "google";
+	const naver = "naver";
+	
+	//카카오로그아웃  
+	if(kakao === memberSocialType){
+		console.log(memberSocialType);
+		//logoutWithKakao();			
+	}
+	else if(google === memberSocialType){
+		console.log(memberSocialType);
+		//  google.accounts.id.disableAutoSelect();
+	}
+	else if(naver === memberSocialType){
+		naverLogOut.logout();
+		open("http://nid.naver.com/nidlogin.logout", "popup", "width=700, height=850, top=300, left=200");	 
+	}
+
+	location.href="<%= request.getContextPath() %>/member/signout";
+}
+	<% } %>
+// 카카오 로그아웃
+function logoutWithKakao() {
+ 	if (Kakao.Auth.getAccessToken()) {
+	    Kakao.API.request({
+	      url: '/v1/user/unlink',
+	      success: function (response) {
+	      	console.log(response)
+	      },
+	      fail: function (error) {
+	        console.log(error)
+	      },
+	    })
+	    Kakao.Auth.setAccessToken(undefined)
+	  } 
+}  
 
 </script>
 </head>
@@ -143,7 +195,7 @@ showSubMenu = () => {
 												<input type="hidden" class="member-sub-menu-val" value="0" />
 												<div class="member-sub-menu">
 													<a class="member-menu" href="<%= request.getContextPath() %>/member/mypage">마이 페이지</a>
-													<a class="member-menu" href="<%= request.getContextPath() %>/member/signout">로그아웃</a>
+													<a class="member-menu" href="javascript:signOut()">로그아웃</a>
 												</div>
 											</div> 	
 											<span class="btn-write-container">

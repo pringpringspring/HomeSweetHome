@@ -1,4 +1,35 @@
 /* ==================================== section =================================== */
+.social-signup{
+		width: 27.5rem;
+		height: 2rem;
+	 	margin: 0 auto;
+	 	margin-top: 3rem;
+}
+.ordinary-title-wrapper{
+		width:36rem;
+		height: 2rem;
+	 	margin: 0 auto;
+	 	margin-top: 2rem;
+}
+.ordinary-title-wrapper{
+	height: 4rem;
+}
+.social-signup a, .odinary-signup a{
+	
+	font-family: 'Dongle', sans-serif;
+	color: #000;
+	font-size: 4rem;
+	text-decoration: none;
+}
+.social-signup a:hover, .odinary-signup a:hover{
+	transform: scale(2);
+	overflow: hidden;
+	color: #34C5F0;
+ } 
+
+.sign-up-frm-wrapper{
+	display:none;
+}
 
 .form {
     display: block;

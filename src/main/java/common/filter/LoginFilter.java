@@ -51,12 +51,19 @@ public class LoginFilter implements Filter {
 		// 로그인여부 검사
 		HttpSession session = httpReq.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
+		Member socialMember = (Member) session.getAttribute("socialMember");
 		
 		if(loginMember == null) {
 			session.setAttribute("msg", "로그인 후 사용가능합니다.");
 			httpRes.sendRedirect(httpReq.getContextPath() + "/");
 			return; // 조기리턴
 		}
+		if(socialMember == null) {
+			session.setAttribute("msg", "로그인 후 사용가능합니다.");
+			httpRes.sendRedirect(httpReq.getContextPath() + "/");
+			return; // 조기리턴
+		}
+		
 		
 		chain.doFilter(request, response);
 	}

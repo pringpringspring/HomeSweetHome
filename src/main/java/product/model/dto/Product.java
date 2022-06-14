@@ -6,23 +6,24 @@ public class Product {
 
 	private String productId;
 	private String productName;
-	private MainCode mainCode;
-	private SubCode subCode;
-	private BrandId brandId;
+	private String mainCode;
+	private String subCode;
+	private String brandId;
 	private double productHeight;
 	private double productWidth;
 	private double productDepth;
-	private ProductColor productColor;
+	private String productColor;
 	private int productPrice;
 	private Date regDate;
+	private String pContent;
 	
 	public Product() {
 		super();
 	}
 
-	public Product(String productId, String productName, MainCode mainCode, SubCode subCode, BrandId brandId,
-			double productHeight, double productWidth, double productDepth, ProductColor productColor, int productPrice,
-			Date regDate) {
+	public Product(String productId, String productName, String mainCode, String subCode, String brandId,
+			double productHeight, double productWidth, double productDepth, String productColor, int productPrice,
+			Date regDate, String pContent) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
@@ -35,6 +36,7 @@ public class Product {
 		this.productColor = productColor;
 		this.productPrice = productPrice;
 		this.regDate = regDate;
+		this.pContent = pContent;
 	}
 
 	public String getProductId() {
@@ -53,27 +55,27 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public MainCode getMainCode() {
+	public String getMainCode() {
 		return mainCode;
 	}
 
-	public void setMainCode(MainCode mainCode) {
+	public void setMainCode(String mainCode) {
 		this.mainCode = mainCode;
 	}
 
-	public SubCode getSubCode() {
+	public String getSubCode() {
 		return subCode;
 	}
 
-	public void setSubCode(SubCode subCode) {
+	public void setSubCode(String subCode) {
 		this.subCode = subCode;
 	}
 
-	public BrandId getBrandId() {
+	public String getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(BrandId brandId) {
+	public void setBrandId(String brandId) {
 		this.brandId = brandId;
 	}
 
@@ -101,11 +103,11 @@ public class Product {
 		this.productDepth = productDepth;
 	}
 
-	public ProductColor getProductColor() {
+	public String getProductColor() {
 		return productColor;
 	}
 
-	public void setProductColor(ProductColor productColor) {
+	public void setProductColor(String productColor) {
 		this.productColor = productColor;
 	}
 
@@ -125,11 +127,21 @@ public class Product {
 		this.regDate = regDate;
 	}
 
+	public String getPContent() {
+		return pContent;
+	}
+
+	public void setPContent(String pContent) {
+		this.pContent = pContent;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", productName=" + productName + ", mainCode=" + mainCode
 				+ ", subCode=" + subCode + ", brandId=" + brandId + ", productHeight=" + productHeight
 				+ ", productWidth=" + productWidth + ", productDepth=" + productDepth + ", productColor=" + productColor
-				+ ", productPrice=" + productPrice + ", regDate=" + regDate + "]";
+				+ ", productPrice=" + productPrice + ", regDate=" + regDate + ", pContent=" + pContent + "]";
 	}
+
+	
 }
