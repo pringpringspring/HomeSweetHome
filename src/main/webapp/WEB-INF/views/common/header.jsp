@@ -162,7 +162,7 @@ function logoutWithKakao() {
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/statistics">통계확인</a>
 												</li>
 												<li class="admin-sub-menu">
-													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productManagement">상품 재고관리</a>
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productIOManagement">상품 재고관리</a>
 												</li>
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/eventManagement">이벤트관리</a>

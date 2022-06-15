@@ -165,7 +165,7 @@
 				</div>
 			</div>
 			<br />
-			<input type="hidden" id="socialType" name="socialType" value="default" >
+			<input type="hidden" id="socialType" name="socialType" value="non" >
 			<button type="submit" class="btn-signup" onclick="enrollMemberInfo();">회원가입</button>
 		</form>
 		<form name="idCheckFrm"

@@ -23,5 +23,17 @@ public class ProductExt extends Product {
 		this.productImages = productImages;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductExt [productImgCount=" + productImgCount + ", productImages=" + productImages
+				+ ", getProductId()=" + getProductId() + ", getProductName()=" + getProductName() + ", getMainCode()="
+				+ getMainCode() + ", getSubCode()=" + getSubCode() + ", getBrandId()=" + getBrandId()
+				+ ", getProductHeight()=" + getProductHeight() + ", getProductWidth()=" + getProductWidth()
+				+ ", getProductDepth()=" + getProductDepth() + ", getProductColor()=" + getProductColor()
+				+ ", getProductPrice()=" + getProductPrice() + ", getRegDate()=" + getRegDate() + ", getPContent()="
+				+ getPContent() + ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + "]";
+	}
 
+	
 }
