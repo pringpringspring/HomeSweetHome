@@ -48,20 +48,22 @@ public class KnowhowEnroll extends HttpServlet {
 					new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 			
 			String memberId = multiReq.getParameter("memberId");
+			String nickName = multiReq.getParameter("nickName");
+			int categoryNo= Integer.parseInt(multiReq.getParameter("categoryNo"));
 			String content = multiReq.getParameter("content");
 			String title = multiReq.getParameter("title");
 			String coverPhoto  = multiReq.getParameter("coverPhoto");
-			int theme= Integer.parseInt(request.getParameter("theme"));
 			
 			KnowhowExt kh = new KnowhowExt();
-			kh.setCategoryNo(theme);
 			kh.setMemberId(memberId);
+			kh.setNickName(nickName);
+			kh.setCategoryNo(categoryNo);
 			kh.setContent(content);
+			kh.setTitle(title);
 			kh.setCoverPhoto(coverPhoto);
-			
+
 			File upFile1 = multiReq.getFile("upFile1");
 			File upFile2 = multiReq.getFile("upFile2");
-			
 
 			if(upFile1 != null || upFile2 != null) {
 				List<Attachment> attachments = new ArrayList<>();
@@ -76,7 +78,7 @@ public class KnowhowEnroll extends HttpServlet {
 			
 			int result = ks.insertBoard(kh);
 			
-			response.sendRedirect(request.getContextPath() + "/knowohw/knowhowListView?theme=" +kh.getCategoryNo());
+			response.sendRedirect(request.getContextPath() + "/knowhow/knowhowListView?no=" +kh.getNo());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

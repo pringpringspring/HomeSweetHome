@@ -9,6 +9,7 @@
 
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
+	QnaBoardComment qc = new QnaBoardComment();
 	List<QnaBoardComment> comments = board.getBoardComments();
 
 	boolean canEdit = loginMember != null 
@@ -84,6 +85,7 @@
 							&& (loginMember.getNickname().equals(bc.getNickName()) 
 									|| loginMember.getMemberRole() == MemberRole.A);
 							
+					System.out.println("bc.getCommentLevel() = " + bc.getCommentLevel());
 					if(bc.getCommentLevel() == 1){
 			%>
 				<tr class="level1">
@@ -94,19 +96,21 @@
 						<%= bc.getContent() %>
 					</td>
 					<td>
-					<form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
+					<%-- <form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
 						<button class="btn-like" value="<%= bc.getNo() %>" onclick="likeUpDown()">좋아요</button>
 						<input type="hidden" id="likememberId" name="memberId" value="<%=loginMember.getMemberId()%>"/>
 						<input type="hidden" id="likeno" name="cono" value="<%=bc.getNo()%>"/>
 						</form>
-						<div id="like_result"><%=bc.getLikeCnt() %></div>														
+						<div id="like_result"><%=bc.getLikeCnt() %></div>													 --%>	
 						<button class="btn-reply" value="<%= bc.getNo() %>">답글</button>
 						<% if(canDelete){ %>
 							<button class="btn-delete" value="<%= bc.getNo() %>">삭제</button>
 						<% } %>
 					</td>
 				</tr>
-			<% 		} else { %>
+			<% 		
+			} else { 
+			%>
 				<tr class="level2">
 					<td>
 						<sub class="comment-writer"><%= bc.getNickName() != null ? bc.getNickName(): "(탈퇴회원)" %></sub>
@@ -233,6 +237,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		button.innerText = "입력"
 		
 		frm.append(inputBoardNo);
+		frm.append(inputMemberId);
 		frm.append(inputMemberId);
 		frm.append(inputCommentLevel);
 		frm.append(inputCommentRef);

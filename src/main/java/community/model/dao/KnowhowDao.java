@@ -100,9 +100,9 @@ public class KnowhowDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, kh.getMemberId());
-			 pstmt.setInt(2, kh.getCategoryNo()); 
-			pstmt.setString(3, kh.getContent());
-			pstmt.setString(4, kh.getNickName());
+			pstmt.setString(2, kh.getNickName());
+			 pstmt.setInt(3, kh.getCategoryNo()); 
+			pstmt.setString(4, kh.getContent());
 			pstmt.setString(5, kh.getTitle());
 			pstmt.setString(6, kh.getCoverPhoto());
 			result = pstmt.executeUpdate();

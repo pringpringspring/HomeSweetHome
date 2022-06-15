@@ -65,6 +65,7 @@ public class qnaBoardUpdateServlet extends HttpServlet {
 		int no = Integer.parseInt(multiReq.getParameter("no"));
 		String title = multiReq.getParameter("title");
 		String memberId = multiReq.getParameter("memberId");
+		String nickName = multiReq.getParameter("nickName");
 		String content = multiReq.getParameter("content");
 		String[] delFiles = multiReq.getParameterValues("delFile"); // 삭제하려는 첨부파일 pk
 		
@@ -72,6 +73,7 @@ public class qnaBoardUpdateServlet extends HttpServlet {
 		board.setNo(no);
 		board.setTitle(title);
 		board.setMemberId(memberId);
+		board.setNickName(nickName);
 		board.setContent(content);
 		
 		File upFile1 = multiReq.getFile("upFile1");

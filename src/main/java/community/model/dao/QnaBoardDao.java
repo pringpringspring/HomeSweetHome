@@ -103,8 +103,9 @@ public class QnaBoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getMemberId());
-			pstmt.setString(2, board.getTitle());
-			pstmt.setString(3, board.getContent());
+			pstmt.setString(2, board.getNickName());
+			pstmt.setString(3, board.getTitle());
+			pstmt.setString(4, board.getContent());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new QnaBoardException("게시글 등록 오류", e);
