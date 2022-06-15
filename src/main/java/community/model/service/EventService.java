@@ -62,6 +62,21 @@ public class EventService {
 		return event;
 	}
 
+	public int deleteBoard(int no) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = ed.deleteBoard(conn, no);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e; 
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
 
 	
 	
