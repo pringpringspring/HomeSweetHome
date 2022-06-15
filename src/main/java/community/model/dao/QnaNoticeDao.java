@@ -64,6 +64,7 @@ public class QnaNoticeDao {
 		QnaNoticeExt board = new QnaNoticeExt();
 		board.setNo(rset.getInt("notice_no"));
 		board.setMemberId(rset.getString("member_id"));
+		board.setNickName(rset.getString("nickname"));
 		board.setTitle(rset.getString("notice_title"));
 		board.setContent(rset.getString("content"));
 		board.setReadCnt(rset.getInt("read_count"));
@@ -103,8 +104,9 @@ public class QnaNoticeDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getMemberId());
-			pstmt.setString(2, board.getTitle());
-			pstmt.setString(3, board.getContent());
+			pstmt.setString(2, board.getNickName());
+			pstmt.setString(3, board.getTitle());
+			pstmt.setString(4, board.getContent());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new QnaNoticeException("공지사항 등록 오류", e);
@@ -322,10 +324,11 @@ public class QnaNoticeDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, nc.getMemberId());
-			pstmt.setInt(2,nc.getNoticeNo());
-			pstmt.setString(3, nc.getContent());
-			pstmt.setInt(4, nc.getCommentLevel());
-			pstmt.setObject(5, nc.getCommentRef() == 0 ? null : nc.getCommentRef());
+			pstmt.setString(2, nc.getNickName());
+			pstmt.setInt(3,nc.getNoticeNo());
+			pstmt.setString(4, nc.getContent());
+			pstmt.setInt(5, nc.getCommentLevel());
+			pstmt.setObject(6, nc.getCommentRef() == 0 ? null : nc.getCommentRef());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -352,6 +355,7 @@ public class QnaNoticeDao {
 				nc.setCommentLevel(rset.getInt("comment_level"));
 				nc.setNoticeNo(rset.getInt("notice_no"));
 				nc.setMemberId(rset.getString("member_id"));
+				nc.setNickName(rset.getString("nickname"));
 				nc.setContent(rset.getString("content"));
 				nc.setCommentRef(rset.getInt("comment_ref"));
 				nc.setLikeCnt(rset.getInt("like_count"));

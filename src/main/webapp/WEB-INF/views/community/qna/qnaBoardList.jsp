@@ -8,7 +8,7 @@
 <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/qnaboard.css" />
+	href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 <%
 List<QnaBoardExt> list = (List<QnaBoardExt>) request.getAttribute("list");
 List<QnaNoticeExt> nlist = (List<QnaNoticeExt>) request.getAttribute("nlist");
@@ -96,7 +96,7 @@ if (board.getAttachCount() > 0) {
  %> 
  
 <div class="lists">
-<%=board.getMemberId()%>
+<%=board.getNickName()%>
 · 댓글 <d><%=board.getCommentCount()%></d> · 조회 <%=board.getReadCount()%>
 <br><br>
 </div>

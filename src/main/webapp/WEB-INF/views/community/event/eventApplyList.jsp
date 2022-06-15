@@ -27,9 +27,9 @@ a{text-decoration: none;  color: black; font-weight:bold;}
 	else{ 
 		for(EventAppExt eventapp : list){
 	%>
-	<%=eventapp.getNickName()%>님의 참여작<br><br>
+	<%=eventapp.getNickName()%>님의 참여작<br>
 	 	🌼<a href="<%=request.getContextPath()%>/event/eventApplyView?no=<%=eventapp.getNo()%>">
-	<%=eventapp.getEventapplyCode() %></a>🌼<br>
+	<%=eventapp.getEventapplyCode() %></a>🌼<br><br>
 	
 	<%} }%>
  </div>

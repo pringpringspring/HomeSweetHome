@@ -180,11 +180,8 @@ public int deleteBoardComment(int no) {
 	return result;
 }
 
-
-public int commentCount(int no) { 
-	Connection conn = getConnection(); 
-	int result = kd.commentCount(conn,no); 
-	close(conn); 
-	return result; 
-	}	
+/*
+ * public int commentCount(int no) { Connection conn = getConnection(); int
+ * result = kd.commentCount(conn,no); close(conn); return result; }
+ */
 }

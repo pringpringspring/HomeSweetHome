@@ -16,28 +16,11 @@
 %>
 
 <style>
-body{
-font-family: 'Noto Sans KR', sans-serif;
-}
-
-#result>h3{
-text-align:center;
-}
-
-a:link{
-	color:#2F3438;
-	text-decoration: none;
-}
-a:visited{
-	color:#2F3438;
-	text-decoration: none;
-}
-
-a:hover{
-	color:rgb(130,140,148);
-	text-decoration: none;	
-}
-
+body{font-family: 'Noto Sans KR', sans-serif;}
+#result>h3{text-align:center;}
+a:link{	color:#2F3438;text-decoration: none;}
+a:visited{color:#2F3438;text-decoration: none;}
+a:hover{color:rgb(130,140,148);text-decoration: none;	}
 #board_top{
 margin-top: 48px;
 background-color:#F7F9FA;
@@ -66,14 +49,8 @@ text-align : center;
 	margin-left : 472px;
 	font-weight: bold;
 }
-input::placeholder{
-font-weight: bold;
-font-size: small;
-font-color : #EAEDEF;
-}
-.search-box:focus{
-	outline : 1px solid #EAEDEF;
-}
+input::placeholder{font-weight: bold;font-size: small;font-color : #EAEDEF;}
+.search-box:focus{outline : 1px solid #EAEDEF;}
 input#btn-add{
 	float:right; 
 	margin: 17px 0 0 15px;
@@ -138,7 +115,7 @@ input#btn-list{
 			<a href="<%=request.getContextPath()%>/qna/qnaBoardView?no=<%=board.getNo()%>" >
 			<h3><%=board.getTitle() %></h3>
 			<h4><%=board.getContent() %></h4></a>
-			 <p><%=board.getMemberId()%>&nbsp;&nbsp;<%=board.getRegDate() %> &nbsp; 조회 <%=board.getReadCount() %></p>
+			 <p><%=board.getNickName()%>&nbsp;&nbsp;<%=board.getRegDate() %> &nbsp; 조회 <%=board.getReadCount() %></p>
 
 <% i++; } %>
 </div>

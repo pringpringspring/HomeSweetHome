@@ -7,7 +7,7 @@
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 
 <section id="board-container">
 <form 

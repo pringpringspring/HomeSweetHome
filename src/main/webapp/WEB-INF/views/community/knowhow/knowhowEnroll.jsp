@@ -5,7 +5,7 @@
 <%@page import="community.model.dto.KnowhowExt"%>
  <%@ include file="/WEB-INF/views/common/header.jsp" %>
  <%
-List<KnowhowExt> list = (List<KnowhowExt>) request.getAttribute("list");
+KnowhowExt list = (KnowhowExt) request.getAttribute("list");
 %>
 <script>
 window.onload = () => {	
@@ -39,6 +39,7 @@ window.onload = () => {
 	<table id="tbl-board-view">
 
 	<tr>
+	<%-- 		<input type="number" name="theme" value="<%=list.getCategoryNo() %>" /> --%>
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%=loginMember.getMemberId() %>" />

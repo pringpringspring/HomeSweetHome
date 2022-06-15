@@ -9,10 +9,11 @@
 	EventAppExt event = (EventAppExt) request.getAttribute("event");
 
 	boolean canEdit = loginMember != null 
-			&& (loginMember.getMemberId().equals(event.getMemberId()) 
+			&& (loginMember.getNickname().equals(event.getNickName()) 
 					|| loginMember.getMemberRole() == MemberRole.A);	
 %>
 <style>
+body{font-family: 'Noto Sans KR', sans-serif;}
 .img_logo{margin-left:26rem;}
 .title-view{font-weight: bold;}
 #board-container{margin-left:35rem; margin-top:5rem;}
@@ -24,7 +25,7 @@
 <div class="title-view">
 <%=event.getContent() %><br>
 </div>
-<%=event.getNickName() %>
+<%=event.getNickName()%>
 
 <div class="content">
 <% 

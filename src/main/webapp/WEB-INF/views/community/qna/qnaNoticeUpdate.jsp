@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 
 <%
 	QnaNoticeExt board = (QnaNoticeExt) request.getAttribute("board");

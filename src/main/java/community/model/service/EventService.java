@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import community.model.dao.EventDao;
+import community.model.dto.Attachment;
 import community.model.dto.Event;
 import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
+import community.model.dto.QnaBoardExt;
 
 public class EventService {
 	private EventDao ed = new EventDao();
@@ -67,6 +69,50 @@ public class EventService {
 		int result = 0;
 		try {
 			result = ed.deleteBoard(conn, no);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e; 
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public int updateBoard(EventExt event) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = ed.updateBoard(conn, event);
+
+			List<EventAttachment> attachments = ((EventExt) event).getAttachments();
+			if(attachments != null && !attachments.isEmpty()) {
+				for(EventAttachment attach : attachments) {
+					result = ed.insertAttachment(conn, attach);
+				}
+			}
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public EventAttachment findAttachmentByNo(int no) {
+		Connection conn = getConnection();
+		EventAttachment attach = ed.findAttachmentByNo(conn, no);
+		close(conn);
+		return attach;
+	}
+
+	public int deleteAttachment(int no) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = ed.deleteAttachment(conn, no);
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);

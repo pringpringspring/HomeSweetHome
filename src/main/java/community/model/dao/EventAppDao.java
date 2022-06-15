@@ -66,7 +66,8 @@ public class EventAppDao {
 			EventAppExt event = new EventAppExt();
 			event.setEventapplyCode(rset.getString("event_apply_code"));
 			event.setNo(rset.getInt("no"));
-			/* event.setNickName(rset.getString("nick")) */; 
+			event.setMemberId(rset.getString("member_id"));
+			event.setNickName(rset.getString("nickname"));
 			event.setContent(rset.getString("content"));
 			event.setEventNo(rset.getInt("event_no"));
 			return event;

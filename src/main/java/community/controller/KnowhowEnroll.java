@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
-import common.HomeSweetHomeRenamePolicy;
+import common.HomeSweetHomeFileRenamePolicy;
 import community.model.dto.Attachment;
 import community.model.dto.KnowhowExt;
 import community.model.service.KnowhowService;
@@ -43,20 +43,18 @@ public class KnowhowEnroll extends HttpServlet {
 			int maxPostSize = 1024 * 1024 * 10;
 			
 			String encoding = "utf-8";
-			FileRenamePolicy policy = new HomeSweetHomeRenamePolicy();
+			FileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();
 			MultipartRequest multiReq = 
 					new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
-
 			
-			int no= Integer.parseInt(request.getParameter("no"));
 			String memberId = multiReq.getParameter("memberId");
 			String content = multiReq.getParameter("content");
 			String title = multiReq.getParameter("title");
 			String coverPhoto  = multiReq.getParameter("coverPhoto");
 			int theme= Integer.parseInt(request.getParameter("theme"));
+			
 			KnowhowExt kh = new KnowhowExt();
-			 kh.setCategoryNo(theme);
-			 kh.setNo(no); 
+			kh.setCategoryNo(theme);
 			kh.setMemberId(memberId);
 			kh.setContent(content);
 			kh.setCoverPhoto(coverPhoto);

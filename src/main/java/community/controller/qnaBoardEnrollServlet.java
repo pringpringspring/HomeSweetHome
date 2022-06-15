@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
-import common.HelloMvcFileRenamePolicy;
+import common.HomeSweetHomeFileRenamePolicy;
 import community.model.dto.Attachment;
 import community.model.dto.QnaBoardExt;
 import community.model.service.QnaBoardService;
@@ -47,7 +47,7 @@ public class qnaBoardEnrollServlet extends HttpServlet {
 			int maxPostSize = 1024 * 1024 * 10;
 			// d. 인코딩
 			String encoding = "utf-8";
-			FileRenamePolicy policy = new HelloMvcFileRenamePolicy();
+			HomeSweetHomeFileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();
 			MultipartRequest multiReq = 
 					new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 			

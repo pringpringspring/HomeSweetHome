@@ -15,17 +15,17 @@
 	
 	//댓글은 회원+관리자만
 	boolean canEdit2 = loginMember != null 
-			&& (loginMember.getMemberId().equals(board.getMemberId()) 
+			&& (loginMember.getNickname().equals(board.getNickName()) 
 					|| loginMember.getMemberRole() == MemberRole.A);
 %>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 <section id="board-container">
 	<table id="tbl-board-view">
 	<div class="title-view">
 	<h2>공지사항</h2>
 	<h1><%=board.getTitle() %></h1>
-	<h2><%=board.getMemberId() %></h2>
+	<h2><%=board.getNickName() %></h2>
 </div>
 
 
@@ -71,6 +71,7 @@
 				action="<%=request.getContextPath()%>/qna/qnaNoticeComment" method="post" name="boardCommentFrm">
                 <input type="hidden" name="noticeNo" value="<%= board.getNo() %>" />
                 <input type="hidden" name="memberId" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
+                <input type="hidden" name="nickName" value="<%= loginMember != null ? loginMember.getNickname() : "" %>" />
                 <input type="hidden" name="commentLevel" value="1" />
                 <input type="hidden" name="commentRef" value="0" />    
 				<textarea name="content" cols="60" rows="3"></textarea>
@@ -91,7 +92,7 @@
 			%>
 				<tr class="level1">
 					<td>
-						<sub class="comment-writer"><%= nc.getMemberId() != null ? nc.getMemberId() : "(탈퇴회원)" %></sub>
+						<sub class="comment-writer"><%= nc.getNickName() != null ? nc.getNickName() : "(탈퇴회원)" %></sub>
 						<sub class="comment-date"><%= nc.getRegDate() %></sub>
 						<br />
 						<%= nc.getContent() %>
@@ -106,7 +107,7 @@
 			<% 		} else { %>
 				<tr class="level2">
 					<td>
-						<sub class="comment-writer"><%= nc.getMemberId() != null ? nc.getMemberId() : "(탈퇴회원)" %></sub>
+						<sub class="comment-writer"><%= nc.getNickName() != null ? nc.getNickName() : "(탈퇴회원)" %></sub>
 						<sub class="comment-date"><%= nc.getRegDate() %></sub>
 						<br />
 						<%= nc.getContent() %>

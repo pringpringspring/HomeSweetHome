@@ -16,9 +16,6 @@ import community.model.dto.Attachment;
 import community.model.dto.Knowhow;
 import community.model.dto.KnowhowComment;
 import community.model.dto.KnowhowExt;
-import community.model.dto.QnaBoardComment;
-import community.model.dto.QnaBoardExt;
-import community.model.dto.QnaNoticeComment;
 import community.model.exception.QnaBoardException;
 import community.model.exception.QnaNoticeException;
 
@@ -379,39 +376,30 @@ public class KnowhowDao {
 		}
 		
 		// 댓글 수
-		public int commentCount(Connection conn, int no) {
-			List<QnaBoardComment> list = new ArrayList<>();
-			QnaBoardComment bc = null;
-			PreparedStatement pstmt = null;
-			ResultSet rset = null;
-			String sql = prop.getProperty("commentCount");
-
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, no);
-				rset = pstmt.executeQuery();
-				while (rset.next()) {
-					bc = new QnaBoardComment();
-
-					bc.setNo(rset.getInt("comment_no"));
-					bc.setCommentLevel(rset.getInt("comment_level"));
-					bc.setBoardNo(rset.getInt("board_no"));
-					bc.setMemberId(rset.getString("member_id"));
-					bc.setNickName(rset.getString("nickname"));
-					bc.setContent(rset.getString("content"));
-					bc.setCommentRef(rset.getInt("comment_ref"));
-					bc.setLikeCnt(rset.getInt("like_count"));
-					bc.setRegDate(rset.getDate("reg_date"));
-
-					list.add(bc);
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			return list.size();
-		}
+		/*
+		 * public int commentCount(Connection conn, int no) { List<QnaBoardComment> list
+		 * = new ArrayList<>(); QnaBoardComment bc = null; PreparedStatement pstmt =
+		 * null; ResultSet rset = null; String sql = prop.getProperty("commentCount");
+		 * 
+		 * try { pstmt = conn.prepareStatement(sql); pstmt.setInt(1, no); rset =
+		 * pstmt.executeQuery(); while (rset.next()) { bc = new Comment();
+		 * 
+		 * bc.setNo(rset.getInt("comment_no"));
+		 * bc.setCommentLevel(rset.getInt("comment_level"));
+		 * bc.setBoardNo(rset.getInt("board_no"));
+		 * bc.setMemberId(rset.getString("member_id"));
+		 * bc.setNickName(rset.getString("nickname"));
+		 * bc.setContent(rset.getString("content"));
+		 * bc.setCommentRef(rset.getInt("comment_ref"));
+		 * bc.setLikeCnt(rset.getInt("like_count"));
+		 * bc.setRegDate(rset.getDate("reg_date"));
+		 * 
+		 * list.add(bc); }
+		 * 
+		 * } catch (SQLException e) { e.printStackTrace(); }
+		 * 
+		 * return list.size(); }
+		 */
 
 	
 }

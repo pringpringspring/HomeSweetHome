@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
-import common.HomeSweetHomeRenamePolicy;
+import common.HomeSweetHomeFileRenamePolicy;
 import community.model.dto.Attachment;
 import community.model.dto.EventAppAtt;
 import community.model.dto.EventAppExt;
@@ -43,7 +43,7 @@ public class EventApplyUpdate extends HttpServlet {
 		String saveDirectory = getServletContext().getRealPath("/upload/event");
 		int maxPostSize = 1024 * 1024 * 10;
 		String encoding = "utf-8";
-		FileRenamePolicy policy = new HomeSweetHomeRenamePolicy();
+		FileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();
 		MultipartRequest multiReq = 
 				new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 	

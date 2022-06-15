@@ -29,10 +29,11 @@ public class qnaBoardCommentServlet extends HttpServlet {
 			int commentLevel = Integer.parseInt(request.getParameter("commentLevel"));
 			int commentRef = Integer.parseInt(request.getParameter("commentRef"));
 			String memberId = request.getParameter("memberId");
+			String nickName = request.getParameter("nickName");
 			String content = request.getParameter("content");
 			
 			QnaBoardComment bc = 
-			new QnaBoardComment(0, boardNo,memberId,content,0,null,commentLevel,commentRef );
+			new QnaBoardComment(0, boardNo,memberId,nickName,content,0,null,commentLevel,commentRef );
 			System.out.println("boardComment = " + bc);
 			
 			
