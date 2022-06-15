@@ -9,12 +9,16 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import member.model.dto.Member;
 import product.model.dao.ProductDao;
 import product.model.dto.Product;
 import product.model.dto.ProductBrand;
 import product.model.dto.ProductExt;
+import product.model.dto.ProductIO;
+import product.model.dto.ProductIOExt;
 import product.model.dto.ProductImage;
 import product.model.dto.ProductMainCode;
+import product.model.dto.ProductStock;
 import product.model.dto.ProductSubCode;
 
 public class ProductService {
@@ -42,7 +46,9 @@ public class ProductService {
 			result = productDao.enrollProduct(conn, product);
 			
 			String productId = product.getProductId();
-			System.out.println("productId@service = " + productId);
+			
+			result = productDao.enrollProductStock(conn, productId);
+			
 			List<ProductImage> productImages = product.getProductImages();
 			if(productImages != null && !productImages.isEmpty()) {
 				for(ProductImage img : productImages) {
@@ -157,6 +163,78 @@ public class ProductService {
 		List<ProductBrand> brandList = productDao.findAllBrandIds(conn);
 		close(conn);
 		return brandList;
+	}
+
+	public List<ProductIOExt> findAllProductsIO(Map<String, Object> pageBarPoint) {
+		Connection conn = getConnection();
+		List<ProductIOExt> productIOList = productDao.findAllProductsIO(conn, pageBarPoint);
+		close(conn);
+		return productIOList;
+	}
+
+	public int getTotalProductsIO() {
+		Connection conn = getConnection();
+		int totalContents = productDao.getTotalProductsIO(conn);
+		close(conn);
+		return totalContents;
+	}
+
+	public List<ProductExt> findAllProductForSearch() {
+		Connection conn = getConnection();
+		List<ProductExt> productList = productDao.findAllProductForSearch(conn);
+		close(conn);
+		return productList;
+	}
+
+	public int enrollProductIO(ProductIO productIO) {
+		Connection conn = getConnection();
+		int result = 0;
+		
+		try {
+			result = productDao.enrollProductIO(conn, productIO);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public List<ProductIOExt> findAllProductsIOBySomething(Map<String, String> param) {
+		Connection conn = getConnection();
+		List<ProductIOExt> productIOExtList = productDao.findAllProductsIOBySomething(conn, param);
+		close(conn);
+		return productIOExtList;
+	}
+
+	public List<ProductIOExt> findBySomething(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		List<ProductIOExt> productIOExtList = productDao.findBySomething(conn, searchParam);
+		close(conn);
+		return productIOExtList;
+	}
+
+	public int getSearchProductsIOContent(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		int getSearchProductsIOContent = productDao.getSearchProductsIOContent(conn, searchParam);
+		close(conn);
+		return getSearchProductsIOContent;
+	}
+
+	public List<ProductExt> findAllProductsBySomething(Map<String, String> searchParam, Map<String, Object> pageBarPoint) {
+		Connection conn = getConnection();
+		List<ProductExt> productExtList = productDao.findAllProductsBySomething(conn, searchParam, pageBarPoint);
+		close(conn);
+		return productExtList;
+	}
+
+	public int getSearchProductsContent(Map<String, String> searchParam) {
+		Connection conn = getConnection();
+		int getSearchProductsContent = productDao.getSearchProductsContent(conn, searchParam);
+		close(conn);
+		return getSearchProductsContent;
 	}
 
 }
