@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.FileRenamePolicy;
 
-import common.HelloMvcFileRenamePolicy;
+import common.HomeSweetHomeFileRenamePolicy;
 import community.model.dto.Attachment;
 import community.model.dto.QnaNoticeExt;
 import community.model.service.QnaNoticeService;
@@ -44,7 +43,7 @@ public class qnaNoticeUpdateServlet extends HttpServlet {
 		String saveDirectory = getServletContext().getRealPath("/upload/qna");
 		int maxPostSize = 1024 * 1024 * 10;
 		String encoding = "utf-8";
-		FileRenamePolicy policy = new HelloMvcFileRenamePolicy();
+		HomeSweetHomeFileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();
 		MultipartRequest multiReq = 
 				new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 	

@@ -6,6 +6,7 @@ import java.util.List;
 public class QnaNotice {
 	private int no;
 	private String memberId;
+	private String nickName;
 	private String title;
 	private String content;
 	private int readCnt;
@@ -14,10 +15,12 @@ public class QnaNotice {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public QnaNotice(int no, String memberId, String title, String content, int readCnt, Date regDate) {
+	public QnaNotice(int no, String memberId, String nickName, String title, String content, int readCnt,
+			Date regDate) {
 		super();
 		this.no = no;
 		this.memberId = memberId;
+		this.nickName = nickName;
 		this.title = title;
 		this.content = content;
 		this.readCnt = readCnt;
@@ -34,6 +37,12 @@ public class QnaNotice {
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public String getTitle() {
 		return title;
@@ -61,11 +70,8 @@ public class QnaNotice {
 	}
 	@Override
 	public String toString() {
-		return "QnaNotice [no=" + no + ", memberId=" + memberId + ", title=" + title + ", content=" + content
-				+ ", readCnt=" + readCnt + ", regDate=" + regDate + "]";
+		return "QnaNotice [no=" + no + ", memberId=" + memberId + ", nickName=" + nickName + ", title=" + title
+				+ ", content=" + content + ", readCnt=" + readCnt + ", regDate=" + regDate + "]";
 	}
-	
-	
 
-	
 }
