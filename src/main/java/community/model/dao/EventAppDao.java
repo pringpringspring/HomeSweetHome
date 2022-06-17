@@ -1,6 +1,6 @@
 package community.model.dao;
 
-import static common.JdbcTemplate.close;
+import static common.JdbcTemplate.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,8 +20,7 @@ import community.model.dto.EventApplicants;
 import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
 import community.model.exception.EventException;
-import community.model.exception.QnaBoardException;
-import community.model.exception.QnaNoticeException;
+
 
 
 public class EventAppDao {
@@ -292,9 +291,9 @@ public class EventAppDao {
 		public int deleteAttachment(Connection conn, int no) {
 			int result = 0;
 			PreparedStatement pstmt = null;
-			String query = prop.getProperty("edeleteAttachment");
+			String sql = prop.getProperty("edeleteAttachment");
 			try {
-				pstmt = conn.prepareStatement(query);
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
 				result = pstmt.executeUpdate();
 			} catch (SQLException e) {
