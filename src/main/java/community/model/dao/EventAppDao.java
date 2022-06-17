@@ -92,9 +92,7 @@ public class EventAppDao {
 			}
 			return totalContents;
 		}
-		//insert into event_applicants 
-		//(event_apply_code, no, member_id,content,event_no) 
-		//values (?, seq_event_app_no.nextval, ?,  ?,  ?) 
+
 		public int insertEvent(Connection conn, EventApplicants event) {
 			PreparedStatement pstmt = null;
 			int result = 0;
@@ -105,6 +103,7 @@ public class EventAppDao {
 				pstmt.setString(2, event.getMemberId());
 				pstmt.setString(3,event.getNickName());
 				pstmt.setString(4, event.getContent());
+				pstmt.setInt(5, event.getEventNo());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
 				throw new EventException("이벤트 참가 등록 오류", e);

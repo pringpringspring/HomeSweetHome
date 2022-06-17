@@ -48,14 +48,14 @@ public class EventApplyEnroll extends HttpServlet {
 			String memberId = multiReq.getParameter("memberId");
 			String nickName = multiReq.getParameter("nickName");
 			String content = multiReq.getParameter("content");
-			/* int eventNo = Integer.parseInt(multiReq.getParameter("eventNo")); */
+			int eventNo = Integer.parseInt(multiReq.getParameter("eventNo"));
 			
 			EventAppExt event = new EventAppExt();
 			event.setEventapplyCode(eventapplycode);
 			event.setMemberId(memberId); 
 			event.setNickName(nickName); 
 			event.setContent(content);
-			/* event.setEventNo(eventNo); */
+			event.setEventNo(eventNo);
 		
 			
 			File upFile1 = multiReq.getFile("upFile1");

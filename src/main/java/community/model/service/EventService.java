@@ -29,7 +29,7 @@ public class EventService {
 		return list;
 	}
 	
-	/*public int insertBoard(Event event) {
+	public int insertBoard(Event event) {
 		int result = 0;
 		Connection conn = getConnection();
 		try {
@@ -42,7 +42,7 @@ public class EventService {
 			if(attach != null && !attach.isEmpty()) {
 				for(EventAttachment att : attach) {
 					att.setNo(no);
-					result = ed.insertAttachment(conn, attach);
+					result = ed.insertAttachment(conn, att);
 				}
 			}
 			commit(conn);
@@ -53,7 +53,7 @@ public class EventService {
 			close(conn);
 		}
 		return result;
-	} */
+	} 
 
 	public EventExt findByNo(int no) {
 		Connection conn = getConnection();

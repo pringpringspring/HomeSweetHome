@@ -94,7 +94,5 @@ categoryNo.addEventListener('change',(e)=>{
 	const{value}  = e.target;
 	console.log(value);
 });
-
-
 </script>
  <%@ include file="/WEB-INF/views/common/footer.jsp" %>

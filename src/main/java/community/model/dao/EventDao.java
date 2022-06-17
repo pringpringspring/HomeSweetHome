@@ -19,6 +19,7 @@ import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
 import community.model.exception.EventException;
 import community.model.exception.QnaBoardException;
+import community.model.exception.QnaNoticeException;
 
 
 public class EventDao {
@@ -140,14 +141,12 @@ public class EventDao {
 		public int insertAttachment(Connection conn, EventAttachment attach) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String sql = prop.getProperty("insertAttachment");
+			String sql = prop.getProperty("ninsertAttachment");
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, attach.getNo());
-				pstmt.setString(2, attach.getEventId());				
-				pstmt.setString(3, attach.getOriginal_filename());
-				pstmt.setString(4, attach.getRenamed_filename());
-				pstmt.setInt(5, attach.getNo());
+				pstmt.setString(2, attach.getOriginal_filename());
+				pstmt.setString(3, attach.getRenamed_filename());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
 				throw new EventException("첨부파일 등록 오류", e);
@@ -227,7 +226,7 @@ public class EventDao {
 				pstmt.setInt(4, event.getNo());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
-				throw new QnaBoardException("게시글 수정 오류", e);
+				throw new EventException("게시글 수정 오류", e);
 			} finally {
 				close(pstmt);
 			}
@@ -249,7 +248,7 @@ public class EventDao {
 					attach = handleAttachmentResultSet(rset);
 
 			} catch (SQLException e) {
-				throw new QnaBoardException("첨부파일 조회 오류", e);
+				throw new EventException("첨부파일 조회 오류", e);
 			} finally {
 				close(rset);
 				close(pstmt);
@@ -260,14 +259,14 @@ public class EventDao {
 		public int deleteAttachment(Connection conn, int no) {
 			int result = 0;
 			PreparedStatement pstmt = null;
-			String query = prop.getProperty("deleteAttachment");
+			String sql = prop.getProperty("deleteAttachment");
 
 			try {
-				pstmt = conn.prepareStatement(query);
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
 				result = pstmt.executeUpdate();
 			} catch (SQLException e) {
-				throw new QnaBoardException("첨부파일 삭제 오류", e);
+				throw new EventException("첨부파일 삭제 오류", e);
 			} finally {
 				close(pstmt);
 			}
@@ -284,13 +283,19 @@ public class EventDao {
 				pstmt.setInt(1, no);
 				result = pstmt.executeUpdate();
 			} catch (SQLException e) {
-				throw new QnaBoardException("게시글 삭제 오류", e);
+				throw new EventException("게시글 삭제 오류", e);
 			} finally {
 				close(pstmt);
 			}
 
 			return result;
 		}
+
+
+
+
+
+
 
 		
 }

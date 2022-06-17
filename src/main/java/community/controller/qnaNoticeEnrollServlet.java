@@ -48,10 +48,13 @@ public class qnaNoticeEnrollServlet extends HttpServlet {
 			//사용자입력값 처리
 			String title = multiReq.getParameter("title");
 			String memberId = multiReq.getParameter("memberId");
+			String nickName = multiReq.getParameter("nickName");
 			String content = multiReq.getParameter("content");
+			
 			QnaNoticeExt board = new QnaNoticeExt();
 			board.setTitle(title);
 			board.setMemberId(memberId);
+			board.setNickName(nickName);
 			board.setContent(content);
 			
 			File upFile1 = multiReq.getFile("upFile1");

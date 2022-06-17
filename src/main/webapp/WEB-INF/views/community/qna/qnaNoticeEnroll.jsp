@@ -44,7 +44,8 @@ window.onload = () => {
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= loginMember.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= loginMember.getMemberId() %>" readonly/>
+			<input type="text" name="nickName" value="<%= loginMember.getNickname() %>" readonly/>
 		</td>
 	</tr>
 	<tr>
