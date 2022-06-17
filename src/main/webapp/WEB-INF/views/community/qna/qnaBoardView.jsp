@@ -238,7 +238,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		
 		frm.append(inputBoardNo);
 		frm.append(inputMemberId);
-		frm.append(inputMemberId);
+		frm.append(inputNickName);
 		frm.append(inputCommentLevel);
 		frm.append(inputCommentRef);
 		frm.append(textarea);

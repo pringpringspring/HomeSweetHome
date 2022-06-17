@@ -833,3 +833,267 @@ commit;
 --	visit_count	number		NULL
 --);
 
+--------커뮤니티부분---------------------------
+
+--===================
+--질문과 답변
+--===================
+
+
+
+--질문과답변 게시판
+CREATE TABLE qa_board (
+	board_no	 number		NOT NULL,
+	member_id	varchar2(50)		NOT NULL,
+    nickname	 varchar2(100),
+	board_title	varchar2(200),
+	content	varchar2(1000),
+	read_count	number	 DEFAULT 0,
+	reg_date	date	DEFAULT sysdate,
+    constraint pk_qa_board_no primary key(board_no),
+    constraint fk_qa_board_member_id foreign key(member_id) references member(member_id)
+);
+create sequence seq_qa_board_no nocache;
+
+--질문과 답변_댓글
+CREATE TABLE qa_board_reply (
+	comment_no	number,
+	board_no	number,
+	member_id	varchar2(50),
+    nickname	 varchar2(100),
+	content	varchar2(100),
+	like_count	number	DEFAULT 0,
+	reg_date	date	DEFAULT sysdate,
+    comment_level number default 1,
+    comment_ref number,
+    constraint pk_qa_board_reply_comment_no primary key(comment_no),
+    constraint fk_qa_board_reply_board_no foreign key(board_no) references qa_board(board_no) on delete cascade,
+    constraint fk_qa_board_reply_member_id foreign key(member_id) references member(member_id)
+);
+create sequence seq_qa_board_reply_no nocache;
+
+--공지사항
+CREATE TABLE qa_notice (
+	notice_no	number		NOT NULL,
+	member_id	varchar2(50)		NOT NULL,
+     nickname	 varchar2(100),
+	notice_title	varchar2(200),
+	content	varchar2(1000),
+	read_count	number 	DEFAULT 0,
+	reg_date	date	DEFAULT sysdate,
+    constraint pk_qa_notice_no primary key(notice_no),
+    constraint fk_qa_notice_member_id foreign key(member_id) references member(member_id)
+);
+create sequence seq_qa_notice_no nocache;
+
+--공지사항_댓글
+CREATE TABLE qa_notice_reply (
+	comment_no	number		NOT NULL,
+	member_id	varchar2(50)		NOT NULL,
+    nickname varchar2(100),
+	notice_no	 number		NOT NULL,
+	content	varchar2(100)		NULL,
+	like_count	number	DEFAULT 0	NULL,
+	reg_date	date	DEFAULT sysdate	,
+    comment_level number default 1,
+    comment_ref number,
+    constraint pk_qa_notice_reply_comment_no primary key(comment_no),
+    constraint fk_qa_notice_reply_member_id foreign key(member_id) references member(member_id),
+    constraint fk_qa_notice_reply_notice_no foreign key(notice_no) references qa_notice(notice_no)
+);
+ 
+create sequence seq_qa_notice_reply_no nocache; 
+
+
+--질문과답변_첨부파일
+create table qa_attachment (
+    no number,
+    board_no number not null,
+    original_filename varchar2(255) not null, -- 업로드한 파일명
+    renamed_filename varchar2(255) not null, -- 저장된 파일명
+    reg_date date default sysdate,
+    constraint pk_qa_attachment_no primary key(no),
+    constraint fk_qa_attachment_board_no foreign key(board_no) references qa_board(board_no) on delete cascade
+);
+
+--공지사항_첨부파일
+create table qa_notice_attachment(
+    no number,
+    notice_no number not null,
+    original_filename varchar2(255) not null,
+    renamed_filename varchar2(255) not null,
+    constraint pk_qa_attach_no primary key(no),
+    constraint fk_qa_notice_attachment_notice_no foreign key(notice_no) references qa_notice(notice_no) on delete cascade
+);
+
+create sequence seq_qa_notice_attach_no;
+
+
+--===================
+--이벤트
+--===================
+
+--이벤트
+create table event(
+    event_id varchar2(30) not null, 
+    event_title	varchar2(1000), 
+	event_content	varchar2(1000),
+	event_start_date	date	,
+	event_end_date	date	,
+	reg_date	date	DEFAULT sysdate,
+    no number,
+    title_filename varchar2(255),  --이벤트 목록 조회시 썸네일용
+
+   constraint pk_event_no primary key(no)
+);
+
+create sequence seq_event_no;
+
+
+--이벤트 첨부파일
+create table event_att(
+    no number,
+    original_filename varchar2(255) , -- 업로드한 파일명 + 내용
+    renamed_filename varchar2(255), -- 저장된 파일명
+    event_no number,
+    
+    constraint pk_event_att_no primary key(no),
+    constraint fk_event_no foreign key(event_no) references event(no) on delete cascade
+);
+
+create sequence seq_eventatt_no;
+
+--이벤트 참가자
+CREATE TABLE event_applicants (
+	event_apply_code	varchar2(30)		NOT NULL, --제목에 해당하는 부분입니다.
+	no	number	NOT NULL,
+	member_id	varchar2(50)		NOT NULL,
+    nickname varchar2(100),
+    content varchar2(1000),
+    event_no number,
+    constraint pk_event_applicants_no primary key(no),
+    constraint fk_event_applicants_member_id foreign key(member_id) references member(member_id) on delete cascade,
+    constraint fk_event_applicants_event_no foreign key(event_no) references event(no) on delete cascade
+);
+create sequence seq_event_app_no;
+
+--이벤트 참가시 필요한 파일
+create table event_app_att(
+no number,
+original_filename varchar2(255) , 
+renamed_filename varchar2(255), 
+event_no number,
+constraint pk_event_app_att_no primary key(no),
+constraint fk_event_app_att_no foreign key(event_no) references event_applicants(no) on delete cascade
+);
+
+create sequence seq_eventappatt_no;
+
+---===============================================================================
+--노하우 게시판 테마
+create table community_know_how_theme(
+    theme_category_no number not null,
+    theme_name varchar2(20) not null,
+    
+    constraint pk_community_know_how_theme_no primary key(theme_category_no)
+);
+
+--노하우 게시판 테마 시퀀스
+create sequence seq_community_know_how_theme_no nocache;
+
+-- 노하우 게시판
+create table community_know_how(
+    knowhow_board_no number,
+    member_id	varchar2(50)		NOT NULL,
+    nickname varchar2(100),
+	theme_category_no	number		NOT NULL,  --15~17
+	content	varchar2(1000),
+	read_count	number	DEFAULT 0	NULL,
+	like_count	number	DEFAULT 0	NULL,
+	reg_date	date	DEFAULT sysdate	NULL,
+    title varchar2(150),
+    cover_photo varchar2(255),  -- 목록 조회시 썸네일용
+    constraint pk_community_know_how_no primary key(knowhow_board_no),
+    constraint fk_community_know_how_member_id foreign key(member_id) references member(member_id),
+    constraint fk_community_know_how_theme_category_no foreign key(theme_category_no) references community_know_how_theme(theme_category_no)
+);
+
+-- 노하우 게시판 테이블 시퀀스 코드
+create sequence seq_community_know_how_no nocache;
+
+--노하우 댓글
+CREATE TABLE knowhow_reply(
+	comment_no	number,
+    comment_level number default 1,
+    comment_ref number,
+	knowhow_board_no	number,
+	member_id	varchar2(50),
+    nickname varchar2(1000),
+	content	varchar2(100),
+	like_count	number	DEFAULT 0,
+	reg_date	date	DEFAULT sysdate, 
+    constraint pk_knowhow_reply_comment_no primary key(comment_no),
+    constraint fk_knowhow_reply_knowhow_board_no foreign key(knowhow_board_no) references community_know_how(knowhow_board_no)  on delete cascade,
+    constraint fk_knowhow_reply_member_id foreign key(member_id) references member(member_id)
+);
+
+create sequence seq_knowhow_reply_no nocache;
+
+--노하우 첨부파일
+create table knowhow_attachment(
+    no number,
+    knowhow_no number not null,
+    original_filename varchar2(255) not null,
+    renamed_filename varchar2(255) not null,
+    
+    constraint pk_knowhow_attachment_no primary key(no),
+    constraint fk_qa_knowhow_no foreign key(knowhow_no) references community_know_how(knowhow_board_no) on delete cascade
+);
+--노하우 첨부파일 시퀀스
+create sequence seq_knowhow_attach_no;
+
+
+-- 커뮤니티 사진 테이블
+CREATE TABLE community_image (
+	community_img_no number 	NOT NULL,
+	member_id	varchar2(50)		NOT NULL,
+    nickname varchar2(100),
+	title	varchar2(30)		NULL,
+	content	varchar2(3000)		NULL,
+	read_count	number	DEFAULT 0	NULL,
+	like_count	number	DEFAULT 0	NULL,
+	reg_date	date	DEFAULT sysdate	NULL,
+    constraint pk_community_community_img_no primary key(community_img_no),
+    constraint fk_community_member_id foreign key(member_id) references member(member_id)
+);
+-- 커뮤니티 사진 테이블 시퀀스 코드
+create sequence seq_community_image_no nocache;
+
+-- 사진 게시판 첨부파일 테이블
+CREATE TABLE community_image_attachment (
+	attach_no	number		NOT NULL,
+	community_img_no 	number		NOT NULL,
+	original_filename	varchar2(255)		NULL,
+	renamed_filename	varchar2(255)		NULL,
+	reg_date	date	DEFAULT sysdate	,
+    constraint pk_community_image_attachment_no primary key(attach_no),
+    constraint fk_community_image_attachment_img_no foreign key(community_img_no) references community_image(community_img_no)
+);
+-- 커뮤니티 사진 첨부파일 테이블 시퀀스 코드
+create sequence seq_community_image_attachment_no nocache;
+
+
+-----------좋아요(노하우게시글 용)------------
+create table clike(
+        member_id varchar2(50),
+        no number,
+        likeit varchar2(20),
+    
+    constraint pk_clikeit primary key(likeit),
+    constraint fk_clike_member_id foreign key(member_id) references member(member_id) on delete cascade,
+    constraint fk_clike__no foreign key(no) references community_know_how(knowhow_board_no) on delete cascade    
+);
+
+-----------------------------------------
+
+

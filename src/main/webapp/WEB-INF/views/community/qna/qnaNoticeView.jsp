@@ -25,7 +25,7 @@
 	<div class="title-view">
 	<h2>공지사항</h2>
 	<h1><%=board.getTitle() %></h1>
-	<h2><%=board.getNickName() %></h2>
+	<h2><%=board.getNickName()%></h2>
 </div>
 
 

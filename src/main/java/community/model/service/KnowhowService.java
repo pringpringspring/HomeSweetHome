@@ -13,9 +13,7 @@ import community.model.dto.Attachment;
 import community.model.dto.Knowhow;
 import community.model.dto.KnowhowComment;
 import community.model.dto.KnowhowExt;
-import community.model.dto.QnaBoard;
-import community.model.dto.QnaBoardComment;
-import community.model.dto.QnaBoardExt;
+import community.model.dto.comLike;
 
 public class KnowhowService {
 KnowhowDao kd = new KnowhowDao();
@@ -179,9 +177,44 @@ public int deleteBoardComment(int no) {
 	}
 	return result;
 }
+public comLike selectLikeOne(int board_num, String memberId) {
+	Connection conn = getConnection();
+	comLike cl= kd.selectLikeOne(conn, board_num, memberId);
+	close(conn);
+	return cl;
+}
+public List<KnowhowComment> selectCommentList(int board_num) {
+	Connection conn = getConnection();
+	List<KnowhowComment> list = kd.selectCommentList(conn,board_num);
+	close(conn);
+	return list;
+}
+public int deleteLike(comLike cl) {
+	Connection conn = getConnection();
+	int result =kd.deleteLike(conn, cl);
+	if(result>0)
+		commit(conn);
+	else 
+		rollback(conn);
+	close(conn);
+	return result;
+}
+public int insertLike(comLike like) {
+	Connection conn = getConnection();
+	int result = kd.insertLike(conn, like);
+	if(result > 0)
+		commit(conn);
+	else
+		rollback(conn);
+	close(conn);
+	return result;
+}
+
 
 /*
  * public int commentCount(int no) { Connection conn = getConnection(); int
  * result = kd.commentCount(conn,no); close(conn); return result; }
  */
+
+
 }

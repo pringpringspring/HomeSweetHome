@@ -26,7 +26,8 @@
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="text" name="nickName" value="<%= board.getNickName() %>" readonly/>
 		</td>
 	</tr>
 	

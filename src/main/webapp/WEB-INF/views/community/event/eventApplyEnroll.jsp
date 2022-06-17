@@ -6,6 +6,9 @@
  <%
 EventAppExt event = (EventAppExt) request.getAttribute("event");
  %>
+ <style>
+ #board-container{margin-left:27rem; margin-top: 5.2rem;}
+ </style>
  
  <script>
  window.onload = () => {	
@@ -38,8 +41,9 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 	enctype="multipart/form-data">
 	
 	<table id="tbl-board-view">
+	
 			<tr>
-		<th>이벤트 참가코드</th>
+		<th>제목</th>
 		<td><input type="text" name="eventapplycode" ></td>
 	</tr>
 	
@@ -69,8 +73,22 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 		</th>
 	</tr>
 </table>
+<label for="eventNo" >이벤트 선택 </label>
+<select name="eventNo"  id="eventNo" >
+<option selected>------------</option>
+<option value="102">꽃테리어 콘테스트 (진행중)</option>
+<option value="101">핸드메이드 콘테스트 (종료)</option>
+<option value="81">정리챌린지 (종료)</option>
+<option value="341">정리챌린지 (종료)</option>
+</select>
  </form>
  </section>
 
  
+<script>
+eventNo.addEventListener('change', (e) => {
+	const{value}  = e.target;
+	console.log(value);
+});
+</script>
  <%@ include file="/WEB-INF/views/common/footer.jsp" %>
