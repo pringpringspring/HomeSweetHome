@@ -64,12 +64,12 @@ window.onload = () => {
 
 			<tr>
 				<th>시작날짜</th>
-				<td><input type="date" name="s"></td>
+				<td><input type="text" name="sdate"></td>
 			</tr>
 
 			<tr>
 				<th>종료날짜</th>
-				<td><input type="date" name="e"></td>
+				<td><input type="text" name="edate"></td>
 			</tr>
 
 			<tr>

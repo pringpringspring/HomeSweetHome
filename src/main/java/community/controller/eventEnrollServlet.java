@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.naming.java.javaURLContextFactory;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -54,27 +56,24 @@ public class eventEnrollServlet extends HttpServlet {
 
 			String sdate=  multiReq.getParameter("sdate");
 			String edate=  multiReq.getParameter("edate");
-			
-			System.out.println(sdate + "sdate"); 
-			System.out.println(edate + "edate"); 
-			
+	
 			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-
+			Date sd = sdf.parse(sdate);
+			Date ed = sdf.parse(edate);
 			
-			java.sql.Date s = java.sql.Date.valueOf(sdate);
-			java.sql.Date e = java.sql.Date.valueOf(edate);
+			java.sql.Date sda = new 	java.sql.Date(sd.getTime());
+			java.sql.Date eda = new 	java.sql.Date(ed.getTime());
+			
+			
 			
 			EventExt event = new EventExt();
 			event.setEventId(eventId);
 			event.setEventTitle(title);
 			event.setEventContent(content);
 			event.setTitlefileName(titlefileName);
-			event.setsDate(s);
-			event.seteDate(e);
-			/*
-			 * event.setsDate(java.sql.Date.valueOf(sdate));
-			 * event.seteDate(java.sql.Date.valueOf(edate));
-			 */
+			event.setsDate(sda);
+			event.seteDate(eda);
+
 
 			
 			File upFile1 = multiReq.getFile("upFile1");
@@ -100,7 +99,7 @@ public class eventEnrollServlet extends HttpServlet {
 			
 		} catch (Exception  e) {
 			e.printStackTrace();
-			throw e;
+			/* throw e; */
 		}
 	}
 
