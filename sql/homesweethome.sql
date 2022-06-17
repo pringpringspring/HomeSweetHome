@@ -752,9 +752,57 @@ CREATE TABLE questions_board_reply (
 -- 문의사항 게시판  댓글 시퀀스 코드
 create sequence seq_questions_board_reply_no nocache;
 
+-- 이메일 고객문의 분류 테이블
+create table cs_email_type (
+    select_type varcxhr2(10) not null,
+    select_type_name varchar2(30) not null,
+    constraint pk_cs_email_type primary key(select_type)
+);
+select * from cs_email_type;
 
+insert into cs_email_type values ('0', '회원정보 문의');
+insert into cs_email_type values ('1', '쿠폰/포인트 문의');
+insert into cs_email_type values ('2', '주문/결제 관련 문의');
+insert into cs_email_type values ('3', '취소/환불 관련 문의');
+insert into cs_email_type values ('4', '배송 관련 문의');
+insert into cs_email_type values ('5', '주문 전 상품 정보 문의');
+insert into cs_email_type values ('6', '서비스 개선 제안');
+insert into cs_email_type values ('7', '시스템 오류 제보');
+insert into cs_email_type values ('8', '불편 신고');
+insert into cs_email_type values ('9', '기타문의');
 
+-- 이메일 고객문의 기록 저장용 테이블
+create table cs_email_log (
+    cs_email_log_no number not null,
+    name varchar2(30) not null,
+    email varchar2(100) not null,
+    title varchar2(500) not null,
+    content varchar2(2000) not null,
+    select_type varchar2(10) not null,
+    reg_date date default sysdate,
+    constraint pk_cs_email_log_no primary key(cs_email_log_no),
+    constraint fk_cs_email_log_select_type foreign key(select_type) references cs_email_type(select_type)
+);
+--alter table  cs_email_log modify email varchar2(100);
+--alter table  cs_email_log modify content varchar2(2000);
+select * from cs_email_log order by cs_email_log_no;
+--이메일 고객문의 기록 저장용 테이블 시퀀스 코드
+create sequence seq_cs_email_log_no nocache;
 
+-- 이메일 고객문의 이미지 기록 저장용 테이블
+create table cs_email_image (
+    no	 number		NOT NULL,
+	cs_email_log_no 	number		NOT NULL,
+	original_filename	varchar2(255)		NULL,
+	renamed_filename	varchar2(255)		NULL,
+	reg_date	date	DEFAULT sysdate,
+    constraint pk_cs_email_image_no primary key(no),
+    constraint fk_cs_email_log_no foreign key(cs_email_log_no) references cs_email_log(cs_email_log_no)        
+);
+--이메일 고객문의 이미지 기록 저장용 테이블 시퀀스 코드
+create sequence seq_cs_email_image_no nocache;
+select * from cs_email_image;
+commit;
 ---- 매출 테이블
 --CREATE TABLE revenue (
 --	revenue_code varchar2(100)		NOT NULL,

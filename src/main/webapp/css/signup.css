@@ -87,52 +87,62 @@ body form  p {
 
  
 #id, #email{
-    width: 195px;
-    height: 42px;
+    width: 14rem;
+    height: 2.875rem;
     font-size: 1rem;
-    border: 0px;
+    border: 1px solid #CACACA;
+    border-radius: 0.25rem;
     margin: 0;
-    padding: 0px;
+    padding: 0.6rem;
 }
 
 #phone , #user_name, #user_nickname  {
     width: 270px;
-    height: 42px;
+    height: 2.875rem;
     font-size: 1rem;
-    border: 0px;
-    margin: 0 10px;
+    border: 1px solid #CACACA;
+    border-radius: 0.25rem;
+    margin: 0 0.6rem;
+    padding: 0.6rem;
 }
 
 #password, #password_confirm {
     width: 286px;
-    height: 42px;
-    font-size: 0.9rem;
-    border: 0px;
+    height: 2.875rem;
+    font-size: 1rem;
+    border: 1px solid #CACACA;
+    border-radius: 0.25rem;
+    padding: 0.6rem;
  
 }
 
 #address, #address_detail, #extraAddress {
-    border: 0;
+    border: 1px solid #CACACA;
+    border-radius: 0.25rem;
     width: 240px;
-    height: 43px;
+    height: 2.875rem;
     font-size: 1rem;
     margin: 0 auto;
+    padding: 0.6rem;
 }
 
 #postcode {
-    border: 0;
+    border: 1px solid #CACACA;
+    border-radius: 0.25rem;
     width: 110px;
-    height: 43px;
+    height: 2.6rem;
     font-size: 1rem;
     margin: 0 auto;
+    padding: 0.6rem;
 }
 
 #year , #month , #day {
-    width: 45px; 
-    height: 38px;
+    width: 4rem; 
+    height: 2.2rem;
     font-size: 0.8rem;
-    border: 0px;
-    padding: 0;
+     border: 1px solid #CACACA;
+    border-radius: 0.25rem;
+   	padding: 0.2rem;
 }
 
 #gender-f-text{
@@ -144,7 +154,10 @@ body form  p {
 }
 
 #id:focus , #password:focus, #password_confirm:focus , #user_name:focus, #user_nickname:focus, #phone:focus , #email:focus, #postcode:focus, #address:focus, #address_detail:focus, #extraAddress:focus, #year:focus, #month:focus, #day:focus  {
-    outline: none;
+    border: 1px solid #35C5F0; outline:none;
+}
+#id:hover , #password:hover, #password_confirm:hover , #user_name:hover, #user_nickname:hover, #phone:hover , #email:hover, #postcode:hover, #address:hover, #address_detail:hover, #extraAddress:hover, #year:hover, #month:hover, #day:hover  {
+    background-color: #f7f9fa; 
 }
 
 .wrapper{
@@ -166,7 +179,7 @@ body form  p {
 }
 .row_area .btn_white, .row_area .btn_blue{
     width: 106px;
-    height: 48px;
+    height: 2.875rem;
     margin-left: 8px;
     font-weight: bold;
     font-size: 13px;
@@ -184,10 +197,10 @@ body form  p {
 
 .btn_signup{
     width: 100%;
-    height: 48px;
+    height: 3rem;
     margin-top: 56px;
-    font-size: 15px;
-    line-height: 18px;
+    font-size: 1rem;
+    line-height: 1.1rem;
     letter-spacing: -0.25px;
 }
 
@@ -200,7 +213,7 @@ body form  p {
 }
 
 .input_wrapper{
-    margin-top: 8px;
+    margin-top: 0.5rem;
     flex: 1;
 }
 
@@ -208,15 +221,18 @@ body form  p {
     position: relative;
     display: flex;
     align-items: center;
-    height: 46px;
-    width: 210px;
-    background: #FFFFFF;
-    border: 1px solid #CACACA;
-    border-radius: 4px;
+    height: 2.875rem;
+    width: 13.125rem;
+    background: #FFF;
     padding: 0px 3px;
 
 }
-
+.address {
+	width: 9rem;
+}
+.address-wrapper{
+	width: 17rem; margin-left: 1rem;
+}
 .address .input_container{
     position: relative;
     display: flex;
@@ -224,11 +240,9 @@ body form  p {
     height: 46px;
     width: 268px;
     background: #FFF;
-    border: 1px solid #CACACA;
-    border-radius: 4px;
     margin-bottom: 10px;
 }
-
+.address .input_container input::placeholder{color: #CACACA;}
 .input_container_postCode {
     position: relative;
     display: flex;
@@ -236,8 +250,6 @@ body form  p {
     height: 46px;
     width: 135px;
     background: #FFF;
-    border: 1px solid #CACACA;
-    border-radius: 4px;
     padding: 0px 2px 0px 16px;
 }
 
@@ -248,8 +260,6 @@ body form  p {
     height: 46px;
     width: 212px;
     background: #FFF;
-    border: 1px solid #CACACA;
-    border-radius: 4px;
     padding: 0px 2px 0px 16px;
     margin: 0 auto;
 }
@@ -260,8 +270,6 @@ body form  p {
     align-items: center;
     height: 46px;
     background: #FFFFFF;
-    border: 1px solid #CACACA;
-    border-radius: 4px;
     padding: 0px 42x 0px 16px;
     
 }
@@ -305,6 +313,13 @@ body form  p {
 	height: 60px;
 	margin: 0;
 }
+.birth-text:before{
+	content: "";
+  	display: inline-block;
+    vertical-align:middle;
+    text-align:center;
+	height: 100%;  
+}
 .failed-hidden-notice {
 	font-size: 20px;
 	color: red;
@@ -332,7 +347,7 @@ body form  p {
     height: 48px;
     margin: 0 5px;
 }
-
+.btn_blue_id-email:hover, .btn-id-check:hover, .btn_blue:hover, .btn-signup:hover{background-color: #00B8F0}
 .btn_blue{
     display: flex;
     align-items: center;
@@ -346,19 +361,6 @@ body form  p {
     cursor: pointer;
 }
 
-.btn_white{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFF;
-    border: 1px solid #34C5F0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-style: normal;
-    font-weight: bold;
-    color:  #34C5F0;
-    cursor: pointer;
-}
 
 .btn-signup{
     display: flex;
