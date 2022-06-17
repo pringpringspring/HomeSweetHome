@@ -95,7 +95,7 @@
 					<button onclick="searchAddress();" type="button" class="btn_blue">주소 찾기</button>
 				</div>
 				<div class="row_area">
-					<div class="address">
+					<div class="address-wrapper">
 						<div class="input_container">
 							<input type="text" id="address" name="address" placeholder="기본주소" readonly>
 						</div>

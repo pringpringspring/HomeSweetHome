@@ -181,8 +181,8 @@ $(".product-delete").click(function(){                
 		} 
 	});
 
-searchType.addEventListener('change', (e) => {
-	const {value} = e.target;  
+searchType.addEventListener.forEach((span) => {
+	const {value} = span.target;  
 	
 	document.querySelectorAll(".search-type").forEach((div) => {
 		div.style.display = "none";

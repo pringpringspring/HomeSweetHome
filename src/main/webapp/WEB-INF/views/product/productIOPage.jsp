@@ -231,8 +231,6 @@ $(".main_category").click((e) => {
         .slideToggle()
         .siblings(".content-wrapper")
         .slideUp();
-      
-      
   });
   
 $(".content-wrapper").click((e) => {
