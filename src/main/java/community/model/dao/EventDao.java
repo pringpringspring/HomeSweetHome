@@ -141,12 +141,12 @@ public class EventDao {
 		public int insertAttachment(Connection conn, EventAttachment attach) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String sql = prop.getProperty("ninsertAttachment");
+			String sql = prop.getProperty("insertAttachment");
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, attach.getNo());
-				pstmt.setString(2, attach.getOriginal_filename());
-				pstmt.setString(3, attach.getRenamed_filename());
+				pstmt.setString(1, attach.getOriginal_filename());
+				pstmt.setString(2, attach.getRenamed_filename());
+				pstmt.setInt(3, attach.getEventNo());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
 				throw new EventException("첨부파일 등록 오류", e);
@@ -220,10 +220,9 @@ public class EventDao {
 			String sql = prop.getProperty("updateBoard");
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, event.getEventId());
-				pstmt.setString(2, event.getEventTitle());
-				pstmt.setString(3, event.getEventContent());
-				pstmt.setInt(4, event.getNo());
+				pstmt.setString(1, event.getEventTitle());
+				pstmt.setString(2, event.getEventContent());
+				pstmt.setInt(3, event.getNo());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
 				throw new EventException("게시글 수정 오류", e);
