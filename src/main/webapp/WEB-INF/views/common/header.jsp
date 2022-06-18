@@ -126,7 +126,7 @@ showSubMenu = () => {
 									</div>
 								<% } else { %>
 									<div class="login-member-menu-wrapper">
-										<a class="member-menu" href="<%= request.getContextPath() %>/member/scrap">
+										<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
 											<img class="scrap-btn" src= "<%=request.getContextPath() %>/images/bookmark-white.png;" />
 										</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/notification">
@@ -196,7 +196,7 @@ showSubMenu = () => {
 						</div>
 						<div class = store-menu-container>
 							<div class="store-menu-wrapper">
-									<a index="0" class="store-home-menu" href="<%= request.getContextPath() %>/store/storeHome">
+									<a index="0" class="store-home-menu" href="<%= request.getContextPath() %>/store/storeMain">
 										<div class="store-home-wrapper">
 												<p class="home-text">홈</p>
 										</div>
