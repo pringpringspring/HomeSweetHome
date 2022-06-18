@@ -5,9 +5,11 @@ import static common.JdbcTemplate.getConnection;
 import static common.JdbcTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import common.JdbcTemplate;
 import community.model.dao.KnowhowDao;
 import community.model.dto.Attachment;
 import community.model.dto.Knowhow;
@@ -215,6 +217,19 @@ public int insertLike(comLike like) {
  * public int commentCount(int no) { Connection conn = getConnection(); int
  * result = kd.commentCount(conn,no); close(conn); return result; }
  */
+public int getProductCount(int catenum) {
+	int result = 0;
+	Connection conn = JdbcTemplate.getConnection();
+	result = kd.getProductCount(conn, catenum);		
+	return result;
+}
 
+public ArrayList<KnowhowExt> productList(int start , int end, int catenum) {
+	ArrayList<KnowhowExt> list = null;
+	Connection conn = JdbcTemplate.getConnection();
+	list = kd.productList(conn, start, end, catenum);
+	close(conn);
+	return list;
+}
 
 }

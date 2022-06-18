@@ -31,6 +31,7 @@ String searchKeyword = request.getParameter("searchKeyword");
 		</form>
 	</div>
 </nav>
+
 <div class="sort">
 <h5>
 <a href="<%=request.getContextPath()%>/community/qna">최신순 |</a>
@@ -64,7 +65,7 @@ String searchKeyword = request.getParameter("searchKeyword");
 	%>
 	<a
 		href="<%=request.getContextPath()%>/qna/qnaNoticeView?no=<%=notice.getNo()%>">
-		<b>공지</b>&nbsp;📢<%=notice.getTitle()%><br>
+		<b>공지</b>&nbsp;📢<%=notice.getTitle()%><br><br>
 	</a>
 	<%
 	}

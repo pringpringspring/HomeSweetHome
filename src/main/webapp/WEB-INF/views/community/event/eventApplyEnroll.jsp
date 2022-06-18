@@ -79,7 +79,7 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 <option value="102">꽃테리어 콘테스트 (진행중)</option>
 <option value="101">핸드메이드 콘테스트 (종료)</option>
 <option value="81">정리챌린지 (종료)</option>
-<option value="341">정리챌린지 (종료)</option>
+
 </select>
  </form>
  </section>
