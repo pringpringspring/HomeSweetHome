@@ -522,4 +522,70 @@ public class KnowhowDao {
 	}
 		
 	
+	public int getProductCount(Connection conn, int no) {
+		int result = 0;
+		String sql = prop.getProperty("countAll");
+		String sql2 = prop.getProperty("countCate");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			if(no == 0) {
+				ps = conn.prepareStatement(sql);
+			}else {
+				ps = conn.prepareStatement(sql2);
+				ps.setInt(1, no);
+			}
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			//-1
+			System.out.println("연결 실패");
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(ps);
+		}
+		return result;
+	}
+	
+
+	public ArrayList<KnowhowExt> productList(Connection conn, int start , int end, int catenum) {
+		ArrayList<KnowhowExt> list = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = prop.getProperty("viewByTheme");
+		try {
+			if(catenum != 0) {
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, catenum);
+				ps.setInt(2, start);
+				ps.setInt(3, end);
+			}
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<KnowhowExt>();
+			while(rs.next()) {
+				KnowhowExt kh = new KnowhowExt();
+
+				kh.setNo(rs.getInt("knowhow_board_no"));
+				kh.setCoverPhoto(rs.getString("cover_photo"));
+				kh.setNickName(rs.getString("nickname"));
+				kh.setReadCount(rs.getInt("read_count"));
+				kh.setTitle(rs.getString("title"));
+			
+				list.add(kh);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new KnowhowException("카테고리별 조회 오류", e);
+			
+		} finally {
+			JdbcTemplate.close(rs);
+			JdbcTemplate.close(ps);
+		}
+		return list;
+	}
+	
 }

@@ -59,7 +59,7 @@ window.onload = () => {
 
 			<tr>
 				<th>이벤트 썸네일 파일명 작성</th>
-				<td><input type="text" name="titlefileName"></td>
+				<td><input type="text" name="titlefileName" placeholder="ex) a.jpg , b.png ..."></td>
 			</tr>
 
 			<tr>

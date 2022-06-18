@@ -312,9 +312,9 @@ public class QnaBoardDao {
 			pstmt.setInt(1, bc.getBoardNo());
 			pstmt.setString(2, bc.getMemberId());
 			pstmt.setString(3, bc.getNickName());
-			pstmt.setString(3, bc.getContent());
-			pstmt.setInt(4, bc.getCommentLevel());
-			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			pstmt.setString(4, bc.getContent());
+			pstmt.setInt(5, bc.getCommentLevel());
+			pstmt.setObject(6, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
