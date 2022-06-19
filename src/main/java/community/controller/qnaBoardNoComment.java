@@ -33,8 +33,8 @@ public class qnaBoardNoComment extends HttpServlet {
    			replycount[i++] = result;
    		}
    			
-   		System.out.println("왜"+comlist);
-   		System.out.println("안돼"+replycount);
+   		System.out.println(comlist);
+   		System.out.println(replycount);
    		
    		request.setAttribute("comlist", comlist);
    		request.setAttribute("replycount", replycount);

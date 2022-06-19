@@ -20,7 +20,11 @@ import member.model.service.MemberService;
 /**
  * Servlet Filter implementation class AdminFilter
  */
-@WebFilter("/admin/*")
+@WebFilter
+({
+	"/admin/*",
+	"/product/*"
+})
 public class AdminFilter implements Filter {
 
 	/**

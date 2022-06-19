@@ -9,12 +9,15 @@
 	
 	String searchType = request.getParameter("searchType");
 	String searchKeyword = request.getParameter("searchKeyword");
-
+	System.out.println("searchType = " + searchType);
+	System.out.println("searchKeyword = " +searchKeyword);
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/common.css" />
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/memberList.css" />
 
 <section id="memberList-container">
-	<h2>회원관리</h2>	
+	<div id="title-wrapper">
+		<h2 id="cont-title">회원관리</h2>	
+	</div>
 	<div id="search-container">
     	<label for="searchType">검색타입 :</label> 
         <select id="searchType">
@@ -22,24 +25,25 @@
 			<option value="member_name" <%="member_name".equals(searchType)?"selected":""%>>회원명</option>
         </select>
         <div id="search-memberId" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
+            <form class="search-frm" action="<%=request.getContextPath()%>/admin/memberFinder">
                 <input type="hidden" name="searchType" value="member_id"/>
-                <input type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." value="<%= "member_id".equals(searchType) ? searchKeyword : "" %>"/>
-                <button type="submit">검색</button>			
+                <input type="text" class="input-val" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." value="<%= "member_id".equals(searchType) ? searchKeyword : "" %>"/>
+                <button class="btn-finder" type="submit">검색</button>			
             </form>	
         </div>
         <div id="search-memberName" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
+            <form class="search-frm" action="<%=request.getContextPath()%>/admin/memberFinder">
                 <input type="hidden" name="searchType" value="member_name"/>
-                <input type="text" name="searchKeyword" size="25" placeholder="검색할 이름을 입력하세요." value="<%= "member_name".equals(searchType) ? searchKeyword : "" %>"/>
-                <button type="submit">검색</button>			
+                <input type="text" class="input-val" name="searchKeyword" size="25" placeholder="검색할 회원명을 입력하세요." value="<%= "member_name".equals(searchType) ? searchKeyword : "" %>"/>
+                <button class="btn-finder" type="submit">검색</button>			
             </form>	
         </div>
     </div>
-	
+        <hr class="hr1" />	
 	<table id="tbl-member">
 		<thead>
 			<tr>
+				<th>번호</th>
 				<th>아이디</th>
 				<th>이름</th>
 				<th>회원권한</th>
@@ -53,11 +57,15 @@
 			</tr>
 		</thead>
 		<tbody>
+		
 <%
 		if(memberList != null && !memberList.isEmpty()){
-			for(Member member : memberList){
-%>			
+				Member member = new Member();
+			for(int i = 0; i < memberList.size(); i++){
+				member = memberList.get(i);
+%>				
 			<tr>
+				<td><%= i + 1 %></td>
 				<td><%= member.getMemberId() %></td>
 				<td><%= member.getMemberName() %></td>
 				<td>
@@ -71,8 +79,8 @@
 				<td><%= member.getEmail() != null ? member.getEmail() : "" %></td>
 				<td><%= member.getPhone() %></td>
 				<td><%= member.getEnrollDate() %></td>
-				<td><button type="button" class="btn-suspension">활동정지</button></td>
-				<td><button type="button" class="btn-forced-withdrawal">강제탈퇴</button></td>
+				<td><button type="button" class="btn-suspension" id="<%= i + 1 %>" name="<%= member.getMemberId() %>"  >활동정지</button></td>
+				<td><button type="button" class="btn-forced-withdrawal" id="<%= i + 1 %>" name="<%= member.getMemberId() %>" >강제탈퇴</button></td>
 			</tr>			
 <%
 			}
@@ -87,6 +95,7 @@
 %>		
 		</tbody>
 	</table>
+	<hr class="hr1" />	
 	<div id="pagebar">
 		<%= pagebar %>
 	</div>
@@ -113,31 +122,49 @@
 
 <script>
 
-btn-suspension.addEventListener('onclick', (e) => {
-	const mebmerId = e.target.dataset.memberId;
-	if(confirm(`정말로 [\${memberId}] 회원의 활동을 정지하시겠습니까?`)){
-		const frm = document.suspendMemberRoleFrm;
-		frm.memberId.value = memberId;
-		frm.submit();
-	}
-});
+	$(".btn-suspension").click(function(){                	      
+		const checkBtn = $(this);
+		const tr = checkBtn.parent().parent();    
+		const td = tr.children();    
+		const memberId = td.eq(1).text();   
+		const memberName = td.eq(2).text();         
+		
+	 	if(confirm(`정말로 [\${memberId} : \${memberName}] 회원을 강제로 활동을 정지시키시겠습니까?`)){
+		 	const frm = document.suspendMemberRoleFrm;
+			frm.memberId.value = memberId;
+			frm.submit(); 
+		} 
+	});
 
-btn-forced-withdrawal.addEventListener('onclick', (e) => {
-	const mebmerId = e.target.dataset.memberId;
-	if(confirm(`정말로 [\${memberId}] 회원의 계정을 강제 탈퇴시키시겠습니까?`)){
-		const frm = document.withdrawMemberFrm;
-		frm.memberId.value = memberId;
-		frm.submit();
-	}
-});	
+	$(".btn-forced-withdrawal").click(function(){                	      
+			const checkBtn = $(this);
+			const tr = checkBtn.parent().parent();    
+			const td = tr.children();    
+			const memberId = td.eq(1).text();   
+			const memberName = td.eq(2).text();         
+			
+		 	if(confirm(`정말로 [\${memberId} : \${memberName}] 회원을 강제로 탈퇴시키시겠습니까?`)){
+			 	const frm = document.withdrawMemberFrm;
+				frm.memberId.value = memberId;
+				frm.submit(); 
+			} 
+		});
+
+window.onload = () => {
+	document.querySelectorAll(".search-type").forEach((div) => {
+		div.style.display = "none";
+	}); 
+	
+	document.querySelector("#search-memberId").style.display = "inline-block";
+}; 
 
 searchType.addEventListener('change', (e) => {
 	const {value} = e.target;  
-	console.log(value);
 	
 	document.querySelectorAll(".search-type").forEach((div) => {
 		div.style.display = "none";
-	});
+	}); 
+	
 	let id = "";
 	switch(value){
 		case "member_id": id = "search-memberId"; break; 

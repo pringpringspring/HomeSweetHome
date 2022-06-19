@@ -68,6 +68,7 @@ public class QnaBoardDao {
 		QnaBoardExt board = new QnaBoardExt();
 		board.setNo(rset.getInt("board_no"));
 		board.setMemberId(rset.getString("member_id"));
+		board.setNickName(rset.getString("nickname"));
 		board.setTitle(rset.getString("board_title"));
 		board.setContent(rset.getString("content"));
 		board.setReadCount(rset.getInt("read_count"));
@@ -102,8 +103,9 @@ public class QnaBoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getMemberId());
-			pstmt.setString(2, board.getTitle());
-			pstmt.setString(3, board.getContent());
+			pstmt.setString(2, board.getNickName());
+			pstmt.setString(3, board.getTitle());
+			pstmt.setString(4, board.getContent());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new QnaBoardException("게시글 등록 오류", e);
@@ -309,9 +311,10 @@ public class QnaBoardDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, bc.getBoardNo());
 			pstmt.setString(2, bc.getMemberId());
-			pstmt.setString(3, bc.getContent());
-			pstmt.setInt(4, bc.getCommentLevel());
-			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			pstmt.setString(3, bc.getNickName());
+			pstmt.setString(4, bc.getContent());
+			pstmt.setInt(5, bc.getCommentLevel());
+			pstmt.setObject(6, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -338,6 +341,7 @@ public class QnaBoardDao {
 				bc.setCommentLevel(rset.getInt("comment_level"));
 				bc.setBoardNo(rset.getInt("board_no"));
 				bc.setMemberId(rset.getString("member_id"));
+				bc.setNickName(rset.getString("nickname"));
 				bc.setContent(rset.getString("content"));
 				bc.setCommentRef(rset.getInt("comment_ref"));
 				bc.setLikeCnt(rset.getInt("like_count"));
@@ -411,6 +415,7 @@ public class QnaBoardDao {
 				QnaBoard qb = new QnaBoard();
 				qb.setNo(rset.getInt("board_no"));
 				qb.setMemberId(rset.getString("member_id"));
+				qb.setNickName(rset.getString("nickname"));
 				qb.setTitle(rset.getString("board_title"));
 				qb.setContent(rset.getString("content"));
 				qb.setReadCount(rset.getInt("read_count"));
@@ -447,6 +452,7 @@ public class QnaBoardDao {
 				bc.setCommentLevel(rset.getInt("comment_level"));
 				bc.setBoardNo(rset.getInt("board_no"));
 				bc.setMemberId(rset.getString("member_id"));
+				bc.setNickName(rset.getString("nickname"));
 				bc.setContent(rset.getString("content"));
 				bc.setCommentRef(rset.getInt("comment_ref"));
 				bc.setLikeCnt(rset.getInt("like_count"));
@@ -597,6 +603,7 @@ public class QnaBoardDao {
 				cbr.setNo(rset.getInt("comment_no"));
 				cbr.setBoardNo(rset.getInt("board_no"));
 				cbr.setMemberId(rset.getString("member_id"));
+				cbr.setNickName(rset.getString("nickname"));
 				cbr.setContent(rset.getString("content"));
 				cbr.setLikeCnt(rset.getInt("like_count"));
 				cbr.setRegDate(rset.getDate("reg_date"));

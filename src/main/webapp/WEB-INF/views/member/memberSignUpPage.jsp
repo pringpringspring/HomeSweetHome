@@ -7,166 +7,191 @@
 <script src="<%= request.getContextPath() %>/js/memberSignUp.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<form class="form" id="signupFrm" name="signUpFrm" method="POST">
-	<p class="signupTitle">회원정보 입력</p>
-	<div class="signupInfoNecessary">
-		<p class="input_id">아이디<span class="neccesary-star">*</span>
-		</p>
-		<div class="row_area">
-			<div class="input_wrapper_check">
-				<div class="input_container" name="id-cont">
-					<input type="text" id="id" name="id" placeholder="아이디 입력(6~16자 영문)" tabindex="1" required >
-					<input type="hidden" id="idValid" value="0" />
-				</div>
-			</div>
-			<button type="button" onclick="openCheckId();" class="btn-id-check">중복확인</button>
-		</div>
-		<p class="input_password">비밀번호<span class="neccesary-star">*</span>
-		</p>
-		<div>
-			<span class="notice-pw-text">숫자/문자/특수문자 각1개 이상 포함하여 8~16자리를 입력해주세요.</span>
-		</div>
-		<div class="input_wrapper">
-			<div class="input_container" name="pw-cont">
-				<input type="password" id="password" name="password" placeholder="비밀번호 입력" tabindex="2" required>
-			</div>
-		</div>
-		<div class="input_wrapper">
-			<div class="input_container" name="pwConf-cont">
-				<input type="password" id="password_confirm" name="password_confirm" placeholder="비밀번호 재입력" tabindex="3" required>
-			</div>
-		</div>
-		<p class="input_name">이름<span class="neccesary-star">*</span>
-		</p>
-		<div class="input_wrapper">
-			<div class="input_container" name="name-cont">
-				<input type="text" id="user_name" name="user_name" placeholder="이름 입력" tabindex="4" required>
-			</div>
-		</div>
-		<p class="input_nickname">닉네임<span class="neccesary-star">*</span>
-		</p>
-		<div class="input_wrapper">
-			<div>
-				<span class="notice-nick-text">다른 회원과 겹치지 않는 별명을 입력해주세요.(2~15자)</span>
-			</div>
-			<div class="input_container" name="nickname-cont">
-				<input type="text" id="user_nickname" name="user_nickname" placeholder="별명 (2~15자)" tabindex="5" required>
-			</div>
-			<div class="input_container" id="nickname-hidden-msg">
-				
-			</div>
-		</div>
-		<p class="input_phone">휴대폰 번호<span class="neccesary-star">*</span>
-		</p>
-		<div class="input_wrapper">
-			<div class="input_container" name="phone-cont">
-				<input type="tel" id="phone" name="phone" placeholder="휴대폰 번호 입력(- 없이)" tabindex="6" required>
-			</div>
-		</div>
-		<p class="input_email" name="email-cont">
-			이메일 <span class="neccesary-star">*</span>
-		</p>
-		<div class="row_area">
-			<div class="input_wrapper_check">
-				<div class="input_container">
-					<input type="text" id="email" name="email" placeholder="이메일 입력" tabindex="7" required >
-					<input type="hidden" id="emailValid" value="0" />
-				</div>
-			</div>
-			<button onclick="openEmailCert()" type="button" class="btn_blue_id-email">본인 인증</button>
-		</div>
-				<p class="input_id">배송지 주소</p>
-		<div class="row_area">
-			<div class="address">
-				<div class="input_container_postCode">
-					<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly>
-				</div>
-			</div>
-			<button onclick="searchAddress();" type="button" class="btn_blue">주소 찾기</button>
-		</div>
-		<div class="row_area">
-			<div class="address">
-				<div class="input_container">
-					<input type="text" id="address" name="address" placeholder="기본주소" readonly>
-				</div>
-				<div class="input_container">
-					<input type="text" id="address_detail" name="address_detail"placeholder="상세주소">
-				</div>
-				<div class="input_container">
-					<input type="text" id="extraAddress" name="extraAddress" placeholder="참고사항" readonly>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="signupInfoOption">
-		<div class="signupInfoOptionTitle">
-			<p class="signupTitle">선택사항 입력</p>
-			<hr>
-		</div>
-
-		<p class="input_birth">생년월일</p>
-		<div class="row_area_bir">
-			<div class="input_container_birth">
-				<div id="birth_year">
-					<input type="number" id="year" name="year" min="1900" max="" placeholder="년">
-				</div>
-				<span class="birth-text">년</span>
-			</div>
-			<div class="input_container_birth">
-				<div id="birth_month">
-					<select id="month" name="month">
-						<option>월</option>
-						<option value="01">1</option>
-						<option value="02">2</option>
-						<option value="03">3</option>
-						<option value="04">4</option>
-						<option value="05">5</option>
-						<option value="06">6</option>
-						<option value="07">7</option>
-						<option value="08">8</option>
-						<option value="09">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-					</select>
-				</div>
-				<span class="birth-text">월</span>
-			</div>
-			<div class="input_container_birth">
-				<div id="birth_day">
-					<input type="number" id="day" name="day" min = "1" max="31" placeholder="일">
-				</div>
-				<span class="birth-text">일</span>
-			</div>
-		</div>
-		<p class="input_gender">성별</p>
-		<div class="input_wrapper-gender">
-			<div class="input_container-gender">
-				<input type="radio" name="gender" value="M" id="gender-male"> 
-				<span>
-					<label for="gender-male">남</label>
-				</span> 
-				<input type="radio" name="gender" value="F" id="gender-female"> 
-				<span id="gender-f-text">
-					<label for="gender-female">여</label>
-				</span>
-			</div>
-		</div>
+<div class="social-signup">
+	<a href="<%= request.getContextPath() %>/member/SignInPage">SNS계정으로 간편 회원가입</a>	
+</div>
+<div class="odinary-signup">
+	<div class="ordinary-title-wrapper">
+		<a href="javascript:showSignUpFrm();">Home Sweet Home 일반 회원가입</a>	
 	</div>
-	<br />
-	<button type="submit" class="btn-signup" onclick="enrollMemberInfo();">회원가입</button>
-</form>
-<form name="idCheckFrm"
-	action="<%= request.getContextPath() %>/member/memberIdCheck">
-	<input type="hidden" name="memberId" />
-</form>
-<form name="emailCertFrm"
-	action="<%= request.getContextPath() %>/member/memberEmailCert">
-	<input type="hidden" name="memberEmail" />
-	<input type="hidden" name="memberName" />
-</form>
+	<input type="hidden" class="showValid" value = "0" />
+	<div class="sign-up-frm-wrapper">
+		<form class="form" id="signupFrm" name="signUpFrm" method="POST">
+			<p class="signupTitle">회원정보 입력</p>
+			<div class="signupInfoNecessary">
+				<p class="input_id">아이디<span class="neccesary-star">*</span>
+				</p>
+				<div class="row_area">
+					<div class="input_wrapper_check">
+						<div class="input_container" name="id-cont">
+							<input type="text" id="id" name="id" placeholder="아이디 입력(6~16자 영문)" tabindex="1" required >
+							<input type="hidden" id="idValid" value="0" />
+						</div>
+					</div>
+					<button type="button" onclick="openCheckId();" class="btn-id-check">중복확인</button>
+				</div>
+				<p class="input_password">비밀번호<span class="neccesary-star">*</span>
+				</p>
+				<div>
+					<span class="notice-pw-text">숫자/문자/특수문자 각1개 이상 포함하여 8~16자리를 입력해주세요.</span>
+				</div>
+				<div class="input_wrapper">
+					<div class="input_container" name="pw-cont">
+						<input type="password" id="password" name="password" placeholder="비밀번호 입력" tabindex="2" required>
+					</div>
+				</div>
+				<div class="input_wrapper">
+					<div class="input_container" name="pwConf-cont">
+						<input type="password" id="password_confirm" name="password_confirm" placeholder="비밀번호 재입력" tabindex="3" required>
+					</div>
+				</div>
+				<p class="input_name">이름<span class="neccesary-star">*</span>
+				</p>
+				<div class="input_wrapper">
+					<div class="input_container" name="name-cont">
+						<input type="text" id="user_name" name="user_name" placeholder="이름 입력" tabindex="4" required>
+					</div>
+				</div>
+				<p class="input_nickname">닉네임<span class="neccesary-star">*</span>
+				</p>
+				<div class="input_wrapper">
+					<div>
+						<span class="notice-nick-text">다른 회원과 겹치지 않는 별명을 입력해주세요.(2~15자)</span>
+					</div>
+					<div class="input_container" name="nickname-cont">
+						<input type="text" id="user_nickname" name="user_nickname" placeholder="별명 (2~15자)" tabindex="5" required>
+					</div>
+					<div class="input_container" id="nickname-hidden-msg">
+						
+					</div>
+				</div>
+				<p class="input_phone">휴대폰 번호<span class="neccesary-star">*</span>
+				</p>
+				<div class="input_wrapper">
+					<div class="input_container" name="phone-cont">
+						<input type="tel" id="phone" name="phone" placeholder="휴대폰 번호 입력(- 없이)" tabindex="6" required>
+					</div>
+				</div>
+				<p class="input_email" name="email-cont">
+					이메일 <span class="neccesary-star">*</span>
+				</p>
+				<div class="row_area">
+					<div class="input_wrapper_check">
+						<div class="input_container">
+							<input type="text" id="email" name="email" placeholder="이메일 입력" tabindex="7" required >
+							<input type="hidden" id="emailValid" value="0" />
+						</div>
+					</div>
+					<button onclick="openEmailCert()" type="button" class="btn_blue_id-email">본인 인증</button>
+				</div>
+						<p class="input_id">배송지 주소</p>
+				<div class="row_area">
+					<div class="address">
+						<div class="input_container_postCode">
+							<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly>
+						</div>
+					</div>
+					<button onclick="searchAddress();" type="button" class="btn_blue">주소 찾기</button>
+				</div>
+				<div class="row_area">
+					<div class="address-wrapper">
+						<div class="input_container">
+							<input type="text" id="address" name="address" placeholder="기본주소" readonly>
+						</div>
+						<div class="input_container">
+							<input type="text" id="address_detail" name="address_detail"placeholder="상세주소">
+						</div>
+						<div class="input_container">
+							<input type="text" id="extraAddress" name="extraAddress" placeholder="참고사항" readonly>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="signupInfoOption">
+				<div class="signupInfoOptionTitle">
+					<p class="signupTitle">선택사항 입력</p>
+					<hr>
+				</div>
+		
+				<p class="input_birth">생년월일</p>
+				<div class="row_area_bir">
+					<div class="input_container_birth">
+						<div id="birth_year">
+							<input type="number" id="year" name="year" min="1900" max="" placeholder="년">
+						</div>
+						<span class="birth-text">년</span>
+					</div>
+					<div class="input_container_birth">
+						<div id="birth_month">
+							<select id="month" name="month">
+								<option>월</option>
+								<option value="01">1</option>
+								<option value="02">2</option>
+								<option value="03">3</option>
+								<option value="04">4</option>
+								<option value="05">5</option>
+								<option value="06">6</option>
+								<option value="07">7</option>
+								<option value="08">8</option>
+								<option value="09">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</select>
+						</div>
+						<span class="birth-text">월</span>
+					</div>
+					<div class="input_container_birth">
+						<div id="birth_day">
+							<input type="number" id="day" name="day" min = "1" max="31" placeholder="일">
+						</div>
+						<span class="birth-text">일</span>
+					</div>
+				</div>
+				<p class="input_gender">성별</p>
+				<div class="input_wrapper-gender">
+					<div class="input_container-gender">
+						<input type="radio" name="gender" value="M" id="gender-male"> 
+						<span>
+							<label for="gender-male">남</label>
+						</span> 
+						<input type="radio" name="gender" value="F" id="gender-female"> 
+						<span id="gender-f-text">
+							<label for="gender-female">여</label>
+						</span>
+					</div>
+				</div>
+			</div>
+			<br />
+			<input type="hidden" id="socialType" name="socialType" value="non" >
+			<button type="submit" class="btn-signup" onclick="enrollMemberInfo();">회원가입</button>
+		</form>
+		<form name="idCheckFrm"
+			action="<%= request.getContextPath() %>/member/memberIdCheck">
+			<input type="hidden" name="memberId" />
+		</form>
+		<form name="emailCertFrm"
+			action="<%= request.getContextPath() %>/member/memberEmailCert">
+			<input type="hidden" name="memberEmail" />
+			<input type="hidden" name="memberName" />
+		</form>
+	</div>
+	</div>
 <script>
+showSignUpFrm = () => {
+	let changeVal = document.querySelector(".showValid").value;
+	if(changeVal == 0){
+		document.querySelector(".sign-up-frm-wrapper").style.display = "block";
+		document.querySelector(".showValid").value = 1;
+	}
+	else{
+		document.querySelector(".sign-up-frm-wrapper").style.display = "none";
+		document.querySelector(".showValid").value = 0;
+	}
+}
+
 
 window.onload = () =>{
 	const today = new Date();
@@ -181,8 +206,8 @@ const openCheckId = () => {
 		alert("아이디가 입력되지 않았습니다.");
 	      return false;
 	}
-    if(!/^[a-zA-Z0-9]{6,16}$/.test(useridVal)){
-        alert('규칙에 맞게 아이디를 6-16자 사이의 숫자를 포함하는 영문자로 만들어 주세요.');
+    if(!/^[a-zA-Z0-9]{5,16}$/.test(useridVal)){
+        alert('규칙에 맞게 아이디를 5-16자 사이의 영문자(숫자 포함 가능)로 만들어 주세요.');
         return false;
     }
 	const title = "MemberIdCheckPopup";

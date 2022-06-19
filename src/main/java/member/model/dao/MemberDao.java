@@ -43,10 +43,10 @@ public class MemberDao {
 		member.setEmail(rset.getString("email"));
 		member.setBirthday(rset.getDate("birthday"));
 		member.setGender(rset.getString("gender"));
+		member.setSocialType(rset.getString("member_social"));
 		member.setEnrollDate(rset.getDate("enroll_date"));
 		return member;
 	}
-
 	public List<Member> findAllMembers(Connection conn, Map<String, Object> pageBarPoint) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -156,7 +156,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = prop.getProperty("insertMember");
-		
+		System.out.println("Dao : socialType = " + member.getSocialType());
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());
@@ -168,6 +168,7 @@ public class MemberDao {
 			pstmt.setString(7, member.getEmail());
 			pstmt.setDate(8, member.getBirthday());
 			pstmt.setString(9, member.getGender());
+			pstmt.setString(10, member.getSocialType());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new MemberException("회원 가입 오류", e);
@@ -239,7 +240,6 @@ public class MemberDao {
 		}
 		return member;
 	}
-
 	public int resetPasswordOfMember(Connection conn, Member member) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -256,4 +256,112 @@ public class MemberDao {
 		}
 		return result;
 	}
+ 
+
+	/**
+	 * update member set 
+	 * member_name = ?, nickname = ? , phone = ?, email = ? , gender = ?
+	 * where member_id = ?
+	 */
+	public int updateMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("updateMember");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getMemberName());
+			pstmt.setString(5, member.getNickname());
+			pstmt.setString(4, member.getPhone());
+			pstmt.setString(3, member.getEmail());
+			pstmt.setString(2, member.getGender());
+			pstmt.setString(6, member.getMemberId());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new MemberException("회원정보수정 오류", e);
+		} finally {			
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updatePassword(Connection conn, Member member) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updatePassword");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new MemberException("비밀번호 수정 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteMember(Connection conn, String member) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteMember"); 
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new MemberException("회원탈퇴 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public List<Member> findBySomething(Connection conn, Map<String, String> searchParam) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<Member> searchList = new ArrayList<>();
+		String sql = prop.getProperty("findBySomething");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Member member = handleMemberResultSet(rset);
+				searchList.add(member);
+			}
+			
+		} catch (Exception e) {
+			throw new AdminException("관리자 회원 검색 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return searchList;
+	}
+
+	public int getFindContents(Connection conn, Map<String, String> searchParam) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int findContents = 0;
+		String sql = prop.getProperty("getFindContents");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next())
+				findContents = rset.getInt(1);  
+		} catch (Exception e) {
+			throw new AdminException("검색회원수 조회 오류!", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return findContents;
+	}
+
 }

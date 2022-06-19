@@ -45,14 +45,12 @@ public class AdminMemberListServlet extends HttpServlet {
 			// 2. 업무로직
 			// 2.1. content 영역
 			List<Member> memberList = memberService.findAllMembers(pageBarPoint);
-			System.out.println("memberList = " + memberList);
 			
 			// 2.2. page bar 영역
 			int totalContents = memberService.getTotalContents();
 			String url = request.getRequestURI(); 
 			String pagebar = HomeSweetHomeUtils.getPagebar(cPage, numPerPage, totalContents, url);
-			System.out.println("pagebar = " + pagebar);
-			
+	
 			// 3. view단 처리
 			request.setAttribute("memberList", memberList);
 			request.setAttribute("pagebar", pagebar);

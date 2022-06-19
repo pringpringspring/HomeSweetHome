@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.QnaBoardExt"%>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 <%
 List<QnaBoardExt> list = (List<QnaBoardExt>) request.getAttribute("list");
 %>
@@ -29,7 +29,7 @@ List<QnaBoardExt> list = (List<QnaBoardExt>) request.getAttribute("list");
 					src="<%=request.getContextPath()%>/images/file.png" alt="" /> <%
  }
  %>			
-				<br><%=board.getMemberId()%>&nbsp;&nbsp; 
+				<br><%=board.getNickName()%>&nbsp;&nbsp; 
 				<%=board.getRegDate() %>
 <%-- 				댓글 
 				<% if ( board.getCommentCount()  > 0 )  {   

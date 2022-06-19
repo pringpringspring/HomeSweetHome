@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import community.model.dto.Attachment;
 import community.model.dto.Event;
 import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
 import community.model.exception.EventException;
+import community.model.exception.QnaBoardException;
+import community.model.exception.QnaNoticeException;
 
 
 public class EventDao {
@@ -98,19 +101,21 @@ public class EventDao {
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, event.getEventId());
-				pstmt.setString(2, event.getEventTitle());
+				pstmt.setString(2,event.getEventTitle());
 				pstmt.setString(3, event.getEventContent());
-				pstmt.setDate(4, event.getsDate());
-				pstmt.setDate(5, event.geteDate());
-				pstmt.setString(6,event.getTitlefileName());
+				pstmt.setDate(4,event.getsDate());
+				pstmt.setDate(5,event.geteDate());
+				pstmt.setString(6, event.getTitlefileName());
+				
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
-				throw new EventException("이벤트 등록 오류", e);
+				throw new EventException("게시글 등록 오류", e);
 			} finally {
 				close(pstmt);
 			}
 			return result;
-		} 
+		}
+		
 
 	 	public int findCurrentBoardNo(Connection conn) {
 			PreparedStatement pstmt = null;
@@ -139,11 +144,9 @@ public class EventDao {
 			String sql = prop.getProperty("insertAttachment");
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, attach.getNo());
-				pstmt.setString(2, attach.getEventId());				
-				pstmt.setString(3, attach.getOriginal_filename());
-				pstmt.setString(4, attach.getRenamed_filename());
-				pstmt.setInt(5, attach.getNo());
+				pstmt.setString(1, attach.getOriginal_filename());
+				pstmt.setString(2, attach.getRenamed_filename());
+				pstmt.setInt(3, attach.getEventNo());
 				result = pstmt.executeUpdate();
 			} catch (Exception e) {
 				throw new EventException("첨부파일 등록 오류", e);
@@ -182,7 +185,7 @@ public class EventDao {
 			ResultSet rset = null;
 			List<EventAttachment> att = new ArrayList<>();
 			String sql = prop.getProperty("findAttachmentByBoardNo");
-			
+
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
@@ -191,12 +194,13 @@ public class EventDao {
 					EventAttachment attach = handleAttachmentResultSet(rset);
 					att.add(attach);
 				}
-			}catch (SQLException e) {
-				throw new EventException("이벤트 게시글 번호에 의한 첨부파일 조회 오류"); 
-			}finally{
+			} catch (SQLException e) {
+				throw new EventException("게시글 번호에 의한 첨부파일조회 오류", e);
+			} finally {
 				close(rset);
 				close(pstmt);
 			}
+
 			return att;
 		}
 
@@ -204,15 +208,93 @@ public class EventDao {
 		private EventAttachment handleAttachmentResultSet(ResultSet rset) throws SQLException {
 			EventAttachment att = new EventAttachment();
 			att.setNo(rset.getInt("no"));
-			att.setEventId(rset.getString("event_id"));
 			att.setOriginal_filename(rset.getString("original_filename"));
 			att.setRenamed_filename(rset.getString("renamed_filename"));
 			att.setEventNo(rset.getInt("event_no"));
 			return att;
 		}
+
+		public int updateBoard(Connection conn, EventExt event) {
+			PreparedStatement pstmt = null;
+			int result = 0;
+			String sql = prop.getProperty("updateBoard");
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, event.getEventTitle());
+				pstmt.setString(2, event.getEventContent());
+				pstmt.setInt(3, event.getNo());
+				result = pstmt.executeUpdate();
+			} catch (Exception e) {
+				throw new EventException("게시글 수정 오류", e);
+			} finally {
+				close(pstmt);
+			}
+			return result;
+		}
+
+
+		public EventAttachment findAttachmentByNo(Connection conn, int no) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			EventAttachment attach = null;
+			String sql = prop.getProperty("findAttachmentByNo");
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, no);
+				rset = pstmt.executeQuery();
+				if (rset.next())
+					attach = handleAttachmentResultSet(rset);
+
+			} catch (SQLException e) {
+				throw new EventException("첨부파일 조회 오류", e);
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			return attach;
+		}
 		
+		public int deleteAttachment(Connection conn, int no) {
+			int result = 0;
+			PreparedStatement pstmt = null;
+			String sql = prop.getProperty("deleteAttachment");
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, no);
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new EventException("첨부파일 삭제 오류", e);
+			} finally {
+				close(pstmt);
+			}
+			return result;
+		}
 		
-		
-		
+		public int deleteBoard(Connection conn, int no) {
+			int result = 0;
+			PreparedStatement pstmt = null;
+			String query = prop.getProperty("deleteBoard");
+
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, no);
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new EventException("게시글 삭제 오류", e);
+			} finally {
+				close(pstmt);
+			}
+
+			return result;
+		}
+
+
+
+
+
+
+
 		
 }

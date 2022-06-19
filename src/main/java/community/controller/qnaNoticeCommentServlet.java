@@ -27,9 +27,10 @@ public class qnaNoticeCommentServlet extends HttpServlet {
 			int commentRef = Integer.parseInt(request.getParameter("commentRef"));
 			String memberId = request.getParameter("memberId");
 			String content = request.getParameter("content");
+			String nickName = request.getParameter("nickName");
 			
 			QnaNoticeComment nc = 
-			new QnaNoticeComment(0, memberId, noticeNo, content, null,0,commentLevel, commentRef);
+			new QnaNoticeComment(0, memberId, nickName, noticeNo, content, null,0,commentLevel, commentRef);
 			System.out.println("noticeComment = " + nc);
 			
 			
