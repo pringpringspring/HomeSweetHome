@@ -1,49 +1,35 @@
 
-#menu{
-	border-left: 10px solid black;
-}
-#menu a{
-	display: block;
-	color: #fff;
-}
-.M01 {
-	margin-left: 20px;
-	width: 300px;
-	background: #000;
-}
-.M01>li, .M02>li, .M03>li{
-	position: relative;
-	width: 100%;
-	height: 50px;
-	background: #000;
-	text-align: center;
-	line-height: 50px;
-}
-.M01>li:hover .M02 {
-	left: 250px;
-}
-.M01>li a:hover {
-	display: block;
-	background: #AB06AD;
-}
-.M02, .M03 {
-	width: 200px;
-	background: black;
-	position: absolute;
-	top: 0;
-	left: -9999px;
-}
-.M02>li:hover .M03 {
-	left: 150px;
-}
-.M02>li a:hover {
-	display: block;
-	background: red;
-}
-.M03>li a:hover {
-	display: block;
-	background: blue;
-}
+* {
+  margin:0;
+  padding: 0;
+  }
+.menu {
+  list-style: none;
+  width: 500px;
+  border: 3px solid #999;
+  margin: 10px;
+  }
+.menu li {
+  padding: 10px 0 0 10px;
+  border-top: 1px solid #999;
+  margin-bottom: 10px;
+  }
+.menu li:first-child {
+  border-top: 0;
+  }
+.menu li a {
+  height: 20px;
+  line-height: 20px;
+  display: block;
+  text-decoration: none;
+  color: white;
+  }
+.menu li p {
+  color: #555;
+  display: none;
+  line-height: 2;
+  padding-top: 10px;
+  }
 
 /* 그리드 이미지 */
 .grid-image {

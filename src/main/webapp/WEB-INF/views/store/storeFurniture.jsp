@@ -116,7 +116,7 @@
     </div>
 
     
-	<h2 align="center" style="margin-top:100px;"> 실시간 베스트 </h2>	
+	<h2 align="center" style="margin-top:100px;"> 가구 </h2>	
 		
 
 

@@ -20,7 +20,16 @@
 <style>
 .carousel-inner img {
     width: 100%;
-    height: 50%;
+    height: 100%;
+}
+.carousel-item {
+  height: 500px;;
+  min-height: 200px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 </style>
@@ -28,11 +37,12 @@
 
 <head>
 
+
 	<h2 align="center" style="margin-top:100px;"> 카테고리 페이지 입니다.</h2>	
-			
+	
 </head>	
-<body leftmargin="300" >
-	<div class="container mt-3">
+<body>
+	<div style="width: 100%" class="container">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <ul class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -41,16 +51,16 @@
             </ul>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <a href="http://www.naver.com"><img src="/images/11.jpg" alt="first" width="1000" height="500"></a>
+                    <a href="#"><img src="<%= request.getContextPath()%>/images/11.jpg" alt="first" width="1000" height="500"></a>
                 </div>
                 <div class="carousel-item">
-                    <a href="#"><img src="/images/2.png" alt="second" width="1000" height="500"></a>
+                    <a href="#"><img src="<%= request.getContextPath()%>/images/22.jpg" alt="second" width="700" height="500"></a>
                 </div>
                 <div class="carousel-item">
-                    <a href="#"><img src="/images/3.png" alt="thrid" width="1000" height="<5></5>00"></a>
+                    <a href="#"><img src="<%= request.getContextPath()%>/images/33.jpg" alt="thrid" width="700" height="500"></a>
                 </div>
             </div>
-            <!-- Left and right controls -->
+            <!-- 좌우 화살표, 방향키 -->
             <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </a>
@@ -61,12 +71,12 @@
     </div>
 
     
-	<h2 align="left" style="margin-top:100px;"> 공간별 가구찾기 </h2>	
+	<h2 align="center" style="margin-top:100px;"> 공간별 가구찾기 </h2>	
 		
-	<div class="grid-image" align="center">
-	 	<a href="http://www.naver.com"><img alt="first" src="/images/11.jpg" /></a>
- 		<a href="#"><img alt="second" src="/images/22.jpg" />
-		<a href="#"><img alt="third" src="/images/33.jpg" />
+	<div align="center">
+	 	<a href="#"><img alt="first" src="<%= request.getContextPath()%>/images/livingroom.png" width="100" height="100" /></a>
+ 		<a href="#"><img alt="second" src="<%= request.getContextPath()%>/images/kitchen.jpg" width="100" height="100" /></a>
+		<a href="#"><img alt="third" src="<%= request.getContextPath()%>/images/room.png" width="100" height="100" /></a>
 	</div>
     
     
