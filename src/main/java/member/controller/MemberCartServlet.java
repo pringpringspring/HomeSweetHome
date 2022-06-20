@@ -1,13 +1,22 @@
 package member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import cart.model.dto.Cart;
+import cart.model.service.CartService;
+import member.model.dto.Member;
+import product.model.dto.ProductExt;
+import product.model.service.ProductService;
+
 
 /**
  * Servlet implementation class MemberCartServlet
@@ -20,9 +29,39 @@ public class MemberCartServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 내정보 보기 페이지
-		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberCart.jsp");
-		reqDispatcher.forward(request, response);	
+		try {
+			CartService cartService = new CartService();
+			ProductService productService = new ProductService();
+			HttpServletRequest httpReq = (HttpServletRequest) request; 
+			HttpServletResponse httpRes = (HttpServletResponse) response; 
+			
+			// 로그인객체 아이디 정보 가져오기
+			HttpSession session = httpReq.getSession();
+			Member loginMember = (Member) session.getAttribute("loginMember");
+			Member socialMember = (Member) session.getAttribute("socialMember");
+			System.out.println("/member/cart@ loginMember " + loginMember);
+			String memberId = loginMember.getMemberId();
+			
+//			// 2. 업무로직
+			List<Cart> cartList = cartService.findCartsByMemberId(memberId);
+			System.out.println("cartList@ = " + cartList);
+			List<ProductExt> productList = new ArrayList<>();
+			for(Cart cart : cartList) {
+				productList.add(productService.findProductByProductId(cart.getProductId())); // cartList로 찾아온 productId				
+			}
+			System.out.println("prouctList@ = " + productList);
+
+			
+//			// 3. view단 처리
+			request.setAttribute("cartlist", cartList);
+			request.setAttribute("productlist", productList);
+			request.getRequestDispatcher("/WEB-INF/views/cart/cartView.jsp")
+				.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 	}
 
 }

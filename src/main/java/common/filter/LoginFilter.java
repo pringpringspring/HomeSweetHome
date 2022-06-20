@@ -22,7 +22,9 @@ import member.model.dto.Member;
 		/*
 		 * "/member/memberView", "/member/memberUpdate", "/member/memberDelete",
 		 * "/member/passwordUpdate", "/board/boardEnroll", "/board/boardUpdate",
-		 * "/board/boardDelete", "/member/mypage"
+		 * "/board/boardDelete", "/member/mypage", "/member/cart", "/member/mypointPage"
+		 * "/member/nickCheck", "/member/nicknameCheck", "/member/memberPassword", 
+		 * "/member/shopPage", "/member/adminChat",
 		 */
 })
 public class LoginFilter implements Filter {
