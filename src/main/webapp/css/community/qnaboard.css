@@ -75,6 +75,10 @@ table#tbl-board-view td {
 	padding: 5px 0 5px 15px; 
 	text-align:left;
 } */
+.search-board-container>h1{margin-left: 10rem;}
+
+
+
 
 
 /*게시글 수정하기*/
