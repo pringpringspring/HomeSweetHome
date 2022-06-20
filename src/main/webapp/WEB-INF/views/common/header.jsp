@@ -23,7 +23,34 @@
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
 <link rel="icon" href="<%=request.getContextPath() %>/images/hshlogo.JPG">
 <title>Home Sweet Home</title>
-
+<!-- 고두현 css 시작 -->
+<style>
+.nav-counter {
+ position:absolute;
+ top: -1px;
+ right: -0.5rem;
+ min-width: 8px;
+ height: 20px;
+ line-height: 20px;
+ margin-top: -11px;
+ padding: 0 6px;
+ font-weight: normal;
+ font-size: small;
+ color: white;
+ text-align: center;
+ text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+ background: #e23442;
+ border: 1px solid #911f28;
+ border-radius: 11px;
+ background-image: -webkit-linear-gradient(top, #e8616c, #dd202f);
+ background-image: -moz-linear-gradient(top, #e8616c, #dd202f);
+ background-image: -o-linear-gradient(top, #e8616c, #dd202f);
+ background-image: linear-gradient(to bottom, #e8616c, #dd202f);
+ -webkit-box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+ box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+}
+</style>
+<!-- 고두현 css 끝 -->
 <script>
 window.onload = () => {
 <% if(msg != null){ %>
@@ -191,12 +218,15 @@ function logoutWithKakao() {
 									<div class="login-member-menu-wrapper">
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
 											<img class="scrap-btn" src= "<%=request.getContextPath() %>/images/bookmark-white.png;" />
+													<span class="nav-counter">2</span>
 										</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/notification">
 											<img class="notification-btn" src= "<%=request.getContextPath() %>/images/notification.png;" />
+													<span class="nav-counter">1</span>
 										</a> 
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/cart">
-											<img class="member-cart-btn" src= "<%=request.getContextPath() %>/images/cart.png;">
+												<img class="member-cart-btn" src= "<%=request.getContextPath() %>/images/cart.png;">
+													<span class="nav-counter">3</span>
 										</a>
 										<div class="member-menu-cont">
 											<div class="member-menu-cont-wrapper">

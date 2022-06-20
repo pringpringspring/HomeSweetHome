@@ -164,6 +164,7 @@ public class ProductService {
 		close(conn);
 		return brandList;
 	}
+	
 
 	public List<ProductIOExt> findAllProductsIO(Map<String, Object> pageBarPoint) {
 		Connection conn = getConnection();

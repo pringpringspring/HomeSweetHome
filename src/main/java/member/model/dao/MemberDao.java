@@ -157,6 +157,7 @@ public class MemberDao {
 		int result = 0;
 		String sql = prop.getProperty("insertMember");
 		System.out.println("Dao : socialType = " + member.getSocialType());
+		System.out.println(member.getMemberRole().toString());
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());

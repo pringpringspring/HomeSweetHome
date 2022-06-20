@@ -1,4 +1,4 @@
-package member.controller;
+package purchase.controller;
 
 import java.io.IOException;
 
@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MemberMypageServlet
+ * Servlet implementation class CartPurchaseServlet
  */
-@WebServlet("/member/mypage")
-public class MemberMypageServlet extends HttpServlet {
+@WebServlet("/purchase/cartPurchase")
+public class CartPurchaseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 내정보 보기 페이지
-		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/member/memberMypage.jsp");
-		reqDispatcher.forward(request, response);
+		// 구매 페이지
+		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/purchase/purchaseView.jsp");
+		reqDispatcher.forward(request, response);		
 	}
-
 
 }
