@@ -13,13 +13,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import admin.model.exception.AdminException;
+import member.model.dto.Member;
 import member.model.exception.MemberException;
 import product.model.dto.Product;
 import product.model.dto.ProductBrand;
 import product.model.dto.ProductExt;
+import product.model.dto.ProductIO;
+import product.model.dto.ProductIOExt;
 import product.model.dto.ProductImage;
 import product.model.dto.ProductMainCode;
 import product.model.dto.ProductSubCode;
+import product.model.dto.Status;
 import product.model.exception.ProductException;
 
 public class ProductDao {
@@ -59,6 +64,18 @@ public class ProductDao {
 		img.setRenamedFilename(rset.getString("renamed_filename"));
 		img.setRegDate(rset.getDate("reg_date"));
 		return img;
+	}
+	
+	private ProductIOExt handleProductIOExtResultSet(ResultSet rset) throws SQLException {
+		ProductIOExt productIOExt = new ProductIOExt();
+		productIOExt.setProductName(rset.getString("product_name"));
+		productIOExt.setNo(rset.getInt("no"));
+		productIOExt.setProductId(rset.getString("product_id"));
+		productIOExt.setCount(rset.getInt("count"));
+		productIOExt.setStatus(Status.valueOf(rset.getString("status")));
+		productIOExt.setIoDateTime(rset.getTimestamp("io_datetime"));
+		productIOExt.setStock(rset.getInt("stock"));
+		return productIOExt;
 	}
 
 	public List<ProductExt> findAllProducts(Connection conn, Map<String, Object> param) {
@@ -392,6 +409,227 @@ public class ProductDao {
 		return brandList;
 	}
 
+	public List<ProductIOExt> findAllProductsIO(Connection conn, Map<String, Object> pageBarPoint) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductIOExt> productIOList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductsIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (int) pageBarPoint.get("start"));
+			pstmt.setInt(2, (int) pageBarPoint.get("end"));
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductIOExt ProductIOExt = handleProductIOExtResultSet(rset);
+				productIOList.add(ProductIOExt);
+			}
+		} catch (Exception e) {
+			throw new ProductException("관리자 상품 입출고 리스트 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productIOList;
+	}
+
+	public int getTotalProductsIO(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalProductsIO = 0;
+		String sql = prop.getProperty("getTotalProductsIO");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				totalProductsIO = rset.getInt(1);
+			}
+		} catch (Exception e) {
+			throw new ProductException("총 상품 입출고수 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return totalProductsIO;
+	}
+
+	public List<ProductExt> findAllProductForSearch(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductForSearch");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductExt product = handleProductResultSet(rset);
+				productList.add(product);
+			}
+		} catch (Exception e) {
+			throw new ProductException("관리자 상품명검색을 위한 전체 상품 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productList;
+	}
+
+	public int enrollProductIO(Connection conn, ProductIO productIO) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("enrollProductIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productIO.getProductId());
+			pstmt.setInt(2, productIO.getCount());
+			pstmt.setString(3, productIO.getStatus().toString());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new ProductException("상품 입출고 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int enrollProductStock(Connection conn, String productId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("enrollProductStock");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new ProductException("상품 재고 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public List<ProductIOExt> findAllProductsIOBySomething(Connection conn, Map<String, String> param) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductIOExt> productIOExtList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductsIOBySomething");
+		sql = sql.replace("#", param.get("searchType"));
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, param.get("maincode"));
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductIOExt productIOExt = handleProductIOExtResultSet(rset);
+				productIOExtList.add(productIOExt);
+			}
+		} catch (Exception e) {
+			throw new ProductException("관리자 상품 입출고 분류별 리스트 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productIOExtList;
+	}
+
+	public List<ProductIOExt> findBySomething(Connection conn, Map<String, String> searchParam) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductIOExt> productIOExtList = new ArrayList<>();
+		String sql = prop.getProperty("findBySomething");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ProductIOExt productIOExt = handleProductIOExtResultSet(rset);
+				productIOExtList.add(productIOExt);
+			}
+			
+		} catch (Exception e) {
+			throw new ProductException("관리자 상품 입출고 기록 검색 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productIOExtList;
+	}
+
+	public int getSearchProductsIOContent(Connection conn, Map<String, String> searchParam) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int findContents = 0;
+		String sql = prop.getProperty("getSearchProductsIOContent");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next())
+				findContents = rset.getInt(1);  
+		} catch (Exception e) {
+			throw new ProductException("검색 상품 입출고수 조회 오류!", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return findContents;
+	}
+
+	public List<ProductExt> findAllProductsBySomething(Connection conn, Map<String, String> searchParam, Map<String, Object> pageBarPoint) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productExtList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductsBySomething");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		System.out.println("Sql@DaO = " + sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ProductExt productExt = handleProductResultSet(rset);
+				productExtList.add(productExt);
+			}
+			
+		} catch (Exception e) {
+			throw new ProductException("관리자 상품 검색 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productExtList;
+	}
+
+	public int getSearchProductsContent(Connection conn, Map<String, String> searchParam) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int findContents = 0;
+		String sql = prop.getProperty("getSearchProductsContent");
+		sql = sql.replace("#", searchParam.get("searchType"));
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchParam.get("searchKeyword") + "%");
+			rset = pstmt.executeQuery();
+			while(rset.next())
+				findContents = rset.getInt(1);  
+		} catch (Exception e) {
+			throw new ProductException("검색 상품수 조회 오류!", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return findContents;
+	}
 
 
 

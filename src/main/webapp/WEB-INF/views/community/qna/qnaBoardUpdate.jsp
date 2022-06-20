@@ -7,7 +7,7 @@
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 
 <section id="board-container">
 <form 
@@ -24,7 +24,8 @@
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="text" name="nickName" value="<%= board.getNickName() %>" readonly/>
 		</td>
 	</tr>
 	

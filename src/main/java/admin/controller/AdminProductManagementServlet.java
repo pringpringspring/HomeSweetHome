@@ -33,8 +33,7 @@ public class AdminProductManagementServlet extends HttpServlet {
 			
 			try {
 				cPage = Integer.parseInt(request.getParameter("cPage"));
-			} catch (NumberFormatException e) {
-			}
+			} catch (NumberFormatException e) {}
 			
 			Map<String, Object> pageBarPoint = new HashMap<>();
 			int start = (cPage - 1) * numPerPage + 1;
@@ -44,7 +43,7 @@ public class AdminProductManagementServlet extends HttpServlet {
 			
 			// 2. 업무로직
 			// 2.1. content 영역
-			List<ProductExt> productsList = productService.findAllProducts(pageBarPoint);
+			List<ProductExt> productsExtList = productService.findAllProducts(pageBarPoint);
 			
 			// 2.2. page bar 영역
 			int totalContents = productService.getTotalProducts();
@@ -52,7 +51,7 @@ public class AdminProductManagementServlet extends HttpServlet {
 			String pagebar = HomeSweetHomeUtils.getPagebar(cPage, numPerPage, totalContents, url);
 	
 			// 3. view단 처리
-			request.setAttribute("productsList", productsList);
+			request.setAttribute("productsExtList", productsExtList);
 			request.setAttribute("pagebar", pagebar);
 			request.getRequestDispatcher("/WEB-INF/views/product/productsManage.jsp")
 					.forward(request, response);

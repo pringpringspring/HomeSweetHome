@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>    
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 
 <script>
 /**
@@ -44,7 +44,8 @@ window.onload = () => {
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= loginMember.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= loginMember.getMemberId() %>" readonly/>
+			<input type="text" name="nickName" value="<%= loginMember.getNickname() %>" readonly/>
 		</td>
 	</tr>
 	<tr>

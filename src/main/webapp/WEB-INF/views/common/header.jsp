@@ -17,9 +17,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Dongle:wght@300;400;700&family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/common.css" />
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>	
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.1.js" charset="utf-8"></script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+<link rel="icon" href="<%=request.getContextPath() %>/images/hshlogo.JPG">
 <title>Home Sweet Home</title>
 <!-- 고두현 css 시작 -->
 <style>
@@ -80,19 +82,27 @@ showSubMenu = () => {
 	}
 };
 
+<% if(loginMember != null){ 
+	String socialType = loginMember.getSocialType();
+	System.out.println("socialType = "  + loginMember.getSocialType());
+%>
+
+//구글
+  window.onload = function() {
+    google.accounts.id.initialize({
+      client_id: "876270899044-a3f5488k6dks11e8h33suurud5ov5am7.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+}
+
 //네이버 로그인
 const naverLogOut = new naver.LoginWithNaverId({
 			clientId: "pEzgO6fzteyhuwakBpZd",	
 			} );
 naverLogOut.init(); 
 
-
-<% if(loginMember != null){ 
-		String socialType = loginMember.getSocialType();
-		System.out.println("socialType = "  + loginMember.getSocialType());
-		%>
 			
-		
+Kakao.init('e8297c1ed4b33061177ef12c15580963'); 		
 function signOut() {
 	const memberSocialType = "<%= socialType %>";	
 	const kakao = "kakao";
@@ -102,36 +112,34 @@ function signOut() {
 	//카카오로그아웃  
 	if(kakao === memberSocialType){
 		console.log(memberSocialType);
-		//logoutWithKakao();			
+		logoutWithKakao();			
 	}
 	else if(google === memberSocialType){
 		console.log(memberSocialType);
-		//  google.accounts.id.disableAutoSelect();
+		location.href = "https://mail.google.com/mail/u/0/?logout&hl=en";
 	}
 	else if(naver === memberSocialType){
 		naverLogOut.logout();
-		open("http://nid.naver.com/nidlogin.logout", "popup", "width=700, height=850, top=300, left=200");	 
+		location.href = "http://nid.naver.com/nidlogin.logout";	 
+
 	}
 
-	location.href="<%= request.getContextPath() %>/member/signout";
+	 location.href="<%= request.getContextPath() %>/member/signout"; 
 }
-	<% } %>
+
 // 카카오 로그아웃
 function logoutWithKakao() {
- 	if (Kakao.Auth.getAccessToken()) {
-	    Kakao.API.request({
-	      url: '/v1/user/unlink',
-	      success: function (response) {
-	      	console.log(response)
-	      },
-	      fail: function (error) {
-	        console.log(error)
-	      },
-	    })
-	    Kakao.Auth.setAccessToken(undefined)
-	  } 
+	 Kakao.API.request({
+		    url: '/v1/user/access_token_info',
+		    success: function (response) {
+				Kakao.Auth.logout();
+		    },
+		    fail: function (error) {
+                console.log(error)
+              }
+	 });
 }  
-
+<% } %>
 </script>
 </head>
 	
@@ -145,7 +153,7 @@ function logoutWithKakao() {
 							<a class="home-menu" href="<%= request.getContextPath() %>">Home Sweet Home</a>
 						</div>
 						<div class="main-nav-wrapper2">
-							<a class="community-menu" href="<%= request.getContextPath() %>/community/communityMain"> 
+							<a class="community-menu" href="<%= request.getContextPath() %>/community/home"> 
 							<span class="main-nav-community">커뮤니티</span>
 							</a> 
 							<a class="store-menu" href="<%= request.getContextPath() %>/store/storeMain"> 
@@ -171,8 +179,8 @@ function logoutWithKakao() {
 											<image class="common-cart-btn" src= "<%=request.getContextPath() %>/images/cart.png;">
 										</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/SignInPage">로그인</a>
+										<a class="member-menu" href="<%= request.getContextPath() %>/customerservice/cscenter">고객센터</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/signUpPage">회원가입</a> 
-										<a class="member-menu" href="<%= request.getContextPath() %>/customerCenter/main">고객센터</a>
 									</div>
 								<% } else if(loginMember != null && loginMember.getMemberRole() == MemberRole.A) { %>
 									<div class="login-admin-menu-wrapper">
@@ -189,13 +197,16 @@ function logoutWithKakao() {
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/statistics">통계확인</a>
 												</li>
 												<li class="admin-sub-menu">
-													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productManagement">상품 재고관리</a>
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productIOManagement">상품 재고관리</a>
 												</li>
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/eventManagement">이벤트관리</a>
 												</li>
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/announcement">공지사항</a>
+												</li>
+												<li class="admin-sub-menu">
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/customerservice/cscenter">고객센터</a>
 												</li>
 											</ul>
 										</div> 
@@ -219,17 +230,18 @@ function logoutWithKakao() {
 										</a>
 										<div class="member-menu-cont">
 											<div class="member-menu-cont-wrapper">
-												<button type="button" id="btn-my-submenu" onclick="showSubMenu();">
+												<button type="button" id="btn-my-submenu" onclick="showSubMenu();" style="margin: 0;">
 													<img class="mypage-btn-img" src= "<%=request.getContextPath() %>/images/user.png;"/>
 												</button>
 												<input type="hidden" class="member-sub-menu-val" value="0" />
 												<div class="member-sub-menu">
 													<a class="member-menu" href="<%= request.getContextPath() %>/member/mypage">마이 페이지</a>
+													<a class="member-menu" href="<%= request.getContextPath() %>/customerservice/cscenter">고객센터</a>
 													<a class="member-menu" href="javascript:signOut()">로그아웃</a>
 												</div>
 											</div> 	
 											<span class="btn-write-container">
-												<button type="button" class="btn-write-menu">
+												<button type="button" class="btn-write-menu"  style="margin: 0; padding: 0;">
 													<span class="member-write">글쓰기 V</span> 
 													<span class="down-arrow">
 													</span>
@@ -276,7 +288,7 @@ function logoutWithKakao() {
 									</a>
 							</div>
 						</div>
-						<div class = store-menu-container>
+						<div class="store-menu-container">
 							<div class="store-menu-wrapper">
 									<a index="0" class="store-home-menu" href="<%= request.getContextPath() %>/store/storeMain">
 										<div class="store-home-wrapper">
@@ -310,4 +322,29 @@ function logoutWithKakao() {
 			</div>
 		</header>
 	</div>
+	<script>
+	window.onload = () =>{
+		
+		
+	}
+	
+	// 커뮤티니 메뉴와 스토어 메뉴 전환 자바스크립트
+	const styleShow = {"display" : "block"}
+	const styleHide = {"display" : "none"}
+
+	$(".community-menu").click = (e) => {
+		console.log(e);
+		//	$(this).css(styleShow);  
+		//	$(this).parent().children().eq(1).css(styleHide);  
+	}; 
+	
+	$(".store-menu").click = (e) => {
+		console.log($(this));
+			//$(this).css(styleShow);  
+		//	$(this).parent().children().eq(0).css(styleHide);  
+	}; 
+	
+
+	
+	</script>
 	<section id="content">

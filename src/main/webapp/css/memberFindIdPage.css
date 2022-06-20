@@ -18,9 +18,8 @@
     background-color: #fff;
 }
 
-.formContainer .btn:hover,
-.openButton:hover {
-    opacity: 1;
+.formContainer .btn:hover, .openButton:hover, .btn-cancel:hover {
+   background-color: #00B8F0
 }
 .pop-title-id { padding:0; margin: 0 auto;}
 .pop-title-id h2 {
@@ -125,7 +124,8 @@
 #emailId {
       margin-left: 0.9rem;
   }
-
+	#nameId:hover, #emailId:hover, #certificationCodeId:hover{background-color: #f7f9fa; }
+	#nameId:focus, #emailId:focus, #certificationCodeId:focus{border: 1px solid #34C5F0; outline:none;}
 .pop-cert-timer{ visibility: hidden; font-family:'Noto Sans KR', sans-serif; padding:0;} 
 .btn-inner {display:flex; justify-content: space-evenly; width: 18rem; margin: 0 auto; }
 .btn-inner button{ font-family: 'Dongle', sans-serif;

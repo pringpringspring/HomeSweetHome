@@ -70,8 +70,10 @@ public class MemberSignUpPageServlet extends HttpServlet {
 				Date birthday = null;
 				if(_birthday != null && !"".equals(_birthday))
 					birthday = Date.valueOf(_birthday);
-
-			Member member = new Member(memberId, password, memberName, nickname, MemberRole.U, phone, email, birthday, gender, "default", null);
+				
+				String socialType = request.getParameter("socialType");
+				
+			Member member = new Member(memberId, password, memberName, nickname, MemberRole.U, phone, email, birthday, gender, socialType, null);
 			Address addressInfo = new Address();
 			addressInfo.setMemberId(memberId);
 			addressInfo.setPostCode(postCode);
@@ -96,6 +98,7 @@ public class MemberSignUpPageServlet extends HttpServlet {
 
 			throw e;
 		}
+		
 	}
 
 }

@@ -9,22 +9,23 @@
 
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
+	QnaBoardComment qc = new QnaBoardComment();
 	List<QnaBoardComment> comments = board.getBoardComments();
 
 	boolean canEdit = loginMember != null 
-			&& (loginMember.getMemberId().equals(board.getMemberId()) 
+			&& (loginMember.getNickname().equals(board.getNickName()) 
 					|| loginMember.getMemberRole() == MemberRole.A);	
 	
 %>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 <section id="board-container">
 	<table id="tbl-board-view">
 	
 	<div class="title-view">
 	<h4>질문과 답변</h4>
 <h1><%= board.getTitle() %></h1>
-<h2><%= board.getMemberId() %></h2>
+<h2><%= board.getNickName() %></h2>
 <h2><%=board.getRegDate() %></h2>
 </div>
 
@@ -66,6 +67,7 @@
 				action="<%=request.getContextPath()%>/qna/qnaBoardComment" method="post" name="boardCommentFrm">
                 <input type="hidden" name="boardNo" value="<%= board.getNo() %>" />
                 <input type="hidden" name="memberId" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
+                <input type="hidden" name="nickName" value="<%= loginMember != null ? loginMember.getNickname() : "" %>" />
                 <input type="hidden" name="commentLevel" value="1" />
                 <input type="hidden" name="commentRef" value="0" />    
 				<textarea name="content" cols="60" rows="3" placeholder="댓글을 남겨 보세요."></textarea>
@@ -80,35 +82,38 @@
 				for (QnaBoardComment bc : comments){ 
 					
 					boolean canDelete = loginMember != null 
-							&& (loginMember.getMemberId().equals(bc.getMemberId()) 
+							&& (loginMember.getNickname().equals(bc.getNickName()) 
 									|| loginMember.getMemberRole() == MemberRole.A);
 							
+					System.out.println("bc.getCommentLevel() = " + bc.getCommentLevel());
 					if(bc.getCommentLevel() == 1){
 			%>
 				<tr class="level1">
 					<td>
-						<sub class="comment-writer"><%= bc.getMemberId() != null ? bc.getMemberId() : "(탈퇴회원)" %></sub>
+						<sub class="comment-writer"><%= bc.getNickName() != null ? bc.getNickName() : "(탈퇴회원)" %></sub>
 						<sub class="comment-date"><%= bc.getRegDate() %></sub>
 						<br />
 						<%= bc.getContent() %>
 					</td>
 					<td>
-					<form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
+					<%-- <form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
 						<button class="btn-like" value="<%= bc.getNo() %>" onclick="likeUpDown()">좋아요</button>
 						<input type="hidden" id="likememberId" name="memberId" value="<%=loginMember.getMemberId()%>"/>
 						<input type="hidden" id="likeno" name="cono" value="<%=bc.getNo()%>"/>
 						</form>
-						<div id="like_result"><%=bc.getLikeCnt() %></div>														
+						<div id="like_result"><%=bc.getLikeCnt() %></div>													 --%>	
 						<button class="btn-reply" value="<%= bc.getNo() %>">답글</button>
 						<% if(canDelete){ %>
 							<button class="btn-delete" value="<%= bc.getNo() %>">삭제</button>
 						<% } %>
 					</td>
 				</tr>
-			<% 		} else { %>
+			<% 		
+			} else { 
+			%>
 				<tr class="level2">
 					<td>
-						<sub class="comment-writer"><%= bc.getMemberId() != null ? bc.getMemberId() : "(탈퇴회원)" %></sub>
+						<sub class="comment-writer"><%= bc.getNickName() != null ? bc.getNickName(): "(탈퇴회원)" %></sub>
 						<sub class="comment-date"><%= bc.getRegDate() %></sub>
 						<br />
 						<%= bc.getContent() %>
@@ -201,14 +206,22 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		inputBoardNo.type = "hidden";
 		inputBoardNo.name = "boardNo";		
 		inputBoardNo.value = "<%= board.getNo() %>"
+		
 		const inputMemberId = document.createElement("input");
 		inputMemberId.type = "hidden";
 		inputMemberId.name = "memberId";
 		inputMemberId.value = "<%= loginMember != null ? loginMember.getMemberId() : "" %>";
+		
+		const inputNickName = document.createElement("input");
+		inputNickName.type = "hidden";
+		inputNickName.name = "nickName";
+		inputNickName.value = "<%= loginMember != null ? loginMember.getNickname() : "" %>";
+		
 		const inputCommentLevel = document.createElement("input");
 		inputCommentLevel.type = "hidden";
 		inputCommentLevel.name = "commentLevel";
 		inputCommentLevel.value = "2";
+		
 		const inputCommentRef = document.createElement("input");
 		inputCommentRef.type = "hidden";
 		inputCommentRef.name = "commentRef";
@@ -225,6 +238,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		
 		frm.append(inputBoardNo);
 		frm.append(inputMemberId);
+		frm.append(inputNickName);
 		frm.append(inputCommentLevel);
 		frm.append(inputCommentRef);
 		frm.append(textarea);
