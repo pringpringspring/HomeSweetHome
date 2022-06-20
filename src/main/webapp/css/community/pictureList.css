@@ -1,0 +1,28 @@
+@charset "UTF-8";
+body{font-family: 'Noto Sans KR', sans-serif;}
+#board_top{margin-top:6rem; margin-left:17.5rem;}
+.write-btn{margin-left:78rem;}
+.btn-write{background-color: #00B8F0; border:none;height:40px;width: 134.65px;border:0;outline: none; 
+text-align :center;font-size: 1.1rem; color:white;font-weight: bold;border-radius: 8%; margin-bottom: 1.8rem;}
+.btn-write:hover{cursor:pointer;}
+ .thumbnail{width:225px; display: block; float:left; margin-left:1rem; margin-right: 3rem; border-radius: 8%;}
+.thumb_nail{border-radius: 8%;  width:260px; height:242px;}
+.thumbnail:hover{transform: scale(1.03);-webkit-transform: scale(1.03);
+-moz-transform: scale(1.03);-ms-transform: scale(1.03); -o-transform: scale(1.03);/*   overflow:hidden; */
+ }
+ a{text-decoration: none; color:#191818; font-size:1.12rem;}
+ .category{ margin-left:17.2rem; margin-bottom: 50rem; margin-right:2rem;}
+.selectType{margin-right:1rem; background-color: #F5F5F5; color:#757575; font-weight: bold;
+height: 3.4rem; width: 7.7rem; border: 1px solid#F0F0F0; font-size:16px; text-align:center;
+line-height: 1.2rem; border-radius: 4%;
+}
+.love-btn{border: 0; outline:0; background-color: white;}
+
+h2{margin-bottom: 1.9rem;}
+p{font-size:17px;}
+
+
+
+
+
+

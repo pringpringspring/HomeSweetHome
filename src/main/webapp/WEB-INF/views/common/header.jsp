@@ -21,6 +21,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.1.js" charset="utf-8"></script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+<link rel="icon" href="<%=request.getContextPath() %>/images/hshlogo.JPG">
 <title>Home Sweet Home</title>
 
 <script>

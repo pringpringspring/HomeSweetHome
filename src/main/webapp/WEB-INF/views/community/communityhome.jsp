@@ -12,7 +12,7 @@
 <button class= "btn-go"  type="button" onclick="gotoBoard();">보러가기</button>
 </div>
 <a href="<%= request.getContextPath() %>/event/eventApplyList" >
-<img src="<%= request.getContextPath() %>/images/community/s3.JPG"  class="navimg" height="535px"></a>
+<img src="<%= request.getContextPath() %>/images/community/s3.JPG"  class="navimg" ></a>
 </nav>
 
 
