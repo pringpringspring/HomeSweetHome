@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ include file="/WEB-INF/views/common/header.jsp" %>
- <%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
  <%@page import="community.model.dto.Attachment"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.KnowhowExt"%>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/community/knowhowList.css" />
  <%
  KnowhowExt knowhow = (KnowhowExt) request.getAttribute("knowhow");
 %>
 
- <section id="board-up-container">
+ <section id="knowhow-up-container">
 <form 
 	name="boardUpdateFrm" 
 	action="<%=request.getContextPath() %>/knowhow/knowhowUpdate" 
@@ -19,13 +20,13 @@
 	<table id="tbl-board-view">
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" value="<%= knowhow.getTitle() %>" required></td>
+		<td><input type="text" name="title"  class="kh-title" value="<%= knowhow.getTitle() %>" required></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%= knowhow.getMemberId() %>" readonly/>
-			<input type="text" name="nickName" value="<%= knowhow.getNickName() %>" readonly/>
+			<input type="text" name="nickName"  class="kh-nickname" value="<%= knowhow.getNickName() %>" readonly/>
 		</td>
 	</tr>
 	
@@ -47,20 +48,20 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="">
+			<input type="file" name="upFile1" value=""><br>
 			<input type="file" name="upFile2" value="">
 		</td>
 	</tr>
 	<tr>
 		<th>내 용</th>
 		<td>
-			<textarea rows="5" cols="40" name="content"><%= knowhow.getContent() %></textarea>
+			<textarea rows="5" cols="40"  class="kh-content" name="content"><%= knowhow.getContent() %></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th colspan="2">
-			<input type="submit" value="수정하기"/>
-			<input type="button" value="취소" onclick="history.go(-1);"/>
+			<input type="submit" class="kh-update" value="수정"/>
+			<input type="button" class="kh-cancle" value="취소" onclick="history.go(-1);"/>
 		</th>
 	</tr>
 </table>

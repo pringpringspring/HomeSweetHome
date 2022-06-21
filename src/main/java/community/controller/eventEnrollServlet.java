@@ -39,7 +39,7 @@ public class eventEnrollServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String saveDirectory = getServletContext().getRealPath("/upload/event");
+			String saveDirectory = getServletContext().getRealPath("/upload/community/event");
 			System.out.println("saveDirectory = " + saveDirectory);
 			//최대파일크기 10MB 
 			int maxPostSize = 1024 * 1024 * 10;

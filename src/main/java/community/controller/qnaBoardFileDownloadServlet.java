@@ -35,6 +35,6 @@ public class qnaBoardFileDownloadServlet extends HttpServlet {
 		String renamedFilename = attach.getRenamedFilename();
 
 		// 3.응답처리
-		// HomeSweetHomeUtils.fileDownload(response, saveDirectory, originalFilename, renamedFilename);
+		HomeSweetHomeUtils.fileDownload(response, saveDirectory, originalFilename, renamedFilename);
 	}
 }

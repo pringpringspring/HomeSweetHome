@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="community.model.dto.KnowhowExt"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/knowhowList.css" />
@@ -46,7 +45,7 @@
 		for (KnowhowExt kh : list) {
 		%>
 		<a href="<%=request.getContextPath()%>/knowhow/knowhowListView?no=<%=kh.getNo()%>" class="thumbnail">
-		<img src="<%=request.getContextPath()%>/upload/knowhow/<%=kh.getCoverPhoto()%>" class="thumb_nail" >
+		<img src="<%=request.getContextPath()%>/upload/community/knowhow/<%=kh.getCoverPhoto()%>" class="thumb_nail" >
 		<b><%=kh.getTitle()%></b>
 
 		<p><%=kh.getNickName()%> ·

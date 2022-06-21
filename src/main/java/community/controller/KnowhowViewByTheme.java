@@ -66,9 +66,9 @@ public class KnowhowViewByTheme extends HttpServlet {
 		
 		
 		
-		ArrayList<KnowhowExt> volist =ks.productList(startRnum, endRnum, catenum);
+		ArrayList<KnowhowExt> list =ks.productList(startRnum, endRnum, catenum);
 
-		request.setAttribute("productVolist", volist);
+		request.setAttribute("productList", list);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("pageCount", pageCount);

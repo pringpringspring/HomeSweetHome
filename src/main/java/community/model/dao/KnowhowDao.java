@@ -18,7 +18,7 @@ import community.model.dto.Attachment;
 import community.model.dto.Knowhow;
 import community.model.dto.KnowhowComment;
 import community.model.dto.KnowhowExt;
-import community.model.dto.comLike;
+import community.model.dto.LikeDTO;
 import community.model.exception.KnowhowException;
 
 public class KnowhowDao {
@@ -406,120 +406,7 @@ public class KnowhowDao {
 	 */
 
 
-	public comLike selectLikeOne(Connection conn, int board_num, String memberId) {
-		comLike cl = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectLikeOne");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
-			pstmt.setInt(2, board_num);
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				cl = new comLike();
-				cl.setMemderId(rset.getString("member_id"));
-				cl.setCommentNo(rset.getInt("no"));
-				cl.setLikeIt(rset.getString("likeit"));
-			}
-		} catch (Exception e) {
-			//e.printStackTrace();
-			throw new KnowhowException("로그인 후 이용해주세요",e);
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		
-		return cl;
-	}
-
-	public List<KnowhowComment> selectCommentList(Connection conn, int no) {
-		List<KnowhowComment> list = new ArrayList<>();
-		KnowhowComment cbr = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectCommentList");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, no);
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				cbr = new KnowhowComment();
-				
-				cbr.setNo(rset.getInt("comment_no"));
-				cbr.setCommentLevel(rset.getInt("comment_level"));
-				cbr.setCommentRef(rset.getInt("comment_ref"));
-				cbr.setKnowhowNo(rset.getInt("knowhow_board_no"));
-				cbr.setMemberId(rset.getString("member_id"));
-				cbr.setNickName(rset.getString("nickname"));
-				cbr.setContent(rset.getString("content"));
-				cbr.setLikeCount(rset.getInt("like_count"));
-				cbr.setRegDate(rset.getDate("reg_date"));
-				
-				list.add(cbr);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return list;
-	}
-
-	public int deleteLike(Connection conn, comLike cl) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = prop.getProperty("deleteLike"); 
-
-		try {
-			//미완성쿼리문을 가지고 객체생성.
-			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성
-			pstmt.setString(1, cl.getMemderId());
-			pstmt.setInt(2, cl.getCommentNo());
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
-			result = pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			//e.printStackTrace();
-			throw new KnowhowException("로그인 후 이용해주세요",e);
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-
-	public int insertLike(Connection conn, comLike like) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertLike");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, like.getCommentNo());
-
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			//e.printStackTrace();
-			throw new KnowhowException("로그인 후 이용해주세요",e);
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
+	
 		
 	
 	public int getProductCount(Connection conn, int no) {
@@ -587,5 +474,8 @@ public class KnowhowDao {
 		}
 		return list;
 	}
+
+	
+
 	
 }

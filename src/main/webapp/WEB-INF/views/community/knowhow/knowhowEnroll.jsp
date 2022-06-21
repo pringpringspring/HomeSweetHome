@@ -3,11 +3,15 @@
     pageEncoding="UTF-8"%>
  <%@page import="java.util.List"%>
 <%@page import="community.model.dto.KnowhowExt"%>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/community/knowhowList.css" />
  <%@ include file="/WEB-INF/views/common/header.jsp" %>
- <%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
  <%
 KnowhowExt list = (KnowhowExt) request.getAttribute("list");
 %>
+
+
+
 <script>
 window.onload = () => {	
 	document.knowhowEnrollFrm.onsubmit = (e) => {
@@ -30,7 +34,7 @@ window.onload = () => {
 	}
 }
 </script>
-<section id="notice-container">
+<section id="knowhow-enroll-container">
 
 <form
 	name="knowhowEnrollFrm"
@@ -38,23 +42,34 @@ window.onload = () => {
 	method="post"
 	enctype="multipart/form-data">
 	<table id="tbl-board-view">
+	
+	<label for="categoryNo" ><b>테마선택</b></label>
+	
+<select name="categoryNo"  id="categoryNo" >
+<option selected>선택</option>
+<option value="15">수납</option>
+<option value="16">꾸미기팁</option>
+<option value="17">생활정보</option>
+</select>
+	
+	
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" required></td>
+		<td><input type="text" name="title" class="khtitle" required></td>
 	</tr>
 	<tr>
 	<%-- 		<input type="number" name="theme" value="<%=list.getCategoryNo() %>" /> --%>
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%=loginMember.getMemberId() %>" />
-			<input type="text" name="nickName" value="<%=loginMember.getNickname() %>" readonly/>
+			<input type="text" name="nickName"  class="khnickname" value="<%=loginMember.getNickname() %>" readonly/>
 		</td>
 	</tr>
 	
 	<tr>
 		<th>썸네일파일</th>
 		<td>			
-			<input type="text" name="coverPhoto">
+			<input type="text" name="coverPhoto" class="khthumbnail">
 		</td>
 	</tr>
 	
@@ -69,22 +84,15 @@ window.onload = () => {
 
 	<tr>
 		<th>내 용</th>
-		<td><textarea rows="5" cols="40" name="content"></textarea></td>
+		<td><textarea rows="5" cols="40" name="content" class="khcontent"></textarea></td>
 	</tr>
 	
 	<tr>
 		<th colspan="2">
-			<input type="submit" value="등록하기">
+			<input type="submit" value="등록하기" class="kh-enroll">
 		</th>
 	</tr>
 </table>
-<label for="categoryNo" >테마선택 </label>
-<select name="categoryNo"  id="categoryNo" >
-<option selected>선택</option>
-<option value="15">수납</option>
-<option value="16">꾸미기팁</option>
-<option value="17">생활정보</option>
-</select>
 
 </form>
 </section>

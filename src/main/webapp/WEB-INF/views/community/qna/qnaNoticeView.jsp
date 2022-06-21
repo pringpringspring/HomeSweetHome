@@ -5,7 +5,6 @@
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@page import="community.model.dto.QnaNoticeComment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <%
 QnaNoticeExt board = (QnaNoticeExt) request.getAttribute("board");
@@ -41,7 +40,7 @@ boolean canEdit2 = loginMember != null
 				width=16px> <a
 				href="<%=request.getContextPath()%>/board/fileDownload?no=<%=attach.getNo()%>"><%=attach.getOriginalFilename()%></a>
 			<br> <img
-				src="<%=request.getContextPath()%>/upload/qna/<%=attach.getRenamedFilename()%>"
+				src="<%=request.getContextPath()%>/upload/community/qna/<%=attach.getRenamedFilename()%>"
 				width=500px><br>
 
 			<%
@@ -71,7 +70,7 @@ boolean canEdit2 = loginMember != null
 			
 	</table>
 
-	<hr style="margin-top: 30px;" />
+	<br style="margin-top: 3rem;" />
 
 	<div class="comment-container">
 		<div class="comment-editor">
@@ -84,7 +83,7 @@ boolean canEdit2 = loginMember != null
 					value="<%=loginMember != null ? loginMember.getNickname() : ""%>" />
 				<input type="hidden" name="commentLevel" value="1" /> <input
 					type="hidden" name="commentRef" value="0" />
-				<textarea name="content" cols="60" rows="3"></textarea>
+				<textarea name="content" class="comment-content"  cols="60" rows="3"></textarea>
 				<button type="submit" id="btn-comment-enroll1">등록</button>
 			</form>
 		</div>
@@ -126,8 +125,7 @@ boolean canEdit2 = loginMember != null
 						<%= nc.getContent() %>
 					</td>
 					<td>
-						<button class="btn-like" value="<%= nc.getCommentNo() %>" onclick="likeUpDown()">좋아요</button>	
-						<div id="like_result"><%=nc.getLikeCnt() %></div>																					
+																					
 						<% if(canDelete){ %>
 							<button class="btn-delete" value="<%= nc.getCommentNo()%>">삭제</button>
 						<% } %>

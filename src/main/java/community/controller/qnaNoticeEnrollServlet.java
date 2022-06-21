@@ -36,7 +36,7 @@ public class qnaNoticeEnrollServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			String saveDirectory = getServletContext().getRealPath("/upload/qna");
+			String saveDirectory = getServletContext().getRealPath("/upload/community/qna");
 			System.out.println("saveDirectory = " + saveDirectory);
 			//최대파일크기 10MB 
 			int maxPostSize = 1024 * 1024 * 10;

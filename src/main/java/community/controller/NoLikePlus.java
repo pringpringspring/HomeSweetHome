@@ -22,7 +22,7 @@ public class NoLikePlus extends HttpServlet {
 			try{
 			request.setCharacterEncoding("UTF-8");
 			LikeDTO likeDto = new LikeDTO();
-			likeDto.setNo(Integer.parseInt(request.getParameter("no")));
+			likeDto.setBoardNo(Integer.parseInt(request.getParameter("no")));
 			likeDto.setMemberId(request.getParameter("member_id"));
 			
 			LikeDao likedao = new LikeDao();

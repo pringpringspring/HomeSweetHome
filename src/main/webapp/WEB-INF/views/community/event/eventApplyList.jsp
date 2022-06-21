@@ -3,7 +3,6 @@
   <%@page import="java.util.List"%>
   <%@page import="community.model.dto.EventAppExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
- <%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 List<EventAppExt> list = (List<EventAppExt>) request.getAttribute("list");
 %>
@@ -17,7 +16,7 @@ a{text-decoration: none;  color: black; font-weight:bold;}
 <section id="board-container">
 <div class="title-view">
 <h2>참여작</h2>
- <img src="<%=request.getContextPath()%>/upload/event/e3.jpg" class="img_logo">
+ <img src="<%=request.getContextPath()%>/upload/community/event/e3.jpg" class="img_logo">
  </div>
  <div class="main">
 <%

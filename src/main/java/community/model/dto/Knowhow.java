@@ -13,6 +13,7 @@ public class Knowhow {
 	private String nickName; 
 	private String title;
 	private String coverPhoto;
+	
 	public Knowhow(int no, String memberId, int categoryNo, String content, int readCount, int likeCount, Date regDate,
 			String nickName, String title, String coverPhoto) {
 		super();

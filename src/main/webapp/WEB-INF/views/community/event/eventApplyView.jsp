@@ -5,7 +5,6 @@
 <%@page import="community.model.dto.EventAppExt"%>
 <%@page import="community.model.dto.EventAppAtt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	EventAppExt event = (EventAppExt) request.getAttribute("event");
 
@@ -15,11 +14,18 @@
 %>
 <style>
 body{font-family: 'Noto Sans KR', sans-serif;}
-.img_logo{margin-left:26rem;}
-.title-view{font-weight: bold;}
-#board-container{margin-left:35rem; margin-top:5rem;}
-.title-view{margin-left:7.5rem; font-size:17px;}
+#board-container{margin-left:36.5rem; margin-top: 3rem;}
+.btn-back:hover,.btn-modi:hover,.btn-del:hover{cursor:pointer;}
+.btn-back{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color:white;font-size: 1rem;
+font-weight:bold; background: #35c5f0;width: 5.3rem; height: 2.7rem; margin-top: 1rem; margin-bottom: 0.8rem;}
+.btn-modi{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
+font-weight:bold; background: white;width: 4.1rem; height: 2.2rem; margin-right:0.52rem;}
+.btn-del{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
+font-weight:bold; background: white;width: 4.1rem; height: 2.2rem; margin-right:0.52rem;}
 </style>
+
+
+
 <section id="board-container">
 <table id="tbl-board-view">
 <div class="title-view">
@@ -30,18 +36,16 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 %>
 </div>
 
-
 <!-- <div class="content"> -->
-	<img src="<%=request.getContextPath() %>/upload/event/<%=attach.getRenamedFilename() %>" width=500px><br>
+	<img src="<%=request.getContextPath() %>/upload/community/event/<%=attach.getRenamedFilename() %>" width=500px><br>
 <%} %>
 <% } %>
-<%=event.getContent() %><br>	
-닉네임 : <%=event.getNickName()%><br><br>
+<%=event.getContent() %><br><br>	
+Written by. <%=event.getNickName()%><br><br>
 <!-- </div> -->
-
 </section>
 
-	<input type="button" value="목록으로" onclick="backBoard()">
+	<input type="button" value="목록으로" onclick="backBoard()" class="btn-back"><br>
 	<script>
 	const backBoard = () =>{
 		location.href = "<%= request.getContextPath()%>/event/eventApplyList";
@@ -49,8 +53,8 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 	</script>
 
 <% if(canEdit){ %>
-	<input type="button" value="수정하기" onclick="updateBoard()">
-	<input type="button" value="삭제하기" onclick="deleteBoard()">
+	<input type="button" value="수정" onclick="updateBoard()" class="btn-modi">
+	<input type="button" value="삭제" onclick="deleteBoard()" class="btn-del">
 
 <form action="<%= request.getContextPath() %>/event/eventApplyDelete" name="boardDeleteFrm" method="POST">
 	<input type="hidden" name="no" value="<%= event.getNo() %>" />
@@ -63,8 +67,10 @@ const deleteBoard = () => {
 const updateBoard = () => {
 	location.href = "<%= request.getContextPath() %>/event/eventApplyUpdate?no=<%= event.getNo() %>";
 }
-
-
 </script>
 <%} %>
+
+</table>
+</section>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -2,11 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.PictureExt"%>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 PictureExt list = (PictureExt) request.getAttribute("list");
 %>
+
+
+
+
 <script>
 window.onload = () => {	
 	document.knowhowEnrollFrm.onsubmit = (e) => {
@@ -30,7 +34,7 @@ window.onload = () => {
 }
 </script>
 
-<section id="board-container">
+<section id="pic-enr-container">
 
 <form
 	name="pictureEnrollFrm"
@@ -38,23 +42,39 @@ window.onload = () => {
 	method="post"
 	enctype="multipart/form-data">
 	<table id="tbl-board-view">
+	
+	<label for="categorySpace" ><b>평수선택</b></label>
+<select name="categorySpace"  id="categorySpace" >
+<option selected>평수</option>
+<option value="36">10-20평</option>
+<option value="37">30-40평</option>
+</select><br>
+
+<label for="categoryShape" ><b>주거형태</b></label>
+<select name="categoryShape"  id="categoryShape" >
+<option selected>주거형태</option>
+<option value="46">원룸/오피스텔</option>
+<option value="47">아파트</option>
+</select>
+	
+	
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" required></td>
+		<td><input type="text" name="title" class="pic-enr-title" required></td>
 	</tr>
 	<tr>
 
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%=loginMember.getMemberId() %>" />
-			<input type="text" name="nickName" value="<%=loginMember.getNickname() %>" readonly/>
+			<input type="text" name="nickName" class="pic-enr-nick" value="<%=loginMember.getNickname() %>" readonly/>
 		</td>
 	</tr>
 	
 	<tr>
 		<th>썸네일파일</th>
 		<td>			
-			<input type="text" name="coverPhoto">
+			<input type="text" name="coverPhoto" class="pic-enr-thumb" >
 		</td>
 	</tr>
 	
@@ -71,28 +91,16 @@ window.onload = () => {
 
 	<tr>
 		<th>내 용</th>
-		<td><textarea rows="5" cols="40" name="content"></textarea></td>
+		<td><textarea rows="5" cols="40" name="content" class="pic-enr-content" ></textarea></td>
 	</tr>
 	
 	<tr>
 		<th colspan="2">
-			<input type="submit" value="등록하기">
+			<input type="submit" value="등록하기" class="pic-enr-btn">
 		</th>
 	</tr>
 </table>
-<label for="categorySpace" >평수선택</label>
-<select name="categorySpace"  id="categorySpace" >
-<option selected>평수</option>
-<option value="36">10-20평</option>
-<option value="37">30-40평</option>
-</select>
 
-<label for="categoryShape" >주거형태</label>
-<select name="categoryShape"  id="categoryShape" >
-<option selected>주거형태</option>
-<option value="46">원룸/오피스텔</option>
-<option value="47">아파트</option>
-</select>
 
 
 

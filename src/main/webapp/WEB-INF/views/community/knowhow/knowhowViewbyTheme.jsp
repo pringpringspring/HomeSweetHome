@@ -4,16 +4,16 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%
-ArrayList<KnowhowExt> volist = (ArrayList<KnowhowExt>) request.getAttribute("productVolist");
+ArrayList<KnowhowExt> list = (ArrayList<KnowhowExt>) request.getAttribute("productList");
 int startPage = (int) request.getAttribute("startPage");
 int endPage = (int) request.getAttribute("endPage");
 int pageCount = (int) request.getAttribute("pageCount");
 int catenum = (int) request.getAttribute("catenum");
 %>
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/knowhowViewByTheme.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
+<nav id="nav_top">
 <input type="button" value="전체" id="btn-storage" name="btn-go"
 	class="btn-go"
 	onclick="location.href='<%=request.getContextPath()%>/community/knowhow';" />
@@ -25,25 +25,23 @@ int catenum = (int) request.getAttribute("catenum");
 	onclick="location.href='<%=request.getContextPath()%>/knowhow/knowhowView?catenum=<%=16%>';" />
 <input type="button" value="생활정보" id="btn-tip" name="btn-go"
 	class="btn-go"
-	onclick="location.href='<%=request.getContextPath()%>/knowhow/knowhowView?catenum=<%=17%>';" />
-	
+	onclick="location.href='<%=request.getContextPath()%>/knowhow/knowhowView?catenum=<%=17%>';" />	
+</nav>
 	
 	
 <div class="category">
-<h2>여기가 카테고리별로 보이는 곳</h2>
-
 			<%
-		if (volist == null || volist.isEmpty()) {
+		if (list == null || list.isEmpty()) {
 		%>
 		<td>등록된 노하우가 없습니다.</td>
 		
 		<%
 		} else {
-		for (KnowhowExt kh : volist) {
+		for (KnowhowExt kh : list) {
 		%>
 		
 		<a href="<%=request.getContextPath()%>/knowhow/knowhowListView?no=<%=kh.getNo()%>" class="thumbnail">
-		<img src="<%=request.getContextPath()%>/upload/knowhow/<%=kh.getCoverPhoto()%>" class="thumb_nail" >
+		<img src="<%=request.getContextPath()%>/upload/community/knowhow/<%=kh.getCoverPhoto()%>" class="thumb_nail" >
 		<b><%=kh.getTitle()%></b>
 
 		<p><%=kh.getNickName()%> ·

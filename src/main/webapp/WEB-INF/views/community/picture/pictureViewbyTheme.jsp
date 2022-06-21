@@ -6,7 +6,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <%
 ArrayList<PictureExt> list = (ArrayList<PictureExt>) request.getAttribute("productList");

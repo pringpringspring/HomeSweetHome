@@ -33,7 +33,7 @@ public class qnaBoardDeleteServlet extends HttpServlet {
 			List<Attachment> attachments = bs.findByNo(no).getAttachments();
 			if (attachments != null && !attachments.isEmpty())
 				for (Attachment attach : attachments) {
-					String saveDirectory = getServletContext().getRealPath("/upload/qna");
+					String saveDirectory = getServletContext().getRealPath("/upload/community/qna");
 					File delFile = new File(saveDirectory, attach.getRenamedFilename());
 					if (delFile.exists()) {
 						delFile.delete();
