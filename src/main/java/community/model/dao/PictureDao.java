@@ -377,66 +377,35 @@ public class PictureDao {
 		return result;
 	}
 
-	public int insertLike(Connection conn, LikeDTO likey) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertLike");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, likey.getNo());
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			throw new PictureException(" 좋아요 추가 오류", e);
-		} finally {
-			close(pstmt);
-		}
-		return result;
-	}
-
-	public int deleteLike(Connection conn, LikeDTO likey) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("deleteLike");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, likey.getNo());
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			throw new PictureException(" 좋아요 취소 오류", e);
-		} finally {
-			close(pstmt);
-		}
-		return result;
-	}
-	
-	public List<LikeDTO> LikeByMemberId(Connection conn, String memberId) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		List<LikeDTO> list = new ArrayList<>();
-		String sql = prop.getProperty("LikeByMemberId");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				LikeDTO likey = new LikeDTO();
-				likey.setMemberId(rset.getString("member_id"));
-				likey.setNo(rset.getInt("no"));
-				list.add(likey);
-			}
-			
-		} catch (Exception e) {
-			throw new PictureException(" 좋아요 아이디 오류", e);
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		return list;
-	}
-
+	/*
+	 * public int insertLike(Connection conn, LikeDTO likey) { int result = 0;
+	 * PreparedStatement pstmt = null; String sql = prop.getProperty("insertLike");
+	 * 
+	 * try { pstmt = conn.prepareStatement(sql); pstmt.setInt(1, likey.getNo());
+	 * result = pstmt.executeUpdate(); } catch (Exception e) { throw new
+	 * PictureException(" 좋아요 추가 오류", e); } finally { close(pstmt); } return result;
+	 * }
+	 * 
+	 * public int deleteLike(Connection conn, LikeDTO likey) { int result = 0;
+	 * PreparedStatement pstmt = null; String sql = prop.getProperty("deleteLike");
+	 * 
+	 * try { pstmt = conn.prepareStatement(sql); pstmt.setInt(1, likey.getNo());
+	 * result = pstmt.executeUpdate(); } catch (Exception e) { throw new
+	 * PictureException(" 좋아요 취소 오류", e); } finally { close(pstmt); } return result;
+	 * }
+	 * 
+	 * public List<LikeDTO> LikeByMemberId(Connection conn, String memberId) {
+	 * PreparedStatement pstmt = null; ResultSet rset = null; List<LikeDTO> list =
+	 * new ArrayList<>(); String sql = prop.getProperty("LikeByMemberId");
+	 * 
+	 * try { pstmt = conn.prepareStatement(sql); pstmt.setString(1, memberId); rset
+	 * = pstmt.executeQuery(); while(rset.next()) { LikeDTO likey = new LikeDTO();
+	 * likey.setMemberId(rset.getString("member_id"));
+	 * likey.setNo(rset.getInt("no")); list.add(likey); }
+	 * 
+	 * } catch (Exception e) { throw new PictureException(" 좋아요 아이디 오류", e); }
+	 * finally { close(rset); close(pstmt); } return list; }
+	 */
 	public List<PictureExt> sortRead(Connection conn, Map<String, Object> param) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -487,6 +456,96 @@ public class PictureDao {
 		}
 		return list;
 	}
+	
+	
+	public List<PictureExt> likePicture(int no) throws Exception{
+		Connection con = JdbcTemplate.getConnection();
+		String sql = prop.getProperty("likeit");
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, no);
+		ResultSet rs = ps.executeQuery();
+		
+		List<PictureExt> likeList = new ArrayList<>();
+		while(rs.next()) {
+			PictureExt likeDto = new PictureExt();
+			likeDto.setImgNo(rs.getInt("community_img_no"));
+			likeDto.setLikeCount(rs.getInt("like_count"));
+			likeList.add(likeDto);
+		}
+		con.close();
+		
+		return likeList;		
+	}
+
+	
+	// 좋아요 추가하기
+	public void insertLike(LikeDTO like) throws Exception{ 
+		  Connection con = JdbcTemplate.getConnection();
+	 
+	 
+	  String sql =
+	  "insert into like_img values(?,?)" ;
+	  PreparedStatement ps = con.prepareStatement(sql); 
+	  ps.setString(1,like.getMemberId()); 
+	  ps.setInt(1, like.getBoardNo()); 
+	  
+	  ps.execute();
+	 
+	  con.close(); 
+	  
+	}
+	
+
+	// 좋아요 삭제
+		public void deleteLike(LikeDTO like) throws Exception{ Connection
+		con=JdbcTemplate.getConnection();
+
+		String sql = "delete like_img where member_id = ? and board_no = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1,like.getMemberId());
+		ps.setInt(2,like.getBoardNo());
+		ps.execute();
+		con.close();
+		}
+		public boolean like_search(String memberId, int no) throws Exception {
+			  Connection con = JdbcTemplate.getConnection();
+			 
+			  String sql = "select * from like_img where member_id=? and board_no = ?";
+			  PreparedStatement ps = con.prepareStatement(sql);
+			  ps.setString(1, memberId);
+			  ps.setInt(2, no);
+			  
+			  ResultSet rs = ps.executeQuery();
+			  
+			  boolean result = false; 
+			  if(rs.next()) { 
+				  result = true; 
+				  } 
+			  con.close();
+			 
+			  return result; 
+			  }
+
+			public int likecount (int no) throws Exception { Connection con =
+			  JdbcTemplate.getConnection();
+			  
+			  String sql = "select board_no, count(*) like_count from like_img where board_no= ?  group by board_no";
+			  PreparedStatement ps = con.prepareStatement(sql); 
+			  ps.setInt(1, no);
+			  
+			  ResultSet rs = ps.executeQuery();
+			  
+			  int like_count = 0; 
+			  if(rs.next()) { 
+				  like_count = rs.getInt("no"); 
+				  } 
+			  con.close();
+			  
+			  return like_count; 
+			  }
+	
+	
+	
 	
 	
 }

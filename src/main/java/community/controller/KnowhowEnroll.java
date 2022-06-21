@@ -37,7 +37,7 @@ public class KnowhowEnroll extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String saveDirectory = getServletContext().getRealPath("/upload/knowhow");
+			String saveDirectory = getServletContext().getRealPath("/upload/community/knowhow");
 			System.out.println("saveDirectory = " + saveDirectory);
 
 			int maxPostSize = 1024 * 1024 * 10;

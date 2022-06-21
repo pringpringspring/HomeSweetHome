@@ -6,7 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
@@ -20,7 +19,7 @@
 %>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
-<section id="board-container">
+<section id="qnaboard-view-container">
 	<table id="tbl-board-view">
 	
 	<div class="title-view">
@@ -60,7 +59,7 @@
 		<% } %>
 	</table>
 	
-	<hr style="margin-top:30px;" />	
+	<br style="margin-top:16rem;" />	
     
 	<div class="comment-container">
         <div class="comment-editor">
@@ -71,7 +70,7 @@
                 <input type="hidden" name="nickName" value="<%= loginMember != null ? loginMember.getNickname() : "" %>" />
                 <input type="hidden" name="commentLevel" value="1" />
                 <input type="hidden" name="commentRef" value="0" />    
-				<textarea name="content" cols="60" rows="3" placeholder="댓글을 남겨 보세요."></textarea>
+				<textarea name="content"  class="conmment-content" cols="60" rows="3" placeholder="댓글을 남겨 보세요."></textarea>
                 <button type="submit" id="btn-comment-enroll1" >입력</button>
             </form>
         </div>
@@ -120,8 +119,7 @@
 						<%= bc.getContent() %>
 					</td>
 					<td>
-						<button class="btn-like" value="<%= bc.getNo() %>" onclick="likeUpDown()">좋아요</button>	
-						<div id="like_result"><%=bc.getLikeCnt() %></div>																					
+																							
 						<% if(canDelete){ %>
 							<button class="btn-delete" value="<%= bc.getNo()%>">삭제</button>
 						<% } %>

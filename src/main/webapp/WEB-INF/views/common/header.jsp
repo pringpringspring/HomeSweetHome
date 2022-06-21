@@ -22,8 +22,6 @@
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.1.js" charset="utf-8"></script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
 <link rel="icon" href="<%=request.getContextPath() %>/images/hshlogo.JPG">
-<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
 <title>Home Sweet Home</title>
 <!-- 고두현 css 시작 -->
 <style>
@@ -258,141 +256,7 @@ function logoutWithKakao() {
 					</div>
 				</div>
 			</div>
-			
-			<div id="skyScraper">
-		<div class="myView">
-			<div class="myViewTit"><a href="javascript:;">장바구니<span class="count">3</span></a></div>
-			<div class="itemList myCart" style="display: none; height: 241px;">
-				<ul>
-					<li>
-						<a href="http://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0017880739">
-							<img src="http://static1.e-himart.co.kr/contents/goods/00/17/88/07/39/0017880739__SIF-BZ10R__M_70_70.jpg" alt="상품이미지" width="70" height="70" onerror="this.src='http://static1.e-himart.co.kr/resources/layout/images/default/70.jpg'">
-								<span class="mOverWrap" style="display: none;">
-								<span class="mOverTxtArea">
-									<span class="mOverTit">신일&nbsp;BLDC 스탠드형 무소음 에어 서큘레이터 SIF-BZ10R</span>
-									<span class="mOverPrc"><span class="fontMont">179,000</span>원</span>
-								</span>
-							</span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="http://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0014800487">
-							<img src="http://static2.e-himart.co.kr/contents/goods/00/14/80/04/87/0014800487__ST4000VN008___M_70_70.jpg" alt="상품이미지" width="70" height="70" onerror="this.src='http://static2.e-himart.co.kr/resources/layout/images/default/70.jpg'">
-								<span class="mOverWrap" style="display: none;">
-								<span class="mOverTxtArea">
-									<span class="mOverTit">씨게이트&nbsp;씨게이트 아이언울프 NAS용 하드디스크 4TB</span>
-									<span class="mOverPrc"><span class="fontMont">159,000</span>원</span>
-								</span>
-							</span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="http://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000226480">
-							<img src="http://static1.e-himart.co.kr/contents/goods/00/00/22/64/80/0000226480__BL-811DKR__M_70_70.jpg" alt="상품이미지" width="70" height="70" onerror="this.src='http://static1.e-himart.co.kr/resources/layout/images/default/70.jpg'">
-								<span class="mOverWrap" style="display: none;">
-								<span class="mOverTxtArea">
-									<span class="mOverTit">테팔&nbsp;초고속 블렌더 BL-811DKR (2L, 3가지 자동모드, 속도조절, 순간작동)</span>
-									<span class="mOverPrc"><span class="fontMont">109,000</span>원</span>
-								</span>
-							</span>
-						</a>
-					</li>
-					
-					</ul>
-				<div class="skyBtnArea" style="display: none;">
-					<!-- <a href="javascript:;" class="prev"><img src="/resources/layout/images/btn/arrPrevShadow.png" alt="prev"></a>
-					<div class="pager"><span class="current">1</span>/<span class="total"></span></div>
-					<a href="javascript:;" class="next"><img src="/resources/layout/images/btn/arrNextShadow.png" alt="next"></a> -->
-				</div>
-				<a href="javascript:void(0);" onclick="javascript:goCart();" class="goCart">바로가기</a>
-			</div>
-		</div>
-		<ul class="directLink">
-			<li class="talk">
-				<div class= "talk-img-cont">
-					<span class="talk-img-wrapper">1:1</span>
-					<span class="talk-img-wrapper"><img src="<%= request.getContextPath() %>/images/header/sweet-talk.gif" alt="sweettalk" /></span> 
-	 				<a href="javascript:goTalk();" class="btnRed" id="sweet-talk-btn">Sweet Talk</a>			
-				</div>
-				<div class= "cs-talk-wrapper">
-					<a class="cs-talk-inner" href="javascript: openChat();" style="padding: 0;">
-						<span id="cs-talt-text"> 고객센터 톡</span>
-						<span id="cs-talk-img-wrapper"><img id="cs-talk-img" src="<%= request.getContextPath() %>/images/header/customer-support.png" alt="" /> </span>
-					</a>
-				</div>
-			</li>			
-		</ul>
-</div>
-<% if(loginMember != null) {%>
-<div>
-	<form name="sweetTalkFrm">
-			<input type="hidden" name="loginMemberId" id="loginMemberId" value = <%= loginMember.getMemberId() %>/>
-	</form>
-</div>
-<% } %>
-		</header>
-	</div>
-	<script>
-	window.onload = () =>{
-		
-		
-	}
-	
-	// 커뮤티니 메뉴와 스토어 메뉴 전환 자바스크립트
-	const styleShow = {"display" : "block"}
-	const styleHide = {"display" : "none"}
-
-	$(".community-menu").click = (e) => {
-		console.log(e);
-		//	$(this).css(styleShow);  
-		//	$(this).parent().children().eq(1).css(styleHide);  
-	}; 
-	
-	$(".store-menu").click = (e) => {
-		console.log($(this));
-			//$(this).css(styleShow);  
-		//	$(this).parent().children().eq(0).css(styleHide);  
-	}; 
-	
-	//장바구니 바로가기
-	function goCart(){
-//		location.href="";
-	}
-
-
-	function delGoods(goodsNo){
-		var newGoods = "";
-		var cookieGoods = $.cookie("himartGoods");
-		if(cookieGoods != null && cookieGoods != ""){
-			goodsArray = cookieGoods.split(":");
-			for(var i = 0 ; i < goodsArray.length ; i++){
-				if(goodsArray[i] == goodsNo){
-					continue;
-				}
-				if(goodsArray[i] != ""){
-					newGoods += goodsArray[i] + ":";
-				}
-			}
-			common.setCookie("himartGoods", newGoods);
-		}
-	}
-
-	// 고객센터 1:1채팅 Sweet Talk
-	const openChat = () => {
-		const title = "SweetTalkPopup";
-		const spec = "width=720px, height=660px";
-		const addr = "<%= request.getContextPath() %>/customerservice/sweettalk";
-	/* 	const frm = document.sweetTalkFrm;
-		 frm.submit(); */
-		const popup = open(addr, title, spec);
-		
-		
-	}
-	</script>
-	<section id="content">
-	<%-- <div class="sticky-container2" style="padding: 0;">
+			<div class="sticky-container2">
 				<div class="submenu-container">
 					<div class="submenu-nav-wrapper">
 						<div class="community-menu-container">
@@ -455,4 +319,32 @@ function logoutWithKakao() {
 						</div>
 					</div>
 				</div>
-			</div> --%>
+			</div>
+		</header>
+	</div>
+	<script>
+	window.onload = () =>{
+		
+		
+	}
+	
+	// 커뮤티니 메뉴와 스토어 메뉴 전환 자바스크립트
+	const styleShow = {"display" : "block"}
+	const styleHide = {"display" : "none"}
+
+	$(".community-menu").click = (e) => {
+		console.log(e);
+		//	$(this).css(styleShow);  
+		//	$(this).parent().children().eq(1).css(styleHide);  
+	}; 
+	
+	$(".store-menu").click = (e) => {
+		console.log($(this));
+			//$(this).css(styleShow);  
+		//	$(this).parent().children().eq(0).css(styleHide);  
+	}; 
+	
+
+	
+	</script>
+	<section id="content">

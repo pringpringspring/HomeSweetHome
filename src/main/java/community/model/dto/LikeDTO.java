@@ -1,41 +1,51 @@
 package community.model.dto;
 
-public class LikeDTO  extends Picture{
+public class LikeDTO {
+	private int likeNo;
 	private String memberId;
-	private int no;
-	private String likeit;
+	private int boardNo;
+
+	/* private int likeCheck; */
 	public LikeDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public LikeDTO(String memberId, int no, String likeit) {
+
+	public LikeDTO(int likeNo, String memberId, int boardNo) {
 		super();
+		this.likeNo = likeNo;
 		this.memberId = memberId;
-		this.no = no;
-		this.likeit = likeit;
+		this.boardNo = boardNo;
 	}
+
+	public int getLikeNo() {
+		return likeNo;
+	}
+
+	public void setLikeNo(int likeNo) {
+		this.likeNo = likeNo;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-	public int getNo() {
-		return no;
+
+	public int getBoardNo() {
+		return boardNo;
 	}
-	public void setNo(int no) {
-		this.no = no;
+
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
 	}
-	public String getLikeit() {
-		return likeit;
-	}
-	public void setLikeit(String likeit) {
-		this.likeit = likeit;
-	}
+
 	@Override
 	public String toString() {
-		return "LikeDTO [memberId=" + memberId + ", no=" + no + ", likeit=" + likeit + "]";
+		return "LikeDTO [likeNo=" + likeNo + ", memberId=" + memberId + ", boardNo=" + boardNo + "]";
 	}
 	
-	
+
 }

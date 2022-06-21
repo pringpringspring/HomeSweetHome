@@ -1,25 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="community.model.dto.EventAttachment"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.EventExt"%>
 <%
 	EventExt event = (EventExt) request.getAttribute("event");
 %>
+<style>
+body{font-family: 'Noto Sans KR', sans-serif;}
+#board-container{margin-top:2.1rem; margin-left:19.2rem;}
+#tbl-board-view{margin-top:2.5rem;}
+.title_part{height: 3rem;width: 17rem;padding: 0.6rem 0.9rem 0.7rem;
+font-size: 1rem;font-weight:bold;border: 1px solid #D5D5D5;border-radius: 0.25rem;box-sizing: border-box;
+color:black; margin-left: 1rem; margin-bottom: 1rem;}
+th{font-size:17px;}
+.file_c{margin-bottom: 1rem; margin-left: 1rem; }
+.content{margin-bottom: 1rem; margin-left: 1rem;border: 1px solid #D5D5D5;}
+.title_part:focus, #file-btn:focus,.file_c:focus,.content:focus{border: 1px solid #36C4F2; outline:none;}
+.btn-updupd:hover, .btn-cancel:hover{cursor: pointer;}
+.btn-updupd{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.1rem; height: 2.7rem; margin-right:0.52rem;}
+.btn-cancel{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 4.8rem; height: 2.7rem;}
+</style>
 
 <section id="board-container">
+<h2>이벤트 수정하기</h2>
 <form 
 	name="boardUpdateFrm" 
 	action="<%=request.getContextPath() %>/event/eventUpdate" 
 	method="post"
 	enctype="multipart/form-data">
 	<input type="hidden" name="no" value="<%= event.getNo() %>" />
+	
 	<table id="tbl-board-view">
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" value="<%= event.getEventTitle()%>" required></td>
+		<td><input type="text" class="title_part"name="title" value="<%= event.getEventTitle()%>" required></td>
 	</tr>
 	
 	<tr>
@@ -31,7 +49,7 @@
 			for(int i = 0; i < attachments.size(); i++){
 				EventAttachment attach = attachments.get(i);
 	%>
-			<img src="<%= request.getContextPath() %>/images/file.png" width="16px">
+			<img src="<%= request.getContextPath() %>/images/file.jpg" width="16px">
 			<%= attach.getOriginal_filename()%>
 			<input type="checkbox" name="delFile" id="delFile<%= i + 1 %>" value="<%= attach.getNo() %>"/>
 			<label for="delFile<%= i + 1 %>">삭제</label>
@@ -40,14 +58,16 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="">
-			<input type="file" name="upFile2" value="">
+			<input type="file" name="upFile1" value="" class="file_c">
+			<input type="file" name="upFile2" value="" class="file_c">
 		</td>
 	</tr>
+	
+	
 	<tr>
 		<th>내 용</th>
 		<td>
-			<textarea rows="5" cols="40" name="content"><%= event.getEventContent() %></textarea>
+			<textarea rows="5" cols="40" name="content" class="content"><%= event.getEventContent() %></textarea>
 		</td>
 	</tr>
 	<tr>

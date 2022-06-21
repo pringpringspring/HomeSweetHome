@@ -4,7 +4,6 @@
 <%@page import="community.model.dto.QnaBoardExt"%>
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
 

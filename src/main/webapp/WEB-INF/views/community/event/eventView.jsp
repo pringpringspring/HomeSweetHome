@@ -5,40 +5,23 @@
 <%@page import="community.model.dto.EventExt"%>
 <%@page import="community.model.dto.EventAttachment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
-
 <style>
-body{
-font-family: 'Noto Sans KR', sans-serif;
-}
-.top{margin-top :3rem;margin-left: 39rem;}
-.content{margin-left:24.2rem;}
-input#btn-partgo{
-	background-color:#35C5F0;
-	height:4.7rem;
-	width: 25.2rem;
-	border:0;
-	outline: none; 
-	text-align :center;
-	font-size: 21px;
-	color:white;
-	font-weight: bold;
-	border-radius: 8px;
-}
-input#btn-part{
-	background-color:#AB77FF;
-	height:4.7rem;
-	width: 25.2rem;
-	border:0;
-	outline: none; 
-	text-align :center;
-	font-size: 21px;
-	color:white;
-	font-weight: bold;
-	border-radius: 8px;
-}
-.contest-participate{margin-left : 33.2rem;}
-.contest-participatego{margin-left : 33.2rem;}
+body{font-family: 'Noto Sans KR', sans-serif;}
+#board-container{margin-bottom: 1rem;}
+.top{margin-top :3rem;margin-left: 41rem;}
+.content{margin-left:29.2rem;}
+input#btn-partgo{background-color:#35C5F0;height:4.7rem;width: 25.2rem;border:0;
+outline: none; text-align :center;font-size: 21px;color:white;font-weight: bold;border-radius: 8px;}
+input#btn-part{background-color:#AB77FF;height:4.7rem;width: 25.2rem;border:0;outline: none; text-align :center;
+font-size: 21px;color:white;font-weight: bold;border-radius: 8px;}
+.contest-participate{margin-left : 38.2rem;}
+.contest-participatego{margin-left : 38.2rem;}
+#btn-part:hover,#btn-partgo:hover{cursor: pointer;}
+.btn-updel{float:right; margin-right: 27.5rem; margin-top: 1rem;}
+.btn-upd{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.8rem; height: 2.7rem; margin-right:0.52rem;}
+.btn-del{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
 </style>
 
 <%
@@ -58,7 +41,7 @@ EventExt event = (EventExt) request.getAttribute("event");
 				for(EventAttachment att : attach){
 		%>
 <div class="content">
-<img src="<%=request.getContextPath()%>/upload/event/<%=att.getRenamed_filename()%>">
+<img src="<%=request.getContextPath()%>/upload/community/event/<%=att.getRenamed_filename()%>">
 </div>
 		<%
 				}
@@ -72,8 +55,10 @@ EventExt event = (EventExt) request.getAttribute("event");
 		onclick="location.href='<%=request.getContextPath()%>/event/eventApplyList';"/>
 </div>
 				<% if(canEdit){ %>
+				<div class="btn-updel">
 				<input type="button"  class="btn-upd" value="수정하기" onclick="updateBoard();">
 				<input type="button" class= "btn-del" value="삭제하기" onclick="deleteBoard();">
+				</div>
  		<% } %>
  		
 </section>

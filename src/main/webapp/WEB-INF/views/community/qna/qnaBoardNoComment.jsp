@@ -7,7 +7,6 @@
 <%@page import="community.model.dto.QnaBoard"%>
 <%@page import="community.model.dto.QnaBoardExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	List<QnaBoard> comlist =(List<QnaBoard>)request.getAttribute("comlist");
 	int[] replycount = (int [])request.getAttribute("replycount");
@@ -18,16 +17,16 @@
 
 <style>
 body{font-family: 'Noto Sans KR', sans-serif;}
-#result{margin-left:42em;}
+#result{margin-left:42em; margin-top:3.5rem;}
 #result>h3{text-align:center;}
 #result>p{font-size:15px;}
 a:link{	color:#2F3438;text-decoration: none;}
 a:visited{color:#2F3438;text-decoration: none;}
 a:hover{color:rgb(130,140,148);text-decoration: none;	}
-#board_top{margin-top: 48px;background-color:#F7F9FA;}
+#board_top{margin-top:1.5rem;background-color:#F7F9FA;}
 #board_top>h2{font-size:24px;font-weight: 700;line-height:32px;text-decoration: none solid rgb(47,52,56);text-align : center;}
 #board_top>h3{font-size:16px;line-height:22px;text-decoration: none solid rgb(47,52,56);text-align : center;}
-.search-box{	height:40px;width: 500px;border : 1px solid #EAEDEF;padding : 9px 15px 9px 47px;margin-left : 472px;font-weight: bold;}
+.search-box{height:3.2rem;width: 35rem;border : 1px solid #EAEDEF;padding : 0.7rem 1.1rem 0.9rem 2.2rem;margin-left:37rem;font-weight: bold;}
 input::placeholder{font-weight: bold;font-size: small;font-color : #EAEDEF;}
 .search-box:focus{outline : 1px solid #EAEDEF;}
 input#btn-add{
@@ -61,6 +60,8 @@ input#btn-list{
 	font-weight: bold;
 	border-radius: 8px;
 }
+#btn-list:hover {cursor: pointer}
+#btn-add:hover {cursor: pointer}
 </style>
 
 <div class="nocomment-list">
@@ -95,6 +96,7 @@ input#btn-list{
 			<h3><%=board.getTitle() %></h3>
 			<h4><%=board.getContent() %></h4></a>
 			 <p><%=board.getNickName()%>&nbsp;&nbsp;<%=board.getRegDate() %> &nbsp; 조회 <%=board.getReadCount() %></p>
+			 <br>
 
 <% i++; } %>
 </div>

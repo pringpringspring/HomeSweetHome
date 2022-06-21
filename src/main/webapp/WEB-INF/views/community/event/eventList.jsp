@@ -5,8 +5,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="community.model.dto.EventExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link rel="stylesheet"
@@ -61,7 +59,7 @@ transform:scale(1.0);        
 
 <div class="event-list">
 <a href="<%=request.getContextPath()%>/community/eventView?no=<%=event.getNo()%>">
-<img src="<%=request.getContextPath()%>/upload/event/<%=event.getTitlefileName()%>" id="listimg"/>
+<img src="<%=request.getContextPath()%>/upload/community/event/<%=event.getTitlefileName()%>" id="listimg"/>
 </a>
 <br>
 <c:set var="today" value="<%=new java.util.Date() %>"/>

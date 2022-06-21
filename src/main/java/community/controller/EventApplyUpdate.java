@@ -39,7 +39,7 @@ public class EventApplyUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String saveDirectory = getServletContext().getRealPath("/upload/event");
+		String saveDirectory = getServletContext().getRealPath("/upload/community/event");
 		int maxPostSize = 1024 * 1024 * 10;
 		String encoding = "utf-8";
 		FileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();

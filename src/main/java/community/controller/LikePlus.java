@@ -25,8 +25,8 @@ public class LikePlus extends HttpServlet {
 			request.setCharacterEncoding("UTF-8");
 			LikeDTO likedto = new LikeDTO();
 			
-			likedto.setNo(Integer.parseInt(request.getParameter("no")));
-			/* likedto.setMemberId(request.getParameter("member_id")); */
+			likedto.setBoardNo(Integer.parseInt(request.getParameter("no")));
+			likedto.setMemberId(request.getParameter("member_id")); 
 			
 			LikeDao likeDao = new LikeDao();
 			likeDao.insertLike(likedto);

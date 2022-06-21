@@ -164,20 +164,12 @@ public class PictureService {
 		result = cd.getProductCount(conn, catenum,catenum2);		
 		return result;
 	}
-	public int insertLike(LikeDTO likey) {
-		Connection conn = getConnection();
-		int result = 0;
-		try {
-			result = cd.insertLike(conn, likey);
-			commit(conn);
-		} catch (Exception e) {
-			rollback(conn);
-			throw e;
-		} finally {
-			close(conn);
-		}
-		return result;
-	}
+	/*
+	 * public int insertLike(LikeDTO likey) { Connection conn = getConnection(); int
+	 * result = 0; try { result = cd.insertLike(likey); commit(conn); } catch
+	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
+	 * result; }
+	 */
 
 
 
@@ -196,13 +188,11 @@ public class PictureService {
 	 * getConnection(); List<LikeBc> list = cd.LikebyMemberId(conn, memberId);
 	 * close(conn); return list; }
 	 */
-	public List<LikeDTO> LikeByMemberId(String memberId) {
-		Connection conn = getConnection();
-		List<LikeDTO> list = cd.LikeByMemberId(conn, memberId);
-		close(conn);
-		return list;
-	}
-	
+	/*
+	 * public List<LikeDTO> LikeByMemberId(String memberId) { Connection conn =
+	 * getConnection(); List<LikeDTO> list = cd.LikeByMemberId(conn, memberId);
+	 * close(conn); return list; }
+	 */
 	
 	public List<PictureExt> sortRead(Map<String, Object> param) {
 		Connection conn = getConnection();

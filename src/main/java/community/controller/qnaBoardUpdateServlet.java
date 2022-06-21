@@ -53,7 +53,7 @@ public class qnaBoardUpdateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 2. MultipartRequest객체 생성 - 파일저장완료
-		String saveDirectory = getServletContext().getRealPath("/upload/qna");
+		String saveDirectory = getServletContext().getRealPath("/upload/community/qna");
 		int maxPostSize = 1024 * 1024 * 10;
 		String encoding = "utf-8";
 		HomeSweetHomeFileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();

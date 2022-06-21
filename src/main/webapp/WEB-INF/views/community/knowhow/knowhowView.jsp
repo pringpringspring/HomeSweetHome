@@ -1,30 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
-<%@page import="community.model.dto.comLike"%>
+<%@page import="community.model.dto.LikeDTO"%>
 <%@page import="community.model.dto.Attachment"%>
 <%@ page import="member.model.dto.Member"%>
 <%@page import="community.model.dto.Knowhow"%>
 <%@page import="community.model.dto.KnowhowExt"%>
 <%@page import="community.model.dto.KnowhowComment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://kit.fontawesome.com/97c6ec6a69.js"
+	crossorigin="anonymous"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/knowhowView.css" />
-<style>
-.roomDetail-info2 {
-	display: none;
-}
 
-img#likeBtn.LikeImgButton {
-	width: 1em;
-	height: 1em;
-	margin-bottom: 2px;
-	cursor: pointer;
-}
-</style>
 <%
 KnowhowExt knowhow = (KnowhowExt) request.getAttribute("knowhow");
 List<KnowhowComment> comments = knowhow.getComments();
@@ -34,18 +24,17 @@ boolean canEdit = loginMember != null
 		&& (loginMember.getMemberId().equals(knowhow.getMemberId()) || loginMember.getMemberRole() == MemberRole.A);
 
 boolean canLike = loginMember != null;
-
 %>
 <section id="board-container">
 	<table id="tbl-board-view">
 
-		<div class="title-view">
+		<div class="knowhow-title-view">
 			<h1><%=knowhow.getTitle()%></h1>
 			<h3><%=knowhow.getNickName()%></h3>
 			<h3><%=knowhow.getRegDate()%></h3>
 		</div>
 
-		<div class="content-view">
+		<div class="knowhow-content-view">
 			<%=knowhow.getContent()%><br>
 			<%
 			List<Attachment> attachments = knowhow.getAttachments();
@@ -53,7 +42,7 @@ boolean canLike = loginMember != null;
 				for (Attachment attach : attachments) {
 			%>
 			<img
-				src="<%=request.getContextPath()%>/upload/knowhow/<%=attach.getRenamedFilename()%>"
+				src="<%=request.getContextPath()%>/upload/community/knowhow/<%=attach.getRenamedFilename()%>"
 				width=450px>
 			<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
 			<h5>
@@ -70,22 +59,8 @@ boolean canLike = loginMember != null;
 			<div class="view-end">
 				<br> No.<%=knowhow.getNo()%>&nbsp;&nbsp; 조회
 				<c><%=knowhow.getReadCount()%></c>
-				<%
- if (canLike) {
- %>
-							<span onclick="likeBtn();">
-						<form name="likeFrm" action="<%= request.getContextPath()%>/knowhow/knowhowListView" method="POST">
-							<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" /> 
-							<input type="hidden" id=likeBoardNum name="board_num" value="<%= knowhow.getNo() %>" />
-						</form>
-						<div><img class="LikeImgButton" src="<%= request.getContextPath()%>/images/like.png" id="likeBtn" alt="" />	<%=knowhow.getLikeCount() %></div>
-						
-							</span>
-<%
- }
- %>
-<%-- 				좋아요
-				<c><%=knowhow.getLikeCount()%></c> --%>
+
+
 
 			</div>
 		</div>
@@ -103,7 +78,7 @@ boolean canLike = loginMember != null;
 		%>
 	</table>
 
-	<hr style="margin-top: 30px;" />
+	<br style="margin-top: 30px;" />
 
 	<div class="comment-container">
 		<div class="comment-editor">
@@ -116,7 +91,7 @@ boolean canLike = loginMember != null;
 					value="<%=loginMember != null ? loginMember.getNickname() : ""%>" />
 				<input type="hidden" name="commentLevel" value="1" /> <input
 					type="hidden" name="commentRef" value="0" />
-				<textarea name="content" cols="60" rows="3"
+				<textarea name="content" cols="60" rows="3"  class="knowhow-comment"
 					placeholder="댓글을 남겨 보세요."></textarea>
 				<button type="submit" id="btn-comment-enroll1">입력</button>
 			</form>
@@ -159,23 +134,9 @@ boolean canLike = loginMember != null;
 						<sub class="comment-date"><%=kc.getRegDate()%></sub> <br /> <%=kc.getContent()%>
 					</td>
 					<td>
-				<%
- if (canLike) {
+ <%
+ if (canDelete) {
  %>
-							<span onclick="likeBtn();">
-						<form name="likeFrm" action="<%= request.getContextPath()%>/knowhow/knowhowListView" method="POST">
-							<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" /> 
-							<input type="hidden" id=likeBoardNum name="board_num" value="<%= kc.getNo() %>" />
-						</form>
-						<div><img class="LikeImgButton" src="<%= request.getContextPath()%>/images/like.png" id="likeBtn" alt="" /></div>
-	
-							</span>
-<%
- }
- %>
-						<%
-						if (canDelete) {
-						%>
 						<button class="btn-delete" value="<%=kc.getNo()%>">삭제</button> <%
  }
  %>
@@ -200,7 +161,9 @@ boolean canLike = loginMember != null;
 		name="knowhowNo" value="<%=knowhow.getNo()%>" />
 </form>
 <script>
-	    		
+
+
+<%-- 	    		
 		$(document).ready(function(){
 		    $("#likeBtn").click(function(){
 				$.ajax({
@@ -222,7 +185,7 @@ boolean canLike = loginMember != null;
 		    });
 		});
 		
-		
+		 --%>
 /* function like(){	  
 	$.ajax({		    
 		type: "POST",		    

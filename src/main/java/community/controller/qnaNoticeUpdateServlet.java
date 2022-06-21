@@ -40,7 +40,7 @@ public class qnaNoticeUpdateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String saveDirectory = getServletContext().getRealPath("/upload/qna");
+		String saveDirectory = getServletContext().getRealPath("/upload/community/qna");
 		int maxPostSize = 1024 * 1024 * 10;
 		String encoding = "utf-8";
 		HomeSweetHomeFileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();

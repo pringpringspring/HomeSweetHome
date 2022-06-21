@@ -4,18 +4,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="member.model.dto.Member"%>
 <%@page import="java.util.List"%>
-<%@page import="community.model.dao.LikeDao"%>
+<%@page import="community.model.dao.PictureDao"%>
 <%@page import="community.model.dto.LikeDTO"%>
 <%@page import="community.model.dto.PictureAttachment"%>
 <%@page import="community.model.dto.Picture"%>
 <%@page import="community.model.dto.PictureExt"%>
-
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
-
+int no = Integer.parseInt(request.getParameter("no"));
+String member_id = request.getParameter("member_id");
 PictureExt picture = (PictureExt) request.getAttribute("picture");
 boolean canEdit = loginMember != null
 		&& (loginMember.getMemberId().equals(picture.getMemberId()) || loginMember.getMemberRole() == MemberRole.A);
@@ -25,15 +24,15 @@ boolean canLike = loginMember != null;
 <script>
 	$(function(){
 		$(".cancel_love").click(function(){
-			location.href="NoLike.do?no=<%=picture.getImgNo()%>";
+			location.href="NoLike.do?no=<%=no%>";
 		});
 		$(".plus_love").click(function(){
-			location.href="Like.do?no=<%=picture.getImgNo()%>";
+			location.href="Like.do?no=<%=no%>";
 		});
 	});
 </script>
 
-<section id="board-container">
+<section id="board-view-container">
 	<table id="tbl-board-view">
 
 		<div class="title-view">
@@ -52,13 +51,7 @@ boolean canLike = loginMember != null;
 			<img
 				src="<%=request.getContextPath()%>/upload/community/picture/<%=attach.getRenamedFilename()%>"
 				width=450px>
-			<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
-			<h5>
-				첨부파일 <img alt="첨부파일"
-					src="<%=request.getContextPath()%>/images/file.jpg" width=13px>
-				<a
-					href="<%=request.getContextPath()%>/board/fileDownload?no=<%=attach.getNo()%>"><%=attach.getOriginalFilename()%></a>
-			</h5>
+			
 			<%
 			}
 
@@ -72,22 +65,22 @@ boolean canLike = loginMember != null;
 		
 		<div class="love-box">
 				<% if(canLike) { %> 
-						<% LikeDao likedao = new LikeDao(); 
+						<% PictureDao pd = new PictureDao(); 
 						LikeDTO likedto = new LikeDTO();
-						
-						boolean like_check= likedao.like_search(likedto.getMemberId(), likedto.getNo());
+
+						boolean like_check= pd.like_search(member_id, no);
+
 						if(like_check){
 						%>
 					<button class="love-btn cancel_love">
 					<img class="heart" alt="cancel_love" src="<%=request.getContextPath()%>/images/like.png" width="20px">
-					<%=likedao.likecount(picture.getLikeCount())%>
-					>
+
 					</button>
 					<%} else{ %>
 						<button class="love-btn plus_love">
 					<img class="heart" alt="plus_love" src="<%=request.getContextPath()%>/images/dislike.png"width="20px">
-				<%-- <%=likedao.likecount(picture.getLikeCount())%> --%>
-			<%=picture.getLikeCount() %>
+				
+		<%-- 	<%=pd.likecount(no)%> --%>
 				</button>
 					<%} %>	
 
@@ -133,7 +126,7 @@ const updateBoard = () => {
 %>
 
 <script>
-const LikeBtn = (e) => {
+<%-- const LikeBtn = (e) => {
 	   const likeItBtn = document.querySelector("#btn-like");
 	   let likeItBtnSrc = likeItBtn.lastElementChild.src;
 	   if(likeItBtnSrc == "like.png"){
@@ -164,7 +157,7 @@ const LikeBtn = (e) => {
     	  alert("통신오류")
    });
 }
-};
+}; --%>
 
 
 </script>

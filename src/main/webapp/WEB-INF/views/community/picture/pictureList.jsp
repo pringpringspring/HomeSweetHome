@@ -3,7 +3,6 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.PictureExt"%>
 <%
@@ -36,6 +35,7 @@ List<PictureExt> list = (List<PictureExt>) request.getAttribute("list");
 </h5>
 
 <!-- 카테고리들어갈부분-->
+<p><--카테고리들어갈부분--></p>
 </nav>
 
 
@@ -61,7 +61,7 @@ List<PictureExt> list = (List<PictureExt>) request.getAttribute("list");
 		href="<%=request.getContextPath()%>/picture/pictureView?no=<%=pic.getImgNo()%>"
 		class="thumbnail"> <img
 		src="<%=request.getContextPath()%>/upload/community/picture/<%=pic.getCoverPhoto()%>"
-		class="thumb_nail"> <b><%=pic.getTitle()%></b>
+		class="thumb_nail"><b><%=pic.getTitle()%></b>
 
 		<p><%=pic.getNickName()%>
 			· 조회수

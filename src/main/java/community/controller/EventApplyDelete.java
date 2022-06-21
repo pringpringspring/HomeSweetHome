@@ -31,7 +31,7 @@ public class EventApplyDelete extends HttpServlet {
 			List<EventAppAtt> attachments = es.findByNo(no).getAttachments();
 			if (attachments != null && !attachments.isEmpty())
 				for (EventAppAtt attach : attachments) {
-					String saveDirectory = getServletContext().getRealPath("/upload/event");
+					String saveDirectory = getServletContext().getRealPath("/upload/community/event");
 					File delFile = new File(saveDirectory, attach.getRenamedFilename());
 					if (delFile.exists()) {
 						delFile.delete();
