@@ -1,6 +1,6 @@
 package community.model.dto;
 
-public class LikeDTO {
+public class LikeDTO{
 	private String memberId;
 	private int boardNo;
 	private String likeIt;

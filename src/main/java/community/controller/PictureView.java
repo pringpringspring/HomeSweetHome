@@ -1,6 +1,7 @@
 package community.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import community.model.dto.LikeDTO;
 import community.model.dto.PictureExt;
+import community.model.dto.QnaBoardExt;
 import community.model.service.PictureService;
 import member.model.dto.Member;
 
@@ -57,10 +59,7 @@ public class PictureView extends HttpServlet {
 			
 			
 			HttpSession session = request.getSession();
-	
-	
-			/* List <LikeBc> likeit = ps.LikebyMemberId(memberId); */
-			
+
 			
 			picture.setContent(picture.getContent().replaceAll("\n", "<br/>"));
 

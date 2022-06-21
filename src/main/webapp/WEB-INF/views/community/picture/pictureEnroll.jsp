@@ -81,11 +81,13 @@ window.onload = () => {
 	<tr>
 		<th>첨부파일</th>
 		<td>			
-			<input type="file" name="upFile1">
-			<br>
-			<input type="file" name="upFile2">
-			<br>
-			<input type="file" name="upFile3">
+		<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+    <input type="file" id="file" name="upFile2">
+    <input type="file" id="file" name="upFile3">
+</div>
 		</td>
 	</tr>
 
@@ -118,6 +120,11 @@ categoryShape.addEventListener('change',(e)=>{
 	const{value}  = e.target;
 	console.log(value);
 });
+
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
 </script>
 
 

@@ -164,35 +164,6 @@ public class PictureService {
 		result = cd.getProductCount(conn, catenum,catenum2);		
 		return result;
 	}
-	/*
-	 * public int insertLike(LikeDTO likey) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.insertLike(likey); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 */
-
-
-
-	/*
-	 * public int insertLike(LikeBc likeit) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.insertLike(conn, likeit); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 * 
-	 * public int deleteLike(LikeBc likeit) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.deleteLike(conn, likeit); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 * 
-	 * public List<LikeBc> LikebyMemberId(String memberId) { Connection conn =
-	 * getConnection(); List<LikeBc> list = cd.LikebyMemberId(conn, memberId);
-	 * close(conn); return list; }
-	 */
-	/*
-	 * public List<LikeDTO> LikeByMemberId(String memberId) { Connection conn =
-	 * getConnection(); List<LikeDTO> list = cd.LikeByMemberId(conn, memberId);
-	 * close(conn); return list; }
-	 */
 	
 	public List<PictureExt> sortRead(Map<String, Object> param) {
 		Connection conn = getConnection();
@@ -208,51 +179,7 @@ public class PictureService {
 		return list;
 	}
 	
-	
-	public LikeDTO likeCheck(String memberId,int no) {
-		Connection conn = getConnection();
-		LikeDTO like = cd.likeCheck(conn, memberId,no);
-		close(conn);
-		return like;
-	}
 
-	
-	public Object updateLikeCount(String memberId,int no) {
-		int result = 0;
-		Connection conn = getConnection();
-	      
-		try {
-			result = cd.updateLikeCount(conn,  memberId,no);
-			commit(conn);
-		} catch (Exception e) {
-			rollback(conn);
-			throw e;
-		} finally {
-			close(conn);
-		}
-		
-		return result;
-		
-	}
-
-	/**
-	 * 좋아요 상태 등록
-	 * @param like
-	 */
-	public void setPostingLike(LikeDTO like) {
-		int result = 0;
-		Connection conn = getConnection();
-		
-		try {
-			result = cd.setPostingLike(conn, like);
-			commit(conn);
-		} catch (Exception e) {
-			rollback(conn);
-			throw e;
-		} finally {
-			close(conn);
-		}
-	}
 	
 	/**이거는 다른거**/
 	public LikeDTO selectLikeOne(String memberId, int no) {
@@ -288,6 +215,13 @@ public class PictureService {
 		close(conn);
 		return result;
 	}
-
+	
+	//댓글수
+	public int likeCount(int no) { 
+		Connection conn = getConnection(); 
+		int result = cd.likeCount(conn,no); 
+		close(conn); 
+		return result; 
+		}	
 
 }

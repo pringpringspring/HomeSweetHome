@@ -48,9 +48,13 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value=""><br>
-			<input type="file" name="upFile2" value=""><br>
-			<input type="file" name="upFile3" value="">
+<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+    <input type="file" id="file" name="upFile2">
+    <input type="file" id="file" name="upFile3">
+</div>
 		</td>
 	</tr>
 	<tr>
@@ -68,4 +72,11 @@
 </table>
 </form>
 </section>
+
+<script>
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
+</script>
  <%@ include file="/WEB-INF/views/common/footer.jsp" %>

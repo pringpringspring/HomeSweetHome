@@ -5,24 +5,7 @@
 <%@page import="community.model.dto.EventExt"%>
 <%@page import="community.model.dto.EventAttachment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<style>
-body{font-family: 'Noto Sans KR', sans-serif;}
-#board-container{margin-bottom: 1rem;}
-.top{margin-top :3rem;margin-left: 41rem;}
-.content{margin-left:29.2rem;}
-input#btn-partgo{background-color:#35C5F0;height:4.7rem;width: 25.2rem;border:0;
-outline: none; text-align :center;font-size: 21px;color:white;font-weight: bold;border-radius: 8px;}
-input#btn-part{background-color:#AB77FF;height:4.7rem;width: 25.2rem;border:0;outline: none; text-align :center;
-font-size: 21px;color:white;font-weight: bold;border-radius: 8px;}
-.contest-participate{margin-left : 38.2rem;}
-.contest-participatego{margin-left : 38.2rem;}
-#btn-part:hover,#btn-partgo:hover{cursor: pointer;}
-.btn-updel{float:right; margin-right: 27.5rem; margin-top: 1rem;}
-.btn-upd{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 5.8rem; height: 2.7rem; margin-right:0.52rem;}
-.btn-del{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
-</style>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
 
 <%
 EventExt event = (EventExt) request.getAttribute("event");
@@ -30,34 +13,33 @@ EventExt event = (EventExt) request.getAttribute("event");
 && loginMember.getMemberRole() == MemberRole.A);
 %>
 
-<section id="board-container">
-<div class="top">
+<section id="event-view-container">
+
 <h2><%=event.getEventTitle() %></h2>
 <h4><%=event.getEventContent() %></h4>
-</div>
 		<% 
 			List<EventAttachment> attach = event.getAttachments();
 			if(attach != null && !attach.isEmpty()){
 				for(EventAttachment att : attach){
 		%>
-<div class="content">
-<img src="<%=request.getContextPath()%>/upload/community/event/<%=att.getRenamed_filename()%>">
-</div>
+<img src="<%=request.getContextPath()%>/upload/community/event/<%=att.getRenamed_filename()%>"><br>
 		<%
 				}
 			}
 		%>
+
  		<div class="contest-participate">
-	<input type="button" value="챌린지 참여하기" id="btn-part" name="btn-part"
+	<input type="button" value="챌린지 참여하기" class="btn-part" name="btn-part"
 		onclick="location.href='<%=request.getContextPath()%>/event/eventApplyEnroll';"/></div>
 		 		<div class="contest-participatego">
-	<input type="button" value="참여작 보러가기" id="btn-partgo" name="btn-partgo"
+	<input type="button" value="참여작 보러가기" class="btn-partgo" name="btn-partgo"
 		onclick="location.href='<%=request.getContextPath()%>/event/eventApplyList';"/>
 </div>
 				<% if(canEdit){ %>
-				<div class="btn-updel">
+				<div id="btn-updel">
 				<input type="button"  class="btn-upd" value="수정하기" onclick="updateBoard();">
 				<input type="button" class= "btn-del" value="삭제하기" onclick="deleteBoard();">
+				<input type="button" class= "btn-list" value="목록으로" onclick="backBoard();">
 				</div>
  		<% } %>
  		
@@ -75,9 +57,11 @@ const deleteBoard = () =>{
 const updateBoard= () =>{
 	location.href = "<%= request.getContextPath() %>/event/eventUpdate?no=<%=event.getNo()%>";
 }
-
-
+const backBoard= () =>{
+	location.href = "<%= request.getContextPath() %>/community/eventList";
+}
 </script>
+
 <%} %>
 
      <a style="display:scroll;position:fixed;bottom:92px; right:45px;" rel="nofollow"

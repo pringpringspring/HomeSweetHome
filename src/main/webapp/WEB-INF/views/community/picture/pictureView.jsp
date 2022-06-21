@@ -67,10 +67,7 @@ boolean canEdit = loginMember != null
 				<c><%=picture.getReadCount()%></c>
 				&nbsp;&nbsp;
 			</div>
-		<%
-PictureDao pd =new PictureDao();
-%>
-		<div class="like-btn">
+	<div class="like-btn">
 <%-- 		<%if(canLike){%> --%>
 <form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView" method="POST">
 		<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" />
@@ -78,13 +75,14 @@ PictureDao pd =new PictureDao();
 	</form>
 
 	<div id="LikeAlarm">
-		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" alt=""  width="20px"/>좋아요 
+		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" width="25px"/>좋아요 
+			<%=picture.getLikeCount() %>
 	</div>
 
 <%-- <%} %> --%>
 		</div>
 			
-			</div>
+	</div>
 			<%
 			if (canEdit) {
 			%>
@@ -121,16 +119,6 @@ const updateBoard = () => {
 %>
 
 <script>
-window.onload = () =>{
-	const likeitt = () =>{
-		document.generalLikeUpFrm.submit();
-	};
-	
-};
-
-
-
-
 
 <%-- const LikeBtn = (e) => {
 	   const likeItBtn = document.querySelector("#btn-like");

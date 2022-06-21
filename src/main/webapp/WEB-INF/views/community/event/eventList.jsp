@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
+	href="<%=request.getContextPath()%>/css/community/event.css" />
 <%
 List<EventExt> list = (List<EventExt>) request.getAttribute("list");
 boolean canEdit = (loginMember != null && 
@@ -17,14 +17,6 @@ loginMember.getMemberRole() == MemberRole.A);
 %>
 
 <style>
-#event{
-margin-top:4.2rem;
-}
-.event-list{
-margin-left:31.7rem;
-margin-top: 5.2rem;
-} 
-
 #listimg{
 width:57%;
 height:23%;
@@ -37,12 +29,10 @@ transform:scale(1.0);        
   -ms-transform: scale(1.07);
   -o-transform: scale(1.07);
   }
-.going{color:#35C5F0; font-weight: bold; font-size:19px;}
-.end{color: gray; font-weight: bold; font-size:19px;}
 </style>
 <%if(canEdit) {%>
 <div id="event">
-	<input type="button" value="이벤트작성" id="btn-add" name="btn-add"
+	<input type="button" value="이벤트작성"  class="btn-event-add" name="btn-event-add"
 		onclick="location.href='<%=request.getContextPath()%>/event/eventEnroll';" />
 <%} %> 
 
