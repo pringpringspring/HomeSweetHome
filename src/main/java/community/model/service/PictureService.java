@@ -209,5 +209,85 @@ public class PictureService {
 	}
 	
 	
+	public LikeDTO likeCheck(String memberId,int no) {
+		Connection conn = getConnection();
+		LikeDTO like = cd.likeCheck(conn, memberId,no);
+		close(conn);
+		return like;
+	}
+
 	
+	public Object updateLikeCount(String memberId,int no) {
+		int result = 0;
+		Connection conn = getConnection();
+	      
+		try {
+			result = cd.updateLikeCount(conn,  memberId,no);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+		
+	}
+
+	/**
+	 * 좋아요 상태 등록
+	 * @param like
+	 */
+	public void setPostingLike(LikeDTO like) {
+		int result = 0;
+		Connection conn = getConnection();
+		
+		try {
+			result = cd.setPostingLike(conn, like);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+	}
+	
+	/**이거는 다른거**/
+	public LikeDTO selectLikeOne(String memberId, int no) {
+		Connection conn = getConnection();
+		LikeDTO bl= cd.selectLikeOne(conn, memberId,no);
+		close(conn);
+		return bl;
+	}
+
+	public int insertLike(LikeDTO like) {
+		Connection conn = getConnection();
+		//dao단에 요청
+		int result = cd.insertLike(conn, like);
+		
+		//트랜잭션 처리
+		if(result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		
+		//자원반납
+		close(conn);
+		return result;
+	}
+
+	public int deleteLike(LikeDTO bl) {
+		Connection conn = getConnection();
+		int result = cd.deleteLike(conn, bl);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+
 }

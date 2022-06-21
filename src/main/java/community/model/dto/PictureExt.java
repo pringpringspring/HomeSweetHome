@@ -6,6 +6,8 @@ import java.util.List;
 public class PictureExt extends Picture {
 	private int attachCount;
 	private List<PictureAttachment> attachments;
+	private List<LikeDTO> likes;
+	
 
 
 	public PictureExt() {
@@ -13,35 +15,51 @@ public class PictureExt extends Picture {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PictureExt(int attachCount, List<PictureAttachment> attachments) {
+
+
+	public PictureExt(int attachCount, List<PictureAttachment> attachments, List<LikeDTO> likes) {
 		super();
 		this.attachCount = attachCount;
 		this.attachments = attachments;
-
+		this.likes = likes;
 	}
+
+
 
 	public int getAttachCount() {
 		return attachCount;
 	}
 
+
+
 	public void setAttachCount(int attachCount) {
 		this.attachCount = attachCount;
 	}
 
+
+
 	public List<PictureAttachment> getAttachments() {
 		return attachments;
 	}
+
+
 
 	public void setAttachments(List<PictureAttachment> attachments) {
 		this.attachments = attachments;
 	}
 
 
-	@Override
-	public String toString() {
-		return "PictureExt [attachCount=" + attachCount + ", attachments=" + attachments 
-				+ "]";
+
+	public List<LikeDTO> getLikes() {
+		return likes;
 	}
 
+
+
+	public void setLikes(List<LikeDTO> likes) {
+		this.likes = likes;
+	}
+
+	
 
 }

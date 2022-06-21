@@ -1,7 +1,6 @@
 package community.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import community.model.dto.LikeDTO;
 import community.model.dto.PictureExt;
 import community.model.service.PictureService;
 import member.model.dto.Member;
@@ -66,7 +66,15 @@ public class PictureView extends HttpServlet {
 
 			System.out.println(picture);
 
+			
+			Member loginMember
+			= (Member)session.getAttribute("loginMember");
+			
+			LikeDTO resultLD =ps.selectLikeOne(loginMember.getMemberId(),no);
+			boolean like = resultLD == null ? false:true;
+			
 			request.setAttribute("picture", picture);
+			request.setAttribute("like", like);
 			/* request.setAttribute("likeit", likeit); */
 			
 
@@ -98,6 +106,25 @@ public class PictureView extends HttpServlet {
 		 * 
 		 * throw e; }
 		 */
+		
+		int no = Integer.parseInt(request.getParameter("no"));
+		String memberId = request.getParameter("memberId");
+		
+		LikeDTO bl = ps.selectLikeOne(memberId,no);
+		boolean existLike = bl == null ? false : true;
+		if(existLike) {
+			int result = ps.deleteLike(bl);
+			System.out.println("insertLike(취소) = "+result);
+		}else {
+			LikeDTO like =new LikeDTO(memberId,no,"T");
+			int result = ps.insertLike(like);
+			System.out.println("insertLike(추가) = "+result);
+		}
+		
+		LikeDTO resultLD = ps.selectLikeOne(memberId,no);
+		boolean like = resultLD == null ? false:true;
+		
+	
 	}
 
 }
