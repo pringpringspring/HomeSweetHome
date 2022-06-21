@@ -70,9 +70,9 @@ boolean canEdit = loginMember != null
 		<%
 PictureDao pd =new PictureDao();
 %>
-		<div class="love-box">
+		<div class="like-btn">
 <%-- 		<%if(canLike){%> --%>
-<form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView"" method="POST">
+<form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView" method="POST">
 		<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" />
 		<input type="hidden" id=likeBoardNum name="no" value="<%= picture.getImgNo()%>" />
 	</form>
@@ -82,8 +82,6 @@ PictureDao pd =new PictureDao();
 	</div>
 
 <%-- <%} %> --%>
-
-
 		</div>
 			
 			</div>
