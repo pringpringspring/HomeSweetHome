@@ -7,6 +7,7 @@
 <script src="<%= request.getContextPath() %>/js/memberSignUp.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <div class="social-signup">
 	<a href="<%= request.getContextPath() %>/member/SignInPage">SNS계정으로 간편 회원가입</a>	

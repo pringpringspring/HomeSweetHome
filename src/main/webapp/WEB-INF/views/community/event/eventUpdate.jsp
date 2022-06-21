@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="community.model.dto.EventAttachment"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.EventExt"%>

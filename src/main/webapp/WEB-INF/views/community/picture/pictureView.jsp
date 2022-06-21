@@ -13,6 +13,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 
 PictureExt picture = (PictureExt) request.getAttribute("picture");

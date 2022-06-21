@@ -7,7 +7,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>    
+<%@ include file="/WEB-INF/views/common/header.jsp" %>  
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>  
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/product/productInputStock.css" />

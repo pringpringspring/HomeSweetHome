@@ -3,6 +3,7 @@
   <%@page import="java.util.List"%>
   <%@page import="community.model.dto.EventAppExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+ <%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 List<EventAppExt> list = (List<EventAppExt>) request.getAttribute("list");
 %>

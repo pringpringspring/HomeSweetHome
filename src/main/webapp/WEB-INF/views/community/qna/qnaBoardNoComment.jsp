@@ -7,6 +7,7 @@
 <%@page import="community.model.dto.QnaBoard"%>
 <%@page import="community.model.dto.QnaBoardExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	List<QnaBoard> comlist =(List<QnaBoard>)request.getAttribute("comlist");
 	int[] replycount = (int [])request.getAttribute("replycount");

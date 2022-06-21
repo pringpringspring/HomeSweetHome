@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/cartView.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	List<Cart> cartList = (List<Cart>) request.getAttribute("cartList");
 	List<ProductExt> productList = (List<ProductExt>) request.getAttribute("productList");

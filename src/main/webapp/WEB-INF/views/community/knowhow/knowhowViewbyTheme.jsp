@@ -12,6 +12,7 @@ int catenum = (int) request.getAttribute("catenum");
 %>
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <input type="button" value="전체" id="btn-storage" name="btn-go"
 	class="btn-go"
