@@ -4,28 +4,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- <style>
- #board-container{margin-left:27rem; margin-top: 5.2rem;}
- .eventid:focus .title_part:focus,.content:focus, .thumb:focus,.sdate:focus,.edate:focus{border: 1px solid #35C5F0; outline:none;}
- .eventid:hover, .title_part:hover,.content:hover, .thumb:hover,.sdate:hover,.edate:hover{border: 1px solid #36C4F2; outline:none;}
- .eventid{height: 1.8rem;width: 7.2rem; border: 1px solid #D5D5D5; margin-bottom: 0.2rem;}
- .title_part{height: 3rem;width: 17rem;
-font-size: 1rem;font-weight:bold;border: 1px solid #D5D5D5;border-radius: 0.25rem;box-sizing: border-box;
-color:black;  margin-bottom: 1rem;}
-.content{border: 1px solid #D5D5D5; margin-top:1rem; margin-bottom: 1rem;}
-.thumb{border: 1px solid #D5D5D5; margin-top:1rem; margin-bottom: 1rem; margin-left:0.4rem; height:1.9rem;}
- .sdate,.edate{border: 1px solid #D5D5D5; margin-top:1rem; margin-bottom: 1rem; height:2rem;}
- .enrol:hover{cursor:pointer;}
- .enrol{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 5.3rem; height: 2.7rem; margin-top: 1rem;}
- </style>
- 
- 
- 
- 
- 
- 
- 
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
+
 <script>
 /**
 * boardEnrollFrm 유효성 검사
@@ -52,7 +32,7 @@ window.onload = () => {
 }
 </script>
 
-<section id="board-container">
+<section id="event-enroll-container">
 
 	<form name="eventEnrollFrm"
 		action="<%=request.getContextPath()%>/event/eventEnroll"
@@ -64,16 +44,16 @@ window.onload = () => {
 			</tr>
 			<tr>
 				<th>제 목</th>
-				<td><input type="text" name="title" class="title_part" required></td>
+				<td><input type="text" name="title" class="event-en-title" required></td>
 			</tr>
 
-<!-- 			<tr>
+<!-- 	<tr>
 				<th>첨부파일</th>
 				<td><input type="file" name="upFile1"></td>
 			</tr> -->
 			<tr>
 				<th>내 용</th>
-				<td><textarea rows="5" cols="40" name="content" class="content"></textarea></td>
+				<td><textarea rows="5" cols="40" name="content" class="event-en-content"></textarea></td>
 			</tr>
 
 			<tr>
@@ -92,7 +72,7 @@ window.onload = () => {
 			</tr>
 
 			<tr>
-				<th colspan="2"><input type="submit" value="등록하기" class="enrol"></th>
+				<th colspan="2"><input type="submit" value="등록하기" class="event-en-roll"></th>
 			</tr>
 		</table>
 	</form>

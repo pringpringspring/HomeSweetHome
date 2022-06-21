@@ -7,21 +7,7 @@
 <%
 	EventAppExt eventapp = (EventAppExt) request.getAttribute("eventapp");
 %>
-<style> 
-#update-eventApply{margin-left:37rem; margin-top: 5.2rem;}
-.btn-modi:hover,.btn-no:hover{cursor:pointer;}
-#eventNo:focus,.title:focus,.nickname:focus,.content:focus{border: 1px solid #35C5F0; outline:none;}
-#eventNo:hover,.title:hover,.nickname:hover,.content:hover{border: 1px solid #36C4F2; outline:none;}
- .eventNo{margin-right: 1rem;}
- #eventNo{border: 1px solid #D5D5D5; margin-top:1rem; margin-bottom: 3rem;}
-.title{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:2rem; width:15.2rem;margin-left: 0.2rem;}
-.nickname{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:1.5rem;}
-.content{border: 1px solid #D5D5D5; margin-bottom: 1rem; margin-top: 1.2rem;}
-.btn-modi{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
-font-weight:bold; background: white;width: 6.1rem; height: 2.2rem; margin-right:0.52rem;}  
-.btn-no{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
-font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:0.52rem;}    
-</style>
+<link rel="stylesheet"href="<%=request.getContextPath()%>/css/community/event.css" />
 
 <section id="update-eventApply">
 <form 
@@ -34,13 +20,13 @@ font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:
 
 	<tr>
 		<th>이벤트 제목</th>
-		<td><input type="text" name="eventapplyCode" class="title" value="<%=eventapp.getEventapplyCode()%>" required></td>
+		<td><input type="text" name="eventapplyCode" class="eau-title" value="<%=eventapp.getEventapplyCode()%>" required></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%= eventapp.getMemberId() %>" readonly/>
-			<input type="text" name="nickName"  class="nickname" value="<%= eventapp.getNickName()%>" readonly/>
+			<input type="text" name="nickName"  class="eau-nickname" value="<%= eventapp.getNickName()%>" readonly/>
 		</td>
 	</tr>
 	
@@ -53,7 +39,7 @@ font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:
 			for(int i = 0; i < attachments.size(); i++){
 				EventAppAtt attach = attachments.get(i);
 	%>
-			<img src="<%=request.getContextPath() %>/images/file.png" width="16px">
+			<img src="<%=request.getContextPath() %>/images/file.jpg" width="16px">
 			<%=attach.getOriginalFilename()%>
 			<input type="checkbox" name="delFile" id="delFile<%= i + 1 %>" value="<%= attach.getNo() %>"/>
 			<label for="delFile<%= i + 1 %>">삭제</label>
@@ -62,15 +48,20 @@ font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="">
-			<input type="file" name="upFile2" value="">
+	<!-- 		<input type="file" name="upFile1" value="">
+			<input type="file" name="upFile2" value=""  class="file"> -->
+			<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+</div>
 		</td>
 	</tr>
 
 	<tr>
 		<th>내 용</th>
 		<td>
-			<textarea rows="5" cols="40" name="content" class="content"><%= eventapp.getContent() %></textarea>
+			<textarea rows="5" cols="40" name="content" class="eau-content"><%= eventapp.getContent() %></textarea>
 		</td>
 	</tr>
 	
@@ -83,8 +74,8 @@ font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:
 </select>
 	<tr>
 		<th colspan="2">
-			<input type="submit"  class="btn-modi" value="수정하기"/>
-			<input type="button"  class="btn-no"value="취소" onclick="history.go(-1);"/>
+			<input type="submit"  class="eau-btn-modi" value="수정하기"/>
+			<input type="button"  class="eau-btn-no"value="취소" onclick="history.go(-1);"/>
 		</th>
 	</tr>
 </table>
@@ -131,5 +122,9 @@ document.boardUpdateFrm.onsubmit = (e) => {
 		return false;
 	}
 }
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

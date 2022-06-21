@@ -5,6 +5,7 @@
 <%@page import="community.model.dto.EventAppExt"%>
 <%@page import="community.model.dto.EventAppAtt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
 <%
 	EventAppExt event = (EventAppExt) request.getAttribute("event");
 
@@ -12,21 +13,10 @@
 			&& (loginMember.getNickname().equals(event.getNickName()) 
 					|| loginMember.getMemberRole() == MemberRole.A);	
 %>
-<style>
-body{font-family: 'Noto Sans KR', sans-serif;}
-#board-container{margin-left:36.5rem; margin-top: 3rem;}
-.btn-back:hover,.btn-modi:hover,.btn-del:hover{cursor:pointer;}
-.btn-back{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color:white;font-size: 1rem;
-font-weight:bold; background: #35c5f0;width: 5.3rem; height: 2.7rem; margin-top: 1rem; margin-bottom: 0.8rem;}
-.btn-modi{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
-font-weight:bold; background: white;width: 4.1rem; height: 2.2rem; margin-right:0.52rem;}
-.btn-del{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
-font-weight:bold; background: white;width: 4.1rem; height: 2.2rem; margin-right:0.52rem;}
-</style>
 
 
 
-<section id="board-container">
+<section id="event-app-enroll-container">
 <table id="tbl-board-view">
 <div class="title-view">
 <% 

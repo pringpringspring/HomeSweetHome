@@ -458,96 +458,144 @@ public class PictureDao {
 	}
 	
 	
-	public List<PictureExt> likePicture(int no) throws Exception{
-		Connection con = JdbcTemplate.getConnection();
-		String sql = prop.getProperty("likeit");
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, no);
-		ResultSet rs = ps.executeQuery();
-		
-		List<PictureExt> likeList = new ArrayList<>();
-		while(rs.next()) {
-			PictureExt likeDto = new PictureExt();
-			likeDto.setImgNo(rs.getInt("community_img_no"));
-			likeDto.setLikeCount(rs.getInt("like_count"));
-			likeList.add(likeDto);
-		}
-		con.close();
-		
-		return likeList;		
-	}
-
-	
-	// 좋아요 추가하기
-	public void insertLike(LikeDTO like) throws Exception{ 
-		  Connection con = JdbcTemplate.getConnection();
+	/*
+	 * public List<PictureExt> likePicture(int no) throws Exception{ Connection con
+	 * = JdbcTemplate.getConnection(); String sql = prop.getProperty("likeit");
+	 * PreparedStatement ps = con.prepareStatement(sql); ps.setInt(1, no); ResultSet
+	 * rs = ps.executeQuery();
+	 * 
+	 * List<PictureExt> likeList = new ArrayList<>(); while(rs.next()) { PictureExt
+	 * likeDto = new PictureExt(); likeDto.setImgNo(rs.getInt("community_img_no"));
+	 * likeDto.setLikeCount(rs.getInt("like_count")); likeList.add(likeDto); }
+	 * con.close();
+	 * 
+	 * return likeList; }
+	 * 
+	 */
 	 
-	 
-	  String sql =
-	  "insert into like_img values(?,?)" ;
-	  PreparedStatement ps = con.prepareStatement(sql); 
-	  ps.setString(1,like.getMemberId()); 
-	  ps.setInt(1, like.getBoardNo()); 
-	  
-	  ps.execute();
-	 
-	  con.close(); 
-	  
-	}
+	
 	
 
-	// 좋아요 삭제
-		public void deleteLike(LikeDTO like) throws Exception{ Connection
-		con=JdbcTemplate.getConnection();
+	/**이거는 다른거**/
+			
+			public LikeDTO selectLikeOne(Connection conn, String memberId, int no) {
+				LikeDTO ld = null;
+				PreparedStatement pstmt = null;
+				ResultSet rset = null;
+				String sql = prop.getProperty("selectLikeOne");
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, memberId);
+					pstmt.setInt(2, no);
+					rset = pstmt.executeQuery();
+					
+					if(rset.next()) {
+						ld = new LikeDTO();
+						ld.setMemberId(rset.getString("member_id"));
+						ld.setBoardNo(rset.getInt("board_no"));
+						ld.setLikeIt(rset.getString("likeit"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					close(rset);
+					close(pstmt);
+				}
+				return ld;
+			}
 
-		String sql = "delete like_img where member_id = ? and board_no = ?";
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1,like.getMemberId());
-		ps.setInt(2,like.getBoardNo());
-		ps.execute();
-		con.close();
-		}
-		public boolean like_search(String memberId, int no) throws Exception {
-			  Connection con = JdbcTemplate.getConnection();
-			 
-			  String sql = "select * from like_img where member_id=? and board_no = ?";
-			  PreparedStatement ps = con.prepareStatement(sql);
-			  ps.setString(1, memberId);
-			  ps.setInt(2, no);
-			  
-			  ResultSet rs = ps.executeQuery();
-			  
-			  boolean result = false; 
-			  if(rs.next()) { 
-				  result = true; 
-				  } 
-			  con.close();
-			 
-			  return result; 
-			  }
+			public int insertLike(Connection conn, LikeDTO like) {
+				int result = 0;
 
-			public int likecount (int no) throws Exception { Connection con =
-			  JdbcTemplate.getConnection();
-			  
-			  String sql = "select board_no, count(*) like_count from like_img where board_no= ?  group by board_no";
-			  PreparedStatement ps = con.prepareStatement(sql); 
-			  ps.setInt(1, no);
-			  
-			  ResultSet rs = ps.executeQuery();
-			  
-			  int like_count = 0; 
-			  if(rs.next()) { 
-				  like_count = rs.getInt("no"); 
-				  } 
-			  con.close();
-			  
-			  return like_count; 
-			  }
-	
-	
-	
-	
-	
+				PreparedStatement pstmt = null;
+				String sql = prop.getProperty("insertLike");
+				
+				try {
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, like.getMemberId());
+					pstmt.setInt(2, like.getBoardNo());
+					pstmt.setString(3, like.getLikeIt());
+					
+					result = pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					close(pstmt);
+				}
+				return result;
+			}
+
+			public int deleteLike(Connection conn, LikeDTO bl) {
+				int result = 0;
+				PreparedStatement pstmt = null;
+				String query = prop.getProperty("deleteLike"); 
+
+				try {
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, bl.getMemberId());
+					pstmt.setInt(2, bl.getBoardNo());
+					
+					result = pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					close(pstmt);
+				}
+				
+				return result;
+			}
+
+			public int like_count (int no) throws Exception {
+				Connection con = JdbcTemplate.getConnection();
+				
+				String sql = "select C.community_img_no, C.title,count(L.board_no) like_count from community_image C left outer join like_img L  on c.community_img_no = L.board_no where community_img_no =? "
+						+ "group by C.community_img_no, C.title";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, no);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				int likeCnt = 0;
+				if(rs.next()) {
+					likeCnt = rs.getInt("likeCnt");
+				}
+				con.close();
+				
+				return likeCnt;
+			}
+
+			
+			public int likeCount(Connection conn, int no) {
+				List<LikeDTO> list = new ArrayList<>();
+				LikeDTO ld = null;
+				PreparedStatement pstmt = null;
+				ResultSet rset = null;
+				String sql = prop.getProperty("likecnt");
+
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, no);
+					rset = pstmt.executeQuery();
+					while (rset.next()) {
+						ld = new LikeDTO();
+						
+						ld.setMemberId(rset.getString("member_id"));
+						ld.setBoardNo(rset.getInt("board_no"));
+						ld.setLikeIt(rset.getString("likeit"));
+
+						list.add(ld);
+					}
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+				return list.size();
+			}
 }
 	
 

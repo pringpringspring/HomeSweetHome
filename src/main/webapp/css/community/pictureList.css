@@ -17,12 +17,92 @@ height: 3.4rem; width: 7.7rem; border: 1px solid#F0F0F0; font-size:16px; text-al
 line-height: 1.2rem; border-radius: 4%;
 }
 .love-btn{border: 0; outline:0; background-color: white;}
-
 h2{margin-bottom: 1.9rem;}
 p{font-size:17px;}
 
 
+/*****작성하기******/
+body{font-family: 'Noto Sans KR', sans-serif;}
+#pic-enr-container{margin-left:36rem; margin-top: 5.2rem;}
+#categorySpace{margin-right: 1rem; margin-left:1.2rem;border: 1px solid #D5D5D5;outline:none;  margin-bottom:1rem;
+width:4.4rem; height:1.9rem;}
+#categoryShape{margin-left:1.2rem;border: 1px solid #D5D5D5;outline:none;  margin-bottom:1rem; width:7.4rem; height:2rem;}
+#categorySpace:hover,#categoryShape:hover{border: 1.4px solid #36C4F2; outline:none;}
+.pic-enr-btn:hover{cursor:pointer;}
+.pic-enr-title:hover,.pic-enr-nick:hover,.pic-enr-thumb:hover,.pic-enr-content:hover{
+	border: 1.5px solid #36C4F2; outline:none;
+}
+.pic-enr-title:focus,.pic-enr-nick:focus,.pic-enr-thumb:focus,.pic-enr-content:focus{
+	border: 1.5px solid #35C5F0; outline:none;
+}
+.pic-enr-title{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:2rem; width:15.2rem;margin-left: 0.2rem;}
+.pic-enr-nick{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:1.5rem;}
+.pic-enr-thumb{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:1.5rem; margin-left:0.3rem; margin-top: 1rem;}
+.pic-enr-content{border: 1px solid #D5D5D5; margin-bottom: 1.3rem; margin-top: 1.2rem;}
+.pic-enr-btn{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
+
+
+/*****수정하기******/
+#board-up-container{margin-left:36rem; margin-top: 5.2rem;}
+.pic-up-btn:hover,.pic-can-btn:hover{cursor:pointer;}
+.pic-up-title:focus,.pic-up-nic:focus,.pic-up-content:focus{border: 1px solid #35C5F0; outline:none;}
+.pic-up-title:hover,.pic-up-nick:hover,.pic-up-content:hover{border: 1px solid #36C4F2; outline:none;}
+.pic-up-title{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:2rem; width:15.2rem;}
+.pic-up-nic{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:1.5rem;}
+.pic-up-content{border: 1px solid #D5D5D5; margin-bottom: 1rem; margin-top: 1.2rem;}
+.kh-update{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
+font-weight:bold; background: white;width: 6.1rem; height: 2.2rem; margin-right:0.52rem;}  
+.kh-cancle{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
+font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:0.52rem;}   
+
+.pic-up-btn{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;} 
+.pic-can-btn{border: 1px solid #35c5f0;border-radius: 0.25rem; color: #35c5f0; font-size: 1rem;
+font-weight:bold; background: white;width: 3.1rem; height: 2.2rem; margin-right:0.52rem;
+}
+
+/*******글 view*******/
+
+#board-view-container{margin-left:36rem; margin-top: 5.2rem;}
 
 
 
+.btn-upd:hover,.btn-del:hover{cursor:pointer;}
+.btn-upd{margin-top:2.1rem;border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.1rem; height: 2.7rem; margin-right:0.52rem; margin-left:1rem;}
+.btn-del{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
+font-weight:bold; background: white;width: 5.1rem; height: 2.7rem; margin-right:0.52rem;}
 
+
+ .filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+}
+.filebox label {
+    display: inline-block;
+    padding: 0.41rem 0.82rem;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #35c5f0;
+    opacity:0.87;
+    cursor: pointer;
+    height: 1.4rem;
+    margin-left: 1px;
+    margin-top:0.3rem;
+}
+  .filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+  
+  

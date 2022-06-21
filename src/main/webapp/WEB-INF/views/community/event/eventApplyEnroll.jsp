@@ -6,20 +6,7 @@
  <%
 EventAppExt event = (EventAppExt) request.getAttribute("event");
  %>
- <style>
- #eventNo:focus,.eventapplycode:focus,.nickname:focus,.content:focus{border: 1px solid #35C5F0; outline:none;}
- .enrollevent:hover{cursor:pointer;}
- #eventNo:hover,.eventapplycode:hover,.nickname:hover,.content:hover{border: 1px solid #36C4F2; outline:none;}
- #board-container{margin-left:27rem; margin-top: 5.2rem;}
- .eventNo{margin-right: 1rem;}
- #eventNo{border: 1px solid #D5D5D5; margin-top:1rem; margin-bottom: 3rem;}
- .eventapplycode{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:2rem; width:15.2rem;}
- .nickname{border: 1px solid #D5D5D5; margin-bottom: 1rem; height:1.5rem; }
- .content{border: 1px solid #D5D5D5; margin-bottom: 1rem; margin-top: 1.2rem;}
-.enrollevent{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
-
- </style>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
  
  <script>
  window.onload = () => {	
@@ -44,7 +31,7 @@ font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
 	}
  </script>
  
- <section id="board-container">
+ <section id="eae-board-container">
  <form
 	name="eventpartEnrollFrm"
 	action="<%=request.getContextPath()%>/event/eventApplyEnroll"
@@ -70,7 +57,7 @@ font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
 		<th>작성자</th>
 		<td>
 			<input type="hidden" name="memberId" value="<%= loginMember.getMemberId()%>" />
-			<input type="text" name="nickName"  class="nickname" value="<%= loginMember.getNickname()%>" readonly/>
+			<input type="text" name="nickName"  class="eae-nickname" value="<%= loginMember.getNickname()%>" readonly/>
 		</td>
 	</tr>
 	<tr>
@@ -83,11 +70,11 @@ font-weight:bold; background: white;width: 5.8rem; height: 2.7rem;}
 	</tr>
 	<tr>
 		<th>내 용</th>
-		<td><textarea rows="5" cols="40" name="content" class="content"></textarea></td>
+		<td><textarea rows="5" cols="40" name="content" class="eae-content"></textarea></td>
 	</tr>
 	<tr>
 		<th colspan="2">
-			<input type="submit" value="등록하기" class="enrollevent"> 
+			<input type="submit" value="등록하기" class="eae-enrollevent"> 
 		</th>
 	</tr>
 </table>

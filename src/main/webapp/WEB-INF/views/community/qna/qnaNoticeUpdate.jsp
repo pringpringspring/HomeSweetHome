@@ -49,8 +49,11 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value=""><br>
-			<input type="file" name="upFile2" value="">
+<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+</div>
 		</td>
 	</tr>
 	<tr>
@@ -109,6 +112,14 @@ document.boardUpdateFrm.onsubmit = (e) => {
 		return false;
 	}
 }
+
+
+
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
+
 </script>
 
 

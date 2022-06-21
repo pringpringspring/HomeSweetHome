@@ -12,24 +12,29 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+	<style>
+	#likeBtn:hover{cursor:pointer;}
+	</style>
 <%
 int no = Integer.parseInt(request.getParameter("no"));
-String member_id = request.getParameter("member_id");
+
+boolean like = (boolean)request.getAttribute("like");
+
 PictureExt picture = (PictureExt) request.getAttribute("picture");
 boolean canEdit = loginMember != null
 		&& (loginMember.getMemberId().equals(picture.getMemberId()) || loginMember.getMemberRole() == MemberRole.A);
-boolean canLike = loginMember != null;
+/* boolean canLike = loginMember != null; */
 
 %>
 <script>
-	$(function(){
+<%-- 	$(function(){
 		$(".cancel_love").click(function(){
 			location.href="NoLike.do?no=<%=no%>";
 		});
 		$(".plus_love").click(function(){
 			location.href="Like.do?no=<%=no%>";
 		});
-	});
+	}); --%>
 </script>
 
 <section id="board-view-container">
@@ -62,34 +67,22 @@ boolean canLike = loginMember != null;
 				<c><%=picture.getReadCount()%></c>
 				&nbsp;&nbsp;
 			</div>
-		
-		<div class="love-box">
-				<% if(canLike) { %> 
-						<% PictureDao pd = new PictureDao(); 
-						LikeDTO likedto = new LikeDTO();
+	<div class="like-btn">
+<%-- 		<%if(canLike){%> --%>
+<form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView" method="POST">
+		<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" />
+		<input type="hidden" id=likeBoardNum name="no" value="<%= picture.getImgNo()%>" />
+	</form>
 
-						boolean like_check= pd.like_search(member_id, no);
+	<div id="LikeAlarm">
+		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" width="25px"/>좋아요 
+			<%=picture.getLikeCount() %>
+	</div>
 
-						if(like_check){
-						%>
-					<button class="love-btn cancel_love">
-					<img class="heart" alt="cancel_love" src="<%=request.getContextPath()%>/images/like.png" width="20px">
-
-					</button>
-					<%} else{ %>
-						<button class="love-btn plus_love">
-					<img class="heart" alt="plus_love" src="<%=request.getContextPath()%>/images/dislike.png"width="20px">
-				
-		<%-- 	<%=pd.likecount(no)%> --%>
-				</button>
-					<%} %>	
-
-<% 
-   }
-%>
+<%-- <%} %> --%>
 		</div>
 			
-			</div>
+	</div>
 			<%
 			if (canEdit) {
 			%>
@@ -126,6 +119,7 @@ const updateBoard = () => {
 %>
 
 <script>
+
 <%-- const LikeBtn = (e) => {
 	   const likeItBtn = document.querySelector("#btn-like");
 	   let likeItBtnSrc = likeItBtn.lastElementChild.src;
@@ -158,7 +152,26 @@ const updateBoard = () => {
    });
 }
 }; --%>
-
+$(document).ready(function(){
+    $("#likeBtn").click(function(){
+		$.ajax({
+			url: "<%= request.getContextPath() %>/picture/pictureView",
+			method: "POST", 
+			dataType: "text", //html, text, json, xml 리턴된 데이터에 따라 자동설정됨
+			data:  {"memberId": $("#likeMemId").val(),
+					"no" : $("#likeBoardNum").val(),
+				}, //사용자 입력값전달
+			success: function(data){
+				history.go(0);
+			},
+			error: function(xhr, textStatus, errorThrown){
+				alert("인증번호가 일치하지 않습니다.")
+				console.log("ajax 요청 실패!");
+				console.log(xhr, textStatus, errorThrown);
+			}
+		});
+    });
+});
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

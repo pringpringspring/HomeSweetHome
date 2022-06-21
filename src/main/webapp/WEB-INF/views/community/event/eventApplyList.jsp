@@ -3,17 +3,13 @@
   <%@page import="java.util.List"%>
   <%@page import="community.model.dto.EventAppExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
 <%
 List<EventAppExt> list = (List<EventAppExt>) request.getAttribute("list");
 %>
 
-<style>
-.img_logo{margin-left:26rem;}
-.title-view>h2{margin-left:43rem; margin-bottom:2rem;}
-a{text-decoration: none;  color: black; font-weight:bold;}
-.main{margin-top:4rem; margin-left:42rem;}
-</style>
-<section id="board-container">
+
+<section id="event-applyList-container">
 <div class="title-view">
 <h2>참여작</h2>
  <img src="<%=request.getContextPath()%>/upload/community/event/e3.jpg" class="img_logo">
@@ -32,8 +28,17 @@ a{text-decoration: none;  color: black; font-weight:bold;}
 	<%=eventapp.getEventapplyCode() %></a>🌼<br><br>
 	
 	<%} }%>
+<input type="button" value="홈으로" onclick="backBoard()" class="btn-go-main">
+<input type="button" value="참가하기" onclick="applyBoard()" class="btn-go-apply">
  </div>
 </section>
-
+	<script>
+	const backBoard = () =>{
+		location.href = "<%= request.getContextPath()%>";
+	}
+	const applyBoard = () =>{
+		location.href = "<%=request.getContextPath()%>/event/eventApplyEnroll";
+	}
+	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 

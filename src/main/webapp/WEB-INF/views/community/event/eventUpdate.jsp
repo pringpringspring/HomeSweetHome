@@ -4,28 +4,13 @@
 <%@page import="community.model.dto.EventAttachment"%>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.EventExt"%>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/event.css" />
 <%
 	EventExt event = (EventExt) request.getAttribute("event");
 %>
-<style>
-body{font-family: 'Noto Sans KR', sans-serif;}
-#board-container{margin-top:2.1rem; margin-left:19.2rem;}
-#tbl-board-view{margin-top:2.5rem;}
-.title_part{height: 3rem;width: 17rem;padding: 0.6rem 0.9rem 0.7rem;
-font-size: 1rem;font-weight:bold;border: 1px solid #D5D5D5;border-radius: 0.25rem;box-sizing: border-box;
-color:black; margin-left: 1rem; margin-bottom: 1rem;}
-th{font-size:17px;}
-.file_c{margin-bottom: 1rem; margin-left: 1rem; }
-.content{margin-bottom: 1rem; margin-left: 1rem;border: 1px solid #D5D5D5;}
-.title_part:focus, #file-btn:focus,.file_c:focus,.content:focus{border: 1px solid #36C4F2; outline:none;}
-.btn-updupd:hover, .btn-cancel:hover{cursor: pointer;}
-.btn-updupd{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 5.1rem; height: 2.7rem; margin-right:0.52rem;}
-.btn-cancel{border: 1px solid #35c5f0;border-radius: 0.25rem;cursor: pointer;color: #35c5f0;font-size: 1rem;
-font-weight:bold; background: white;width: 4.8rem; height: 2.7rem;}
-</style>
 
-<section id="board-container">
+
+<section id="event-update-container">
 <h2>이벤트 수정하기</h2>
 <form 
 	name="boardUpdateFrm" 
@@ -53,13 +38,15 @@ font-weight:bold; background: white;width: 4.8rem; height: 2.7rem;}
 			<%= attach.getOriginal_filename()%>
 			<input type="checkbox" name="delFile" id="delFile<%= i + 1 %>" value="<%= attach.getNo() %>"/>
 			<label for="delFile<%= i + 1 %>">삭제</label>
-			<br />
+			<br /> 
 	<%
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="" class="file_c">
-			<input type="file" name="upFile2" value="" class="file_c">
+			<div class="filebox">
+    <input class="upload-name" value="첨부파일" placeholder=" ">
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
 		</td>
 	</tr>
 	
@@ -120,6 +107,8 @@ document.boardUpdateFrm.onsubmit = (e) => {
 		return false;
 	}
 }
+
+
 </script>
 
 

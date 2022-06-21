@@ -164,35 +164,6 @@ public class PictureService {
 		result = cd.getProductCount(conn, catenum,catenum2);		
 		return result;
 	}
-	/*
-	 * public int insertLike(LikeDTO likey) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.insertLike(likey); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 */
-
-
-
-	/*
-	 * public int insertLike(LikeBc likeit) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.insertLike(conn, likeit); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 * 
-	 * public int deleteLike(LikeBc likeit) { Connection conn = getConnection(); int
-	 * result = 0; try { result = cd.deleteLike(conn, likeit); commit(conn); } catch
-	 * (Exception e) { rollback(conn); throw e; } finally { close(conn); } return
-	 * result; }
-	 * 
-	 * public List<LikeBc> LikebyMemberId(String memberId) { Connection conn =
-	 * getConnection(); List<LikeBc> list = cd.LikebyMemberId(conn, memberId);
-	 * close(conn); return list; }
-	 */
-	/*
-	 * public List<LikeDTO> LikeByMemberId(String memberId) { Connection conn =
-	 * getConnection(); List<LikeDTO> list = cd.LikeByMemberId(conn, memberId);
-	 * close(conn); return list; }
-	 */
 	
 	public List<PictureExt> sortRead(Map<String, Object> param) {
 		Connection conn = getConnection();
@@ -208,6 +179,49 @@ public class PictureService {
 		return list;
 	}
 	
+
 	
+	/**이거는 다른거**/
+	public LikeDTO selectLikeOne(String memberId, int no) {
+		Connection conn = getConnection();
+		LikeDTO bl= cd.selectLikeOne(conn, memberId,no);
+		close(conn);
+		return bl;
+	}
+
+	public int insertLike(LikeDTO like) {
+		Connection conn = getConnection();
+		//dao단에 요청
+		int result = cd.insertLike(conn, like);
+		
+		//트랜잭션 처리
+		if(result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		
+		//자원반납
+		close(conn);
+		return result;
+	}
+
+	public int deleteLike(LikeDTO bl) {
+		Connection conn = getConnection();
+		int result = cd.deleteLike(conn, bl);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
 	
+	//댓글수
+	public int likeCount(int no) { 
+		Connection conn = getConnection(); 
+		int result = cd.likeCount(conn,no); 
+		close(conn); 
+		return result; 
+		}	
+
 }
