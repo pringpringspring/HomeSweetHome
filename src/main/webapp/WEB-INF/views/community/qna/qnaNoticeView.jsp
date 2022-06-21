@@ -5,6 +5,7 @@
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@page import="community.model.dto.QnaNoticeComment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <%
 QnaNoticeExt board = (QnaNoticeExt) request.getAttribute("board");

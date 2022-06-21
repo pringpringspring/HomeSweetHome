@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.PictureExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 PictureExt list = (PictureExt) request.getAttribute("list");
 %>

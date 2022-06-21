@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="community.model.dto.KnowhowExt"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/knowhowList.css" />

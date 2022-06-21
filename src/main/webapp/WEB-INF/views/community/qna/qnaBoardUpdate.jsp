@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.QnaBoardExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
 %>

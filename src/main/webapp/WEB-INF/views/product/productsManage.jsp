@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/product/productsManage.css" />
 <%
 	List<ProductExt> productsExtList = (List<ProductExt>) request.getAttribute("productsExtList");

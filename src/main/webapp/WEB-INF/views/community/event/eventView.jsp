@@ -5,6 +5,8 @@
 <%@page import="community.model.dto.EventExt"%>
 <%@page import="community.model.dto.EventAttachment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
+
 <style>
 body{
 font-family: 'Noto Sans KR', sans-serif;

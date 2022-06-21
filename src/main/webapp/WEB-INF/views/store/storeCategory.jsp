@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/storeCategory.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/storesubmenu.jsp" %>
 <%@ include file="/WEB-INF/views/store/storeMenuLeft.jsp" %>
 
 <head>

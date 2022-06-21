@@ -3,6 +3,7 @@
 <%@page import="community.model.dto.EventApplicants"%>
 <%@page import="community.model.dto.EventAppExt"%>
  <%@ include file="/WEB-INF/views/common/header.jsp" %>
+ <%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
  <%
 EventAppExt event = (EventAppExt) request.getAttribute("event");
  %>

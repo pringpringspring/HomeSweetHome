@@ -3,6 +3,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.PictureExt"%>
 <%
