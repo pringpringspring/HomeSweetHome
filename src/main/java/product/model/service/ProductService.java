@@ -13,6 +13,7 @@ import member.model.dto.Member;
 import product.model.dao.ProductDao;
 import product.model.dto.Product;
 import product.model.dto.ProductBrand;
+import product.model.dto.ProductDescriptionImage;
 import product.model.dto.ProductExt;
 import product.model.dto.ProductIO;
 import product.model.dto.ProductIOExt;
@@ -20,6 +21,7 @@ import product.model.dto.ProductImage;
 import product.model.dto.ProductMainCode;
 import product.model.dto.ProductStock;
 import product.model.dto.ProductSubCode;
+import store.model.dao.TodayDeal;
 
 public class ProductService {
 	public static final int NUM_PER_PAGE = 10;
@@ -50,10 +52,18 @@ public class ProductService {
 			result = productDao.enrollProductStock(conn, productId);
 			
 			List<ProductImage> productImages = product.getProductImages();
+			List<ProductDescriptionImage> productDescriptionImages = product.getProductDescriptionImages();
+		
 			if(productImages != null && !productImages.isEmpty()) {
 				for(ProductImage img : productImages) {
 					img.setProductId(productId);
 					result = productDao.enrollProductImages(conn, img);
+				}
+			}
+			if(productDescriptionImages != null && !productDescriptionImages.isEmpty()) {
+				for(ProductDescriptionImage des : productDescriptionImages) {
+					des.setProductId(productId);
+					result = productDao.enrollProductDescriptionImages(conn, des);
 				}
 			}
 			commit(conn);
@@ -72,14 +82,18 @@ public class ProductService {
 		close(conn);
 		return productImages;
 	}
+	
+
 
 	public int deleteProduct(String productId) {
 		Connection conn = getConnection();
 		int result = 0;
 		int resultImg = 0;
+		int resultDes = 0;
 		try {
 			result = productDao.deleteProduct(conn, productId);
 			resultImg = productDao.deleteProductProductImages(conn, productId);
+			resultDes = productDao.deleteProductProductDescriptionImages(conn, productId);
 			commit(conn);
 		} catch (Exception e) {
 			rollback(conn);
@@ -97,10 +111,17 @@ public class ProductService {
 			result = productDao.updateProduct(conn, product);
 			String id = product.getProductId();
 			List<ProductImage> productImages = product.getProductImages();
+			List<ProductDescriptionImage> productDescriptionImages = product.getProductDescriptionImages();
 			if(productImages != null && !productImages.isEmpty()) {
 				for(ProductImage img : productImages) {
 					img.setProductId(id);
 					result = productDao.enrollProductImages(conn, img);
+				}
+			}
+			if(productDescriptionImages != null && !productDescriptionImages.isEmpty()) {
+				for(ProductDescriptionImage img : productDescriptionImages) {
+					img.setProductId(id);
+					result = productDao.enrollProductDescriptionImages(conn, img);
 				}
 			}
 			commit(conn);
@@ -134,12 +155,28 @@ public class ProductService {
 		}
 		return result;
 	}
+	public int deleteProductDescriptionImage(int no) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = productDao.deleteProductDescriptionImages(conn, no);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
 
 	public ProductExt findProductByProductId(String productId) {
 		Connection conn = getConnection();
 		ProductExt product = productDao.findProductByProductId(conn, productId);
 		List<ProductImage> productImages = productDao.findProductImagesByProductId(conn, productId);
+		List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
 		product.setProductImages(productImages);
+		product.setProductDescriptionImages(productDescriptionImages);
 		close(conn);
 		return product;
 	}
@@ -238,4 +275,38 @@ public class ProductService {
 		return getSearchProductsContent;
 	}
 
+	public List<ProductExt> findFourProductsByDeal() {
+		Connection conn = getConnection();
+		List<ProductExt> productList = productDao.findFourProductsByDeal(conn);
+		close(conn);
+		return productList;
+	}
+
+	public List<TodayDeal> findAllTodayDeal() {
+		Connection conn = getConnection();
+		List<TodayDeal> todayDeal = productDao.findAllTodayDeal(conn);
+		close(conn);
+		return todayDeal;
+	}
+
+	public ProductDescriptionImage findProductDescriptionImagesByImgNo(int no) {
+		Connection conn = getConnection();
+		ProductDescriptionImage img = productDao.findProductDescriptionImagesByImgNo(conn, no);
+		close(conn);
+		return img;
+	}
+	
+	public List<ProductDescriptionImage> findProductDescriptionImageByProductId(String productId) {
+		Connection conn = getConnection();
+		List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
+		close(conn);
+		return productDescriptionImages;
+	}
+
+	public List<ProductExt> findAllProductsByDeal() {
+		Connection conn = getConnection();
+		List<ProductExt> productList = productDao.findAllProductsByDeal(conn);
+		close(conn);
+		return productList;
+	}
 }

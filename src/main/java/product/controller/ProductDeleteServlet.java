@@ -46,7 +46,7 @@ public class ProductDeleteServlet extends HttpServlet {
 			//3. 리다이렉트 처리
 			HttpSession session = request.getSession();
 			session.setAttribute("msg", "등록된 상품의 삭제가 성공적으로 처리되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/admin/manageProduct/");			
+			response.sendRedirect(request.getContextPath() + "/admin/manageProduct");			
 		
 		} catch (Exception e) {
 			e.printStackTrace();

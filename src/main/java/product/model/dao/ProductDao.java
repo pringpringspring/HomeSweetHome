@@ -18,6 +18,7 @@ import member.model.dto.Member;
 import member.model.exception.MemberException;
 import product.model.dto.Product;
 import product.model.dto.ProductBrand;
+import product.model.dto.ProductDescriptionImage;
 import product.model.dto.ProductExt;
 import product.model.dto.ProductIO;
 import product.model.dto.ProductIOExt;
@@ -26,6 +27,7 @@ import product.model.dto.ProductMainCode;
 import product.model.dto.ProductSubCode;
 import product.model.dto.Status;
 import product.model.exception.ProductException;
+import store.model.dao.TodayDeal;
 
 public class ProductDao {
 	
@@ -52,7 +54,10 @@ public class ProductDao {
 		product.setProductDepth(rset.getDouble("product_depth"));
 		product.setProductColor(rset.getString("product_color"));				
 		product.setProductPrice(rset.getInt("product_price"));				
-		product.setRegDate(rset.getDate("reg_date"));				
+		product.setRegDate(rset.getDate("reg_date"));	
+		product.setBrandName(rset.getString("brand_name"));
+		product.setMainCategoryName(rset.getString("main_category_name"));
+		product.setSubCategoryName(rset.getString("sub_category_name"));	
 		return product;
 	}
 	
@@ -64,6 +69,23 @@ public class ProductDao {
 		img.setRenamedFilename(rset.getString("renamed_filename"));
 		img.setRegDate(rset.getDate("reg_date"));
 		return img;
+	}
+	
+	private ProductDescriptionImage handleProductDescriptionImageResultSet(ResultSet rset) throws SQLException {
+		ProductDescriptionImage des = new ProductDescriptionImage();
+		des.setNo(rset.getInt("attach_no"));
+		des.setProductId(rset.getString("product_id"));
+		des.setOriginalFilename(rset.getString("original_filename"));
+		des.setRenamedFilename(rset.getString("renamed_filename"));
+		des.setRegDate(rset.getDate("reg_date"));
+		return des;
+	}
+	private TodayDeal handleTodayDealResultSet(ResultSet rset) throws SQLException {
+		TodayDeal todayDeal = new TodayDeal();
+		todayDeal.setTodayDealNo(rset.getInt("today_deal_no"));
+		todayDeal.setProductId(rset.getString("product_id"));
+		todayDeal.setDiscountRate(rset.getInt("discount_rate")); 
+		return todayDeal;
 	}
 	
 	private ProductIOExt handleProductIOExtResultSet(ResultSet rset) throws SQLException {
@@ -630,6 +652,174 @@ public class ProductDao {
 		}
 		return findContents;
 	}
+
+	public List<ProductExt> findFourProductsByDeal(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productList = new ArrayList<>();
+		String sql = prop.getProperty("findFourProductsByDeal");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductExt product = handleProductResultSet(rset);
+				productList.add(product);
+			}
+		} catch (Exception e) {
+			throw new ProductException("오늘의 딜 상품 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productList;
+	}
+
+	public int enrollProductDescriptionImages(Connection conn, ProductDescriptionImage des) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("enrollProductDescriptionImages");
+		System.out.println("des@dao" + des.getProductId());
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, des.getProductId());
+			pstmt.setString(2, des.getOriginalFilename());
+			pstmt.setString(3, des.getRenamedFilename());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new ProductException("상품 설명 이미지 파일 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteProductProductDescriptionImages(Connection conn, String productId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteProductProductDescriptionImages");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new ProductException("상품 삭제 - 첨부 설명 파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteProductDescriptionImages(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteProductDescriptionImages");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new ProductException("상품 수정 -  설명 이미지 첨부파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public List<TodayDeal> findAllTodayDeal(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<TodayDeal> todayDeals = new ArrayList<>();
+		String sql = prop.getProperty("findAllTodayDeal");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				TodayDeal todayDeal = handleTodayDealResultSet(rset);
+				todayDeals.add(todayDeal);
+			}
+		} catch (Exception e) {
+			throw new ProductException("오늘의 딜 상품 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return todayDeals;
+	}
+
+	public ProductDescriptionImage findProductDescriptionImagesByImgNo(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ProductDescriptionImage img = null;
+		String sql = prop.getProperty("findProductDescriptionImagesByImgNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				img = handleProductDescriptionImageResultSet(rset);
+			}
+		} catch (Exception e) {
+			throw new ProductException("번호에 의한 첨부파일조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return img;
+	}
+
+	public List<ProductDescriptionImage> findProductDescriptionImageByProductId(Connection conn, String productId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductDescriptionImage> productDescriptionImages = new ArrayList<>();
+		String sql = prop.getProperty("findProductDescriptionImageByProductId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ProductDescriptionImage img = handleProductDescriptionImageResultSet(rset);
+				productDescriptionImages.add(img);
+			}
+		} catch (Exception e) {
+			throw new ProductException("상품 아이디에 의한 첨부파일 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productDescriptionImages;
+	}
+
+	public List<ProductExt> findAllProductsByDeal(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductsByDeal");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductExt product = handleProductResultSet(rset);
+				productList.add(product);
+			}
+		} catch (Exception e) {
+			throw new ProductException("오늘의 딜 상품 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productList;
+	}
+
 
 
 

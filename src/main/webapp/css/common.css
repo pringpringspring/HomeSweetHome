@@ -1,15 +1,15 @@
 @charset "UTF-8";
-div, section, header, aside, footer {padding:10px;}
+div, header, aside, footer {padding:10px;}
 
 /********** 전체컨테이너 **********/
 div#container	{background-color:#FFF; width:69.5%; height: 80px; margin:0 auto;}
-
+.content{padding-top: 0;}
 /********** header **********/
 .sticky-container {
 	height: 48px;
 }
 .sticky-container2 {
-	height: 48px;
+	height: 48px; padding: 0;
 }
 .main-nav-container {
 	position: fixed; z-index: 1102; transition: top 0.1s ease 0s; top: 0px; width: 69.5%; height: 60px; padding: 10px 60px; margin: 0 auto; display: flex; flex-direction: row; align-items: baseline; background: #fff;

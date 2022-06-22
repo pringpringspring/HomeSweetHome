@@ -193,17 +193,17 @@ function logoutWithKakao() {
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/manageProduct">상품관리</a> 
 												</li>
-												<li class="admin-sub-menu">
+												<%-- <li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/statistics">통계확인</a>
-												</li>
+												</li> --%>
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/productIOManagement">상품 재고관리</a>
 												</li>
 												<li class="admin-sub-menu">
-													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/eventManagement">이벤트관리</a>
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/event/eventEnroll">이벤트관리</a>
 												</li>
 												<li class="admin-sub-menu">
-													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/admin/announcement">공지사항</a>
+													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/qna/qnaNoticeEnroll">공지사항</a>
 												</li>
 												<li class="admin-sub-menu">
 													<a class="admin-sub-menu-text" href="<%= request.getContextPath() %>/customerservice/cscenter">고객센터</a>
@@ -240,13 +240,13 @@ function logoutWithKakao() {
 													<a class="member-menu" href="javascript:signOut()">로그아웃</a>
 												</div>
 											</div> 	
-											<span class="btn-write-container">
+										<!-- 	<span class="btn-write-container">
 												<button type="button" class="btn-write-menu"  style="margin: 0; padding: 0;">
 													<span class="member-write">글쓰기 V</span> 
 													<span class="down-arrow">
 													</span>
 												</button>
-											</span>
+											</span> -->
 										</div>
 									</div>
 									<% } %>
@@ -266,21 +266,7 @@ function logoutWithKakao() {
 		
 	}
 	
-	// 커뮤티니 메뉴와 스토어 메뉴 전환 자바스크립트
-	const styleShow = {"display" : "block"}
-	const styleHide = {"display" : "none"}
 
-	$(".community-menu").click = (e) => {
-		console.log(e);
-		//	$(this).css(styleShow);  
-		//	$(this).parent().children().eq(1).css(styleHide);  
-	}; 
-	
-	$(".store-menu").click = (e) => {
-		console.log($(this));
-			//$(this).css(styleShow);  
-		//	$(this).parent().children().eq(0).css(styleHide);  
-	}; 
 	
 
 	
