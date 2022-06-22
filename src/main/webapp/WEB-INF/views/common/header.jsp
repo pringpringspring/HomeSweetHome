@@ -218,11 +218,9 @@ function logoutWithKakao() {
 									<div class="login-member-menu-wrapper">
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
 											<img class="scrap-btn" src= "<%=request.getContextPath() %>/images/bookmark-white.png;" />
-													<span class="nav-counter">2</span>
 										</a>
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/notification">
 											<img class="notification-btn" src= "<%=request.getContextPath() %>/images/notification.png;" />
-													<span class="nav-counter">1</span>
 										</a> 
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/cart">
 												<img class="member-cart-btn" src= "<%=request.getContextPath() %>/images/cart.png;">
@@ -263,12 +261,7 @@ function logoutWithKakao() {
 	<script>
 	window.onload = () =>{
 		
-		
 	}
-	
 
-	
-
-	
 	</script>
 	<section id="content">
