@@ -16,6 +16,7 @@ import cart.model.dto.Cart;
 import cart.model.exception.CartException;
 import member.model.dto.Member;
 import member.model.dto.MemberRole;
+import product.model.exception.ProductException;
 
 public class CartDao {
 	
@@ -54,15 +55,32 @@ public class CartDao {
 	
 	private Cart handleCartResultSet(ResultSet rset) throws SQLException {
 		Cart cart = new Cart();
-		cart.setCartNo(rset.getInt("member_id"));
-		cart.setMemberId(rset.getString("password"));
-		cart.setProductCount(rset.getInt("member_name"));
-		cart.setProductId(rset.getString("nickname"));
+		cart.setCartNo(rset.getInt("cart_no"));
+		cart.setMemberId(rset.getString("member_id"));
+		cart.setProductId(rset.getString("product_id"));
+		cart.setProductCount(rset.getInt("product_count"));
 		return cart;
 	}
-	
-	
-	
+
+	public int deleteCartByProductId(Connection conn, String memberId, String productId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		System.out.println("DAO@ memberId, productId" + memberId + productId);
+		String sql = prop.getProperty("deleteCart");
+		System.out.println(sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, productId);
+			result = pstmt.executeUpdate();
+			System.out.println(result);
+		} catch (Exception e) {
+			throw new CartException("장바구니 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}	
 	
 
 }

@@ -6,10 +6,12 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/cartView.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	List<Cart> cartList = (List<Cart>) request.getAttribute("cartList");
 	List<ProductExt> productList = (List<ProductExt>) request.getAttribute("productList");
-	
+	String memberId = loginMember.getMemberId();
+
 %>
 <script>
 </script>
@@ -144,7 +146,7 @@ body {
     line-height: 1;
     transition: color .1s,border-color .1s,background-color .1s;
 }
-.commerce-cart-header-delete {
+.cart-header-delete {
     cursor: pointer;
     touch-action: manipulation;
 	display: inline-block;
@@ -161,7 +163,7 @@ body {
 ol, ul {
     list-style: none;
 }
-.commerce-cart-header-delete:hover{
+.cart-header-delete:hover{
 	color:gray;
 }
 ul {
@@ -486,7 +488,7 @@ a {
 </style>
 
 <% 
-	if(loginMember != null){
+	if(cartList.size() > 0) {
 %>
 <div class="my-cart-wrap" id ="product">
 	<div class="container">
@@ -498,7 +500,7 @@ a {
 							<span class="cart-header-left">
 								<label class="_3xqzr _4VN_z">
 									<div class="checkbox-css">
-										<input type="checkbox" class="checkbox-shape" value="" onclick="allCheck();" checked>
+										<input type="checkbox" class="checkbox-shape" id="all-check" value="" checked>
 											<span class="check-inner-design">
 												<svg width="1em" height="1em" viewBox="0 0 16 16" class="_2UftR">
 													<path fill="currentColor" d="M6.185 10.247l7.079-7.297 1.435 1.393-8.443 8.703L1.3 8.432l1.363-1.464z">
@@ -512,18 +514,34 @@ a {
 								</label>
 							</span>
 							<span class="cart-header-right">
-								<button class="commerce-cart-header-delete" type="button">선택삭제</button>
+								<button class="cart-header-delete" type="button">선택삭제</button>
 							</span>
 						</div>
 					</div>
+<%
+						for(int i = 0; i < cartList.size(); i++){
+							int totalPrice = 0;
+							int productCnt = 0;
+							int price = 0;
+							String productId = cartList.get(i).getProductId();
+							String brandName = "";
+							productCnt = cartList.get(i).getProductCount();
+							for(int j = 0; j < productList.size() ; j++){
+								if(cartList.get(i).getProductId().equals(productList.get(j).getProductId())){
+									price = productList.get(j).getProductPrice();
+									brandName = productList.get(j).getBrandId();
+								}
+							}
+							totalPrice = price * productCnt;
+%>
 					<ul class="cart-content-group-list">
 						<li class="cart-content-group-item">
 							<article class="cart-group">
-								<h1 class="cart-grop-header">회사이름</h1>
+								<h1 class="cart-grop-header"><%= brandName %></h1>
 									<article class="carted-product">
 										<div class="carted-product-select">
 											<div class="_3zqA8">
-												<input type="checkbox" class="_3UImz" checked="" value="">
+												<input type="checkbox" class="_3UImz" name="innerCheck" id="<%= i %>" checked="" value="<%= cartList.get(i).getProductId() %>" >
 													<span class="_2mDYR">
 														<svg width="1em" height="1em" viewBox="0 0 16 16" class="_2UftR">
 															<path fill="currentColor" d="M6.185 10.247l7.079-7.297 1.435 1.393-8.443 8.703L1.3 8.432l1.363-1.464z">
@@ -540,21 +558,23 @@ a {
 												</picture>
 											</div>
 												<div class="product-small-item__content">
-													<h1 class="product-small-item__title">[한일] <!-- -->[오늘의딜][단독특가]한일전기 의류건조기 화이트 5KG UV살균 소형 미니</h1>
-													<p class="css-w0e4y9 e1xep4wb0">무료배송<!-- -->&nbsp;|&nbsp;<!-- -->화물택배<!-- -->&nbsp;|&nbsp;<!-- -->수량 : 0</p>
-												</div>
+													<h1 class="product-small-item__title" ><%= cartList.get(i).getProductId() %></h1>
+													<p class="css-w0e4y9 e1xep4wb0">무료배송<!-- -->&nbsp;|&nbsp;<!-- -->화물택배<!-- -->&nbsp;&nbsp;<!-- --><p>수량 : <%= cartList.get(i).getProductCount() %></p><p>단가 : <%= price %></p><input type="hidden" id="count<%= i %>" value="<%= productList.get(i).getProductPrice() %>" />
+												</div> 
 											</a>
-											<button class="carted-product__delete" type="button" aria-label="삭제" onclick="delCartList();">
+											<button class="carted-product__delete" type="button" aria-label="삭제">
 												<svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" preserveAspectRatio="xMidYMid meet">
 													<path fill-rule="nonzero" d="M6 4.6L10.3.3l1.4 1.4L7.4 6l4.3 4.3-1.4 1.4L6 7.4l-4.3 4.3-1.4-1.4L4.6 6 .3 1.7 1.7.3 6 4.6z"></path>
 												</svg>
 											</button>
+											<input type="hidden" value="<%= productId %>"/>
 										<div class="carted-product__footer">
 											<span class="carted-product__footer__left">
-												<button class="carted-product__order-btn" type="button">바로구매</button>
+												<button class="carted-product__order-btn" type="button" onclick="purchaseOne();">바로구매</button>
+												<input type="hidden" value="<%= totalPrice %>"/>
 											</span>
 											<span class="carted-product__subtotal">
-												<span class="carted-product__subtotal__number">359,000</span>원
+												<span class="carted-product__subtotal__number" name="gulDel" id="price<%= i %>"><%= totalPrice %></span>원
 											</span>
 										</div>
 									</article>
@@ -564,6 +584,9 @@ a {
 							<p class="commerce-cart__delivery-group-total">배송비<!-- --> 무료</p>
 						</footer>
 					</ul>
+					<%
+						}
+					%>
 				</div>
 			</div>
 			<div class="cart-side-wrap">
@@ -573,7 +596,7 @@ a {
 							<div class="commerce-cart__summary__row">
 								<dt>총 상품금액</dt>
 									<dd>
-										<span class="number">143,800</span>원
+										<span class="number" id="priceAll"></span>원
 									</dd>
 							</div>
 							<div class="commerce-cart__summary__row">
@@ -585,60 +608,188 @@ a {
 							<div class="commerce-cart__summary__row commerce-cart__summary__row--total">
 								<dt>결제금액</dt>
 									<dd>
-										<span class="number">143,800</span>원
+										<span class="number" id="totalPrice"></span>원
 									</dd>
 							</div>
 						</dl>
 						<div class="commerce-cart__side-bar__order">
-							<button class="_1eWD8 _3SroY _27do9 commerce-cart__side-bar__order__btn" type="button" onclick="location.href='<%=request.getContextPath() %>/purchase/cartPurchase';">2개 상품 구매하기</button>
+							<button id="choicePurchase" class="_1eWD8 _3SroY _27do9 commerce-cart__side-bar__order__btn" type="button" onclick="purchaseTotal();">구매하기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </div>
 
 <%
-	} else {
+	}  else {
 %>
-<div class="commerce-cart-empty">
-	<div class="commerce-cart-empty__content">
-		<img class="commerce-cart-empty__content__image" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" alt="장바구니가 비었습니다.">
-			<a class="button button--color-blue button--size-50 button--shape-4 commerce-cart-empty__content__button" href="<%= request.getContextPath() %>/store/storeMain">상품 담으러 가기</a>
-	</div>
-</div>
+		<div class="commerce-cart-empty">
+			<div class="commerce-cart-empty__content">
+				<img class="commerce-cart-empty__content__image" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" alt="장바구니가 비었습니다.">
+					<a class="button button--color-blue button--size-50 button--shape-4 commerce-cart-empty__content__button" href="<%= request.getContextPath() %>/member/mypage">상품 담으러 가기</a>
+			</div>
+		</div>
 <%
-	}
+			}
 %>
+<form name="productOnePurchaseFrm" id="productOnePurchaseFrm" action="<%= request.getContextPath() %>/purchase/cartPurchaseOne">
+	<input type="hidden" name="memberId" />
+	<input type="hidden" name="productPrice" />
+</form>
+<form name="purchaseChoiceFrm" id="purchaseChoiceFrm" action="<%= request.getContextPath() %>/purchase/paywayInfo">
+	<input type="hidden" name="memberId" />
+	<input type="hidden" name="totalPrice" />
+</form>
+
 <script>
 
-const allCheck = () => {
+// 화면 로드시 전체버튼 클릭된 상태하 전체가격으로 시작
+window.onload = function(){
+	let totalPrice = 0;
+	let total = $("input[type=checkbox]").length - 1;
+	for(let i = 0; i < total; i++){
+		const id = "price" + (i).toString();
+		totalPrice += parseInt(document.getElementById(id).innerText);
+	}
+	$("#totalPrice").html(totalPrice);
+	$("#priceAll").html(totalPrice);
+};
+
+// 전체선택 버튼구현
+$("#all-check").click(function(){
+	console.log($("#all-check").is(":checked"));
+	// 전체체크
+	if($("#all-check").is(":checked")){
+		$("input[type=checkbox]").prop("checked", true);
+	}
+	else	
+		$("input[type=checkbox]").prop("checked", false);
 	
+	// 전체가격
+	let totalPrice = 0;
+	let total = $("input[type=checkbox]").length - 1;
+	if($("#all-check").is(":checked")){
+		for(let i = 0; i < total; i++){
+			const id = "price" + (i).toString();
+			console.log(id);
+			totalPrice += parseInt(document.getElementById(id).innerText);
+		}
+		$("#totalPrice").html(totalPrice);
+		$("#priceAll").html(totalPrice);
+	} else {
+		totalPrice = 0;
+		$("#totalPrice").html(totalPrice);
+		$("#priceAll").html(totalPrice);
+	}
+}); 
+
+//부분체크시 전체체크 해제
+$("input[name=innerCheck]").click(function() {
+	var selectedIndex = $('input:checkbox').index($(this)); // 인덱스번호 찾기
+	let total = $("input[name=innerCheck]").length;
+	let checked = $("input[name=innerCheck]:checked").length;
+	if(total != checked)
+		$("#all-check").prop("checked", false);
+	else 
+		$("#all-check").prop("checked", true);
+	const id = "price" + (selectedIndex-1).toString();
+	// 선택된 체크박스의 가격만 합계구하기
+	let totalPrice = parseInt(document.getElementById("totalPrice").innerText); // 로드된 전체선택의 전체가격
+	
+	if(!$(this).is(":checked")){
+		totalPrice -= parseInt(document.getElementById(id).innerText); // 클릭해제시 지우기
+		console.log(totalPrice);
+	}
+	else{
+		totalPrice += parseInt(document.getElementById(id).innerText); // 클릭시 더하기
+		console.log(totalPrice);
+	}	
+	$("#totalPrice").html(totalPrice);
+	$("#priceAll").html(totalPrice);
+});	
+
+
+//선택삭제
+$(".cart-header-delete").click(function(){
+	if($("input[type=checkbox]").is(":checked")){
+		if(confirm("선택한 상품을 삭제하시겠습니까?") == true){
+			const productIdArr = new Array();
+			if($("input[type=checkbox]").is(":checked"))
+				$("input[type=checkbox]:checked").each(function(){
+					productIdArr.push($(this).val());
+					console.log($(this).val());
+				});
+				
+				jQuery.ajaxSettings.traditional = true; // 배열을 전달할때 세팅 꼭 해줘야한다!!
+				
+				// 비동기 처리
+			    $.ajax({
+				    url : "<%= request.getContextPath() %>/cart/cartDelete",
+				    type : "POST",
+				    data : { 
+				    	memberId : '<%= memberId %>',
+				    	productId : productIdArr
+				    	},
+				    success : function(response){
+				    	location.reload();
+				    }
+			 	  });
+		} 
+	}else {
+		alert("상품을 선택해주세요.");
+		return false;
+	}
+});
+
+// x버튼으로 상품삭제
+$(".carted-product__delete").click(function(event){
+	const productId = $(this).next().val();
+	if(confirm("이 상품을 삭제하시겠습니까?") == true){
+		alert("삭제되었습니다.");
+		jQuery.ajaxSettings.traditional = true; // 배열을 전달할때 세팅 꼭 해줘야한다!!
+		
+		console.log(productId);
+		// 비동기 처리
+	    $.ajax({
+		    url : "<%= request.getContextPath() %>/cart/cartDelete",
+		    type : "POST",
+		    data : { 
+		    	memberId : '<%= memberId %>',
+		    	productId : productId
+		    	},
+		    success : function(response){
+		    	location.reload();
+		    }
+ 	  });
+	} else {
+		return false;
+	}
+
+});
+
+//바로 구매하기
+const purchaseOne = () => {
+	let price = $(".carted-product__order-btn").next().val();
+	const memberId = "<%= memberId %>";
+	console.log(price);
+	const frm = document.productOnePurchaseFrm;
+	frm.memberId.value = memberId;
+	frm.productPrice.value = price;
+	frm.submit();
 };
 
-
-// X버튼으로 삭제하기
-const delCartList = () => {
-	// 삭제
-	alert("진심삭제?");
-	$("div").remove("#product");
-
-	$.ajax({
-		url : "<%= request.getContextPath() %>/cart/cartOneDelete",
-		method : "GET",
-		data : {
-			memberId,
-			productId
-		},
-		success(response) {
-			console.log(response);
-		},
-		error : console.log
-	});
+//선택 구매하기
+const purchaseTotal = () => {
+	let totalPrice = parseInt(document.getElementById("totalPrice").innerText);
+	const memberId = "<%= memberId %>";
+	const frm = document.purchaseChoiceFrm;
+	frm.totalPrice.value = totalPrice;
+	console.log(totalPrice);
+	frm.memberId.value = memberId;
+	console.log(memberId);
+	frm.submit();
 };
-
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

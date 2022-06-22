@@ -24,13 +24,12 @@ import product.model.service.ProductService;
 @WebServlet("/member/cart")
 public class MemberCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private CartService cartService = new CartService();
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			CartService cartService = new CartService();
 			ProductService productService = new ProductService();
 			HttpServletRequest httpReq = (HttpServletRequest) request; 
 			HttpServletResponse httpRes = (HttpServletResponse) response; 
@@ -53,8 +52,8 @@ public class MemberCartServlet extends HttpServlet {
 
 			
 //			// 3. view단 처리
-			request.setAttribute("cartlist", cartList);
-			request.setAttribute("productlist", productList);
+			request.setAttribute("cartList", cartList);
+			request.setAttribute("productList", productList);
 			request.getRequestDispatcher("/WEB-INF/views/cart/cartView.jsp")
 				.forward(request, response);
 		} catch (Exception e) {
