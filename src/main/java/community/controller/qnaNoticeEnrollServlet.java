@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
-
-import common.HelloMvcFileRenamePolicy;
+import common.HomeSweetHomeFileRenamePolicy;
 import community.model.dto.Attachment;
 import community.model.dto.QnaNoticeExt;
 import community.model.service.QnaNoticeService;
@@ -37,22 +36,25 @@ public class qnaNoticeEnrollServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			String saveDirectory = getServletContext().getRealPath("/upload/qna");
+			String saveDirectory = getServletContext().getRealPath("/upload/community/qna");
 			System.out.println("saveDirectory = " + saveDirectory);
 			//최대파일크기 10MB 
 			int maxPostSize = 1024 * 1024 * 10;
 			String encoding = "utf-8";
-			FileRenamePolicy policy = new HelloMvcFileRenamePolicy();
+			HomeSweetHomeFileRenamePolicy policy = new HomeSweetHomeFileRenamePolicy();
 			MultipartRequest multiReq = 
 					new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 			
 			//사용자입력값 처리
 			String title = multiReq.getParameter("title");
 			String memberId = multiReq.getParameter("memberId");
+			String nickName = multiReq.getParameter("nickName");
 			String content = multiReq.getParameter("content");
+			
 			QnaNoticeExt board = new QnaNoticeExt();
 			board.setTitle(title);
 			board.setMemberId(memberId);
+			board.setNickName(nickName);
 			board.setContent(content);
 			
 			File upFile1 = multiReq.getFile("upFile1");

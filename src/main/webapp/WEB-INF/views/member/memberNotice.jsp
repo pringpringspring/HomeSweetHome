@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signin.css" />  보류 -->
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <script>
 <% 
 String saveId = null; 

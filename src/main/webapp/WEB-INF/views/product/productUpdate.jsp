@@ -1,3 +1,4 @@
+<%@page import="product.model.dto.ProductDescriptionImage"%>
 <%@page import="product.model.dto.ProductBrand"%>
 <%@page import="product.model.dto.ProductSubCode"%>
 <%@page import="product.model.dto.ProductMainCode"%>
@@ -6,16 +7,17 @@
 <%@page import="product.model.dto.ProductExt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>    
+<%@ include file="/WEB-INF/views/common/header.jsp" %>   
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %> 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/productUpdate.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/product/productUpdate.css" />
 <% 
 	ProductExt product = (ProductExt) request.getAttribute("product");
 	List<ProductMainCode> mainCodeList = (List<ProductMainCode>)request.getAttribute("productMainCodes");
 	List<ProductSubCode> subCodeList = (List<ProductSubCode>) request.getAttribute("productSubCodes");
 	List<ProductBrand> brandList = (List<ProductBrand>) request.getAttribute("productBrandIds");
-
+	
 	String searchTypeMain = request.getParameter("searchTypeMain");
 	String searchTypeSub = request.getParameter("searchTypeSub");
 %>
@@ -197,6 +199,36 @@ window.onload = () => {
 			<input type="file" name="upFile1" >
 			<br>
 			<input type="file" name="upFile2" >
+			<br>
+			<input type="file" name="upFile3" >
+		</td>
+	</tr>
+	<tr>
+		<th>상품 설명 이미지 파일</th>
+		<td>
+		<%
+		List<ProductDescriptionImage> productDescriptionImages = product.getProductDescriptionImages();
+		if(productDescriptionImages != null && !productDescriptionImages.isEmpty()){
+			for(int i = 0; i < productDescriptionImages.size(); i++ ){
+				ProductDescriptionImage desImg = productDescriptionImages.get(i);
+				System.out.println(desImg.getOriginalFilename());
+	%>
+			<img src="<%= request.getContextPath() %>/upload/product/<%=desImg.getRenamedFilename() %>" width="12px" alt="첨부파일 이미지" />
+			<%= desImg.getOriginalFilename() %> 
+			<input type="checkbox" name="delDesFile" id="delDesFile i + 1 %>" value="<%= desImg.getNo() %>" />
+			<label for="delDesFile<%= i + 1 %>">삭제</label>
+			<br />
+	<%
+		}
+		}
+	%>					
+			<input type="file" name="desFile1" >
+			<br>
+			<input type="file" name="desFile2" >
+			<br>
+			<input type="file" name="desFile3" >
+			<br>
+			<input type="file" name="desFile4" >
 		</td>
 	</tr>
 	<tr>

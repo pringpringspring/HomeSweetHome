@@ -3,13 +3,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <%
 	List<Member> memberList = (List<Member>) request.getAttribute("memberList");
 	String pagebar = (String) request.getAttribute("pagebar");
 	
 	String searchType = request.getParameter("searchType");
 	String searchKeyword = request.getParameter("searchKeyword");
-
+	System.out.println("searchType = " + searchType);
+	System.out.println("searchKeyword = " +searchKeyword);
 %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/memberList.css" />
 
@@ -42,6 +44,7 @@
 	<table id="tbl-member">
 		<thead>
 			<tr>
+				<th>번호</th>
 				<th>아이디</th>
 				<th>이름</th>
 				<th>회원권한</th>
@@ -58,9 +61,12 @@
 		
 <%
 		if(memberList != null && !memberList.isEmpty()){
-			for(Member member : memberList){
+				Member member = new Member();
+			for(int i = 0; i < memberList.size(); i++){
+				member = memberList.get(i);
 %>				
 			<tr>
+				<td><%= i + 1 %></td>
 				<td><%= member.getMemberId() %></td>
 				<td><%= member.getMemberName() %></td>
 				<td>
@@ -74,8 +80,8 @@
 				<td><%= member.getEmail() != null ? member.getEmail() : "" %></td>
 				<td><%= member.getPhone() %></td>
 				<td><%= member.getEnrollDate() %></td>
-				<td><button type="button" class="btn-suspension" name="suspension">활동정지</button></td>
-				<td><button type="button" class="btn-forced-withdrawal" name="forcedwithdrawal">강제탈퇴</button></td>
+				<td><button type="button" class="btn-suspension" id="<%= i + 1 %>" name="<%= member.getMemberId() %>"  >활동정지</button></td>
+				<td><button type="button" class="btn-forced-withdrawal" id="<%= i + 1 %>" name="<%= member.getMemberId() %>" >강제탈퇴</button></td>
 			</tr>			
 <%
 			}
@@ -117,23 +123,33 @@
 
 <script>
 
-document.querySelector("[name=suspension]").addEventListener('onclick', (e) => {
-	const mebmerId = e.target.dataset.memberId;
-	if(confirm(`정말로 [\${memberId}] 회원의 활동을 정지하시겠습니까?`)){
-		const frm = document.suspendMemberRoleFrm;
-		frm.memberId.value = memberId;
-		frm.submit();
-	}
-});
+	$(".btn-suspension").click(function(){                	      
+		const checkBtn = $(this);
+		const tr = checkBtn.parent().parent();    
+		const td = tr.children();    
+		const memberId = td.eq(1).text();   
+		const memberName = td.eq(2).text();         
+		
+	 	if(confirm(`정말로 [\${memberId} : \${memberName}] 회원을 강제로 활동을 정지시키시겠습니까?`)){
+		 	const frm = document.suspendMemberRoleFrm;
+			frm.memberId.value = memberId;
+			frm.submit(); 
+		} 
+	});
 
-document.querySelector("[name=forcedwithdrawal]").addEventListener('onclick', (e) => {
-	const mebmerId = e.target.dataset.memberId;
-	if(confirm(`정말로 [\${memberId}] 회원의 계정을 강제 탈퇴시키시겠습니까?`)){
-		const frm = document.withdrawMemberFrm;
-		frm.memberId.value = memberId;
-		frm.submit();
-	}
-});	
+	$(".btn-forced-withdrawal").click(function(){                	      
+			const checkBtn = $(this);
+			const tr = checkBtn.parent().parent();    
+			const td = tr.children();    
+			const memberId = td.eq(1).text();   
+			const memberName = td.eq(2).text();         
+			
+		 	if(confirm(`정말로 [\${memberId} : \${memberName}] 회원을 강제로 탈퇴시키시겠습니까?`)){
+			 	const frm = document.withdrawMemberFrm;
+				frm.memberId.value = memberId;
+				frm.submit(); 
+			} 
+		});
 
 window.onload = () => {
 	document.querySelectorAll(".search-type").forEach((div) => {

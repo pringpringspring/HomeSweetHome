@@ -1,91 +1,87 @@
 <%@page import="store.controller.StoreMainServlet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/storeCategory.css" />
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/storeMenuLeft.css" />
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 <meta charset="UTF-8">
 
 <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+<script src="<%= request.getContextPath() %>/js/storeMenuLeft.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet">
 
-<!-- 구글 로그인용 -->
+<style>
+.sidebar{
+	position:sticky;
+	top:0px;
+	height:500px;
+}
+
+
+aside{width:30px; background:white}
+</style>
 
 </head>
-	
-<body>
-<body>
-	<div id="menu">
-	<div style = "float: left">
-		<ul class="M01">
-		
-			<li><a href="/homesweethome/store/storeBest">베스트</a>
-				<ul class="M02">
-					<li><a href="#">실시간베스트</a>
-	                </li>
-					<li><a href="#">역대 베스트</a>
-	                </li>
-				</ul>
-			</li>
-			<li><a href="/homesweethome/store/storeCategory">카테고리</a>
-				<ul class="M02">
-					<li><a href="#">수납</a>
-						<ul class="M03">
-							<li><a href="#">2단소메뉴1</a></li>
-							<li><a href="#">2단소메뉴2</a></li>
-							<li><a href="#">2단소메뉴3</a></li>
-						</ul>
-	        		</li>
-					<li><a href="#">조명</a>
-						<ul class="M03">
-							<li><a href="#">2단소메뉴1</a></li>
-							<li><a href="#">2단소메뉴2</a></li>
-							<li><a href="#">2단소메뉴3</a></li>
-						</ul>
-	                </li>
-					<li><a href="#">생활용품</a>
-						<ul class="M03">
-							<li><a href="#">2단소메뉴1</a></li>
-							<li><a href="#">2단소메뉴2</a></li>
-							<li><a href="#">2단소메뉴3</a></li>
-						</ul>
-					</li>
-					<li><a href="#">가구</a>
-						<ul class="M03">
-							<li><a href="#">2단소메뉴1</a></li>
-							<li><a href="#">2단소메뉴2</a></li>
-							<li><a href="#">2단소메뉴3</a></li>
-						</ul>
-					</li>
-					<li><a href="#">가전제품</a>
-						<ul class="M03">
-							<li><a href="#">2단소메뉴1</a></li>
-							<li><a href="#">2단소메뉴2</a></li>
-							<li><a href="#">2단소메뉴3</a></li>
-						</ul>
-					</li>
-				</ul>
-			</li>
 
-			<li><a href="/homesweethome/store/storeTodayDeal">오늘의 딜</a>
-				<ul class="M02">
-					<li><a href="#">당일특가</a>
-	                </li>
-					<li><a href="#">리퍼마켓</a>
-	                </li>
-					<li><a href="#">빠른배송</a>
-	                </li>
-				</ul>
-			</li>
-			<li><a href="/homesweethome/store/storeEvent">기획전</a>
-				<ul class="M02">
-					<li><a href="#">이벤트 상품</a>
-	                </li>
-				</ul>
-			</li>
-		</ul>
-	</div>
 
-    
-</body>
-	<section id="content">
+
+<aside>
+  <div id="w" class="sidebar" align="left" style="width:20%">
+    <nav>
+      <ul id="nav">
+        <li><a href="/store/storeBest">베스트</a>
+          <ul>
+            <li><a class="sidemenu2" href="<%= request.getContextPath() %>/store/storeBest">실시간</a></li>
+            <li><a class="sidemenu2" href="#">역대</a></li>
+          </ul>
+        </li>
+        <li><a href="/store/storeTodayDeal">오늘의 딜</a>
+          <ul>
+            <li><a class="sidemenu2" href="<%= request.getContextPath() %>/store/storeTodayDeal">리퍼</a></li>
+            <li><a class="sidemenu2" href="#">빠른</a></li>
+          </ul>
+        </li>
+        <li><a href="<%= request.getContextPath() %>/store/storeStorage">수납정리</a>
+          <ul>
+            <li><a class="sidemenu2" href="<%= request.getContextPath() %>/store/storeStorage">추가</a></li>
+            <li><a class="sidemenu2" href="#">추가</a></li>
+            <li><a class="sidemenu2" href="#">추가</a></li>
+          </ul>
+        </li>
+        <li><a href="<%= request.getContextPath() %>/store/storeLight">조명</a>
+          <ul>
+            <li><a href="<%= request.getContextPath() %>/store/storeLight">추가</a></li>
+            <li><a href="#">추가</a></li>
+            <li><a href="#">추가</a></li>
+          </ul>
+        </li>
+        <li><a href="<%= request.getContextPath() %>/store/storeHouseHold">생활용품</a>
+          <ul>
+            <li><a href="<%= request.getContextPath() %>/store/storeHouseHold">추가</a></li>
+            <li><a href="#">추가</a></li>
+            <li><a href="#">추가</a></li>
+          </ul>
+        </li>
+        <li><a href="<%= request.getContextPath() %>/store/storeFurnature">가구</a>
+          <ul>
+            <li><a href="<%= request.getContextPath() %>/store/storeFurnature">추가</a></li>
+            <li><a href="#">추가</a></li>
+            <li><a href="#">추가</a></li>
+          </ul>
+        </li>
+        <li><a href="<%= request.getContextPath() %>/store/storeElectronics">가전제품</a>
+          <ul>
+            <li><a href="<%= request.getContextPath() %>/store/storeElectronics">추가</a></li>
+            <li><a href="#">추가</a></li>
+            <li><a href="#">추가</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  </aside>
+  
+</html>

@@ -7,6 +7,7 @@
 <script src="<%= request.getContextPath() %>/js/memberSignUp.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 <% 
 	String memberId = request.getParameter("id");
 	String email = request.getParameter("email");

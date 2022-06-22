@@ -7,6 +7,7 @@
 <script src="<%= request.getContextPath() %>/js/memberSignUp.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <div class="social-signup">
 	<a href="<%= request.getContextPath() %>/member/SignInPage">SNS계정으로 간편 회원가입</a>	
@@ -95,7 +96,7 @@
 					<button onclick="searchAddress();" type="button" class="btn_blue">주소 찾기</button>
 				</div>
 				<div class="row_area">
-					<div class="address">
+					<div class="address-wrapper">
 						<div class="input_container">
 							<input type="text" id="address" name="address" placeholder="기본주소" readonly>
 						</div>
@@ -165,7 +166,7 @@
 				</div>
 			</div>
 			<br />
-			<input type="hidden" id="socialType" name="socialType" value="default" >
+			<input type="hidden" id="socialType" name="socialType" value="non" >
 			<button type="submit" class="btn-signup" onclick="enrollMemberInfo();">회원가입</button>
 		</form>
 		<form name="idCheckFrm"

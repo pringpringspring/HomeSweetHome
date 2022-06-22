@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
 
 <%
 	QnaNoticeExt board = (QnaNoticeExt) request.getAttribute("board");
@@ -21,12 +21,13 @@
 	<table id="tbl-board-view">
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" value="<%= board.getTitle() %>" required></td>
+		<td><input type="text" name="title"  class="no_title" value="<%= board.getTitle() %>" required></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="text" name="nickName" class="no_nickname" value="<%= board.getNickName() %>" readonly/>
 		</td>
 	</tr>
 	
@@ -48,20 +49,23 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="">
-			<input type="file" name="upFile2" value="">
+<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+</div>
 		</td>
 	</tr>
 	<tr>
 		<th>내 용</th>
 		<td>
-			<textarea rows="5" cols="40" name="content"><%= board.getContent() %></textarea>
+			<textarea rows="5" cols="40" name="content" class="no_content"><%= board.getContent() %></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th colspan="2">
-			<input type="submit" value="수정하기"/>
-			<input type="button" value="취소" onclick="history.go(-1);"/>
+			<input type="submit" class="btn-modi"value="수정하기"/>
+			<input type="button"  class="btn-back" value="취소" onclick="history.go(-1);"/>
 		</th>
 	</tr>
 </table>
@@ -108,6 +112,14 @@ document.boardUpdateFrm.onsubmit = (e) => {
 		return false;
 	}
 }
+
+
+
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
+
 </script>
 
 

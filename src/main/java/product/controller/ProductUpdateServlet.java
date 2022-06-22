@@ -16,6 +16,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 import common.HomeSweetHomeFileRenamePolicy;
 import product.model.dto.ProductBrand;
+import product.model.dto.ProductDescriptionImage;
 import product.model.dto.ProductExt;
 import product.model.dto.ProductImage;
 import product.model.dto.ProductMainCode;
@@ -77,6 +78,7 @@ public class ProductUpdateServlet extends HttpServlet {
 			int productPrice = Integer.parseInt(multiReq.getParameter("productPrice"));
 			String pContent = multiReq.getParameter("content");
 			String[] delFiles = multiReq.getParameterValues("delFile"); 
+			String[] delDesFiles = multiReq.getParameterValues("delDesFile"); 
 			
 			ProductExt product = new ProductExt();
 			product.setProductId(productId);
@@ -94,6 +96,13 @@ public class ProductUpdateServlet extends HttpServlet {
 			
 			File upFile1 = multiReq.getFile("upFile1");
 			File upFile2 = multiReq.getFile("upFile2");
+			File upFile3 = multiReq.getFile("upFile3");
+			
+			File desFile1 = multiReq.getFile("desFile1");
+			File desFile2 = multiReq.getFile("desFile2");
+			File desFile3 = multiReq.getFile("desFile3");
+			File desFile4 = multiReq.getFile("desFile4");
+			
 			
 			// 첨부한 파일이 하나라도 있는 경우
 			if(upFile1 != null || upFile2 != null) {
@@ -105,6 +114,24 @@ public class ProductUpdateServlet extends HttpServlet {
 					productImages.add(getProductImage(multiReq, "upFile2"));					
 				}
 				product.setProductImages(productImages);
+			}
+			
+			// 첨부한 파일이 하나라도 있는 경우
+			if(desFile1 != null || desFile2 != null || desFile3 != null || desFile4 != null) {
+				List<ProductDescriptionImage> productDescriptionImages = new ArrayList<>();
+				if(desFile1 != null) {
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile1"));					
+				}
+				if(desFile2 != null) {
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile2"));					
+				}
+				if(desFile1 != null) {
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile3"));					
+				}
+				if(desFile2 != null) {
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile4"));					
+				}
+				product.setProductDescriptionImages(productDescriptionImages);
 			}
 			
 			int result = productService.updateProduct(product);
@@ -122,6 +149,21 @@ public class ProductUpdateServlet extends HttpServlet {
 					}
 					// b. db 레코드 삭제
 					result = productService.deleteProductImage(no);
+					System.out.println("> " + no + "번 첨부파일 삭제");
+				}
+			}
+			// 첨부파일 삭제 처리
+			if(delDesFiles != null) {
+				for(String temp : delDesFiles) {
+					int no = Integer.parseInt(temp); 
+					ProductDescriptionImage attach = productService.findProductDescriptionImagesByImgNo(no);
+					// a. 파일 삭제
+					File delDesFile = new File(saveDirectory, attach.getRenamedFilename());
+					if(delDesFile.exists()) {
+						delDesFile.delete();
+					}
+					// b. db 레코드 삭제
+					result = productService.deleteProductDescriptionImage(no);
 					System.out.println("> " + no + "번 첨부파일 삭제");
 				}
 			}
@@ -143,6 +185,15 @@ public class ProductUpdateServlet extends HttpServlet {
 		img.setRenamedFilename(renamedFilename);
 		return img;
 		
+	}
+	
+	private ProductDescriptionImage getProductDescriptionImage(MultipartRequest multiReq, String name) {
+		ProductDescriptionImage productDescriptionImage = new ProductDescriptionImage();
+		String originalFilename = multiReq.getOriginalFileName(name); // 업로드한 파일명
+		String renamedFilename = multiReq.getFilesystemName(name); // 저장된 파일명
+		productDescriptionImage.setOriginalFilename(originalFilename);
+		productDescriptionImage.setRenamedFilename(renamedFilename);
+		return productDescriptionImage;
 	}
 
 }

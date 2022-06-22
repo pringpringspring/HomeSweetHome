@@ -4,51 +4,114 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signin.css" />	
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
 
 <script>
-Kakao.init('e8297c1ed4b33061177ef12c15580963'); 
-//카카오로그인
 
+
+<% if(loginMember == null){ %>
+
+Kakao.init('e8297c1ed4b33061177ef12c15580963'); 
+
+//카카오로그인
 function loginWithKakao() {
-    Kakao.Auth.login({
-      success: function (response) {
-    	//  console.log(response);
-        Kakao.API.request({
-          url: '/v2/user/me',
-          success: function (response) {
-        	//  console.log(response);
-        	  const kakaoAccount = response.kakao_account;
-        	  const socialType = "kakao";
-        	  const memberId = socialType + response.id;
-        	  const gender = kakaoAccount.gender;
-        	  const email = kakaoAccount.email;
-        	  
-        	  $.ajax({
-        		  url : "<%= request.getContextPath() %>/member/memberIdCheckSocial",
-        		  method: "GET",
-        		  data : {"memberId" : memberId },
-        		  dataType : "text",
-        		  success : function(res){
-        			  if(res == "T"){
-        				  createHiddenSignForm(memberId);
-        			  }
-        			  else { 
-        				  // 회원가입 
-        					 SubmitSignUpSocialForm(memberId, email, gender, socialType);
-        			   } 
-        		  },
-        		  error : console.log
-        	  });
-          },
-          fail: function (error) {
-            console.log(error)
-          },
-        })
-      },
-      fail: function (error) {
-        console.log(error)
-      },
-    })
+    Kakao.API.request({
+	    url: '/v1/user/access_token_info',
+	    success: function (response) {
+	    	  const accessToken = response.access_token;
+	    	  const aTokenExpiresTime = response.expires_in;
+	    	  const refreshToken = response.refresh_token_expires_in;
+	    	  const refTokenExpiresTime = response.refresh_token_expires_in;
+
+	    	//액세스 토큰 확인 완료되어, 정보 가져오기
+	    	  Kakao.API.request({
+	              url: '/v2/user/me',
+	              success: function (response) {
+	            	  console.log(response);
+	            	  const kakaoAccount = response.kakao_account;
+	            	  const socialType = "kakao";
+	            	  const memberId = socialType + response.id;
+	            	  const gender = kakaoAccount.gender;
+	            	  const email = kakaoAccount.email;
+	            	
+	            	// 아이디 찾기   	  
+	         	  $.ajax({
+	            		  url : "<%= request.getContextPath() %>/member/memberIdCheckSocial",
+	            		  method: "GET",
+	            		  data : {"memberId" : memberId },
+	            		  dataType : "text",
+	            		  success : function(res){
+	            		  // 로그인
+	            			  if(res == "T"){
+	            				  createHiddenSignForm(memberId);
+	            			  }
+	            			  else { 
+	            		  // 사이트 연결은 하였으나 회원가입이 완료되지 않은 경우로 추가 정보 입력을 위한 회원가입 진행 
+	            					 SubmitSignUpSocialForm(memberId, email, gender, socialType);
+	            			   } 
+	            		  },
+	            		  error : console.log
+	            	  });
+	              },
+	              fail: function (error) {
+	                console.log(error)
+	              },
+	            })
+	    },
+	    // 액세스 토큰 확인이 안 되는 경우(비회원/액세스토큰 만료)
+	    fail: function(error){
+	        // 로그인
+	    	  Kakao.Auth.login({
+	    	      success: function (response) {
+	    	    	  console.log(response);
+	    	    	  const accessToken = response.access_token;
+	    	    	  const aTokenExpiresTime = response.expires_in;
+	    	    	  const refreshToken = response.refresh_token_expires_in;
+	    	    	  const refTokenExpiresTime = response.refresh_token_expires_in;
+	    	    	  Kakao.Auth.setAccessToken(accessToken); 
+	    	    	 
+	    		    	//액세스 토큰 확인 완료되어, 정보 가져오기
+	    	    	  Kakao.API.request({
+	    	              url: '/v2/user/me',
+	    	              success: function (response) {
+	    	            	  console.log(response);
+	    	            	  const kakaoAccount = response.kakao_account;
+	    	            	  const socialType = "kakao";
+	    	            	  const memberId = socialType + response.id;
+	    	            	  const gender = kakaoAccount.gender;
+	    	            	  const email = kakaoAccount.email;
+	    	            	
+	    	            	// 아이디 찾기   	  
+	    	         	  $.ajax({
+	    	            		  url : "<%= request.getContextPath() %>/member/memberIdCheckSocial",
+	    	            		  method: "GET",
+	    	            		  data : {"memberId" : memberId },
+	    	            		  dataType : "text",
+	    	            		  success : function(res){
+	    	            		  // 로그인
+	    	            			  if(res == "T"){
+	    	            				  createHiddenSignForm(memberId);
+	    	            			  }
+	    	            			  else { 
+	    	            		  // 사이트 연결은 하였으나 회원가입이 완료되지 않은 경우로 추가 정보 입력을 위한 회원가입 진행 
+	    	            					 SubmitSignUpSocialForm(memberId, email, gender, socialType);
+	    	            			   } 
+	    	            		  },
+	    	            		  error : console.log
+	    	            	  });
+	    	              },
+	    	              fail: function (error) {
+	    	                console.log(error)
+	    	              },
+	    	            })
+	    	     },
+	    	      fail: function (error) {
+	    	        console.log(error)
+	    	      },
+	    	    }) 
+	    },
+	});
+ 
   }
 
 
@@ -75,6 +138,8 @@ function createHiddenSignForm(memberId){
 	document.body.appendChild(frm);
 	frm.submit();
 }
+
+<% } %>
 </script>
 <script>
 <% 
@@ -162,7 +227,7 @@ else {
 							<input type="hidden" name="socialType" />
 						</form>
 <script>
-
+<% if(loginMember == null) { %>
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -249,9 +314,8 @@ function handleCredentialResponse(response) {
           } 
      }); 
    
-</script>					
-<script>
-<% if(loginMember == null) { %>
+
+
 document.loginFrm.onsubmit = (e) => {
 	const memberIdVal = document.querySelector("#input-user-id").value;
 	const passwordVal = document.querySelector("#input-password").value;
@@ -294,5 +358,4 @@ showOrderFinder = () => {
 	}
 }
 </script>
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

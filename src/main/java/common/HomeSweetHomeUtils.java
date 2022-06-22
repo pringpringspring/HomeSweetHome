@@ -80,31 +80,32 @@ public class HomeSweetHomeUtils {
 		}
 		return pagebar.toString();
 	}
-	
-	
-	//파일다운로드 관련
+
 	public static void fileDownload(HttpServletResponse response, String saveDirectory, String originalFilename,
-			String renamedFilename) throws UnsupportedEncodingException, IOException, FileNotFoundException {
+			String renamedFilename) throws UnsupportedEncodingException, IOException, FileNotFoundException{
 		// 헤더작성
-		response.setContentType("application/octet-stream"); // 응답데이터 타입
-		// Content-Disposition 첨부파일인 경우, 브라우져 다운로드(Sava as)처리 명시
-		String resFilename = new String(originalFilename.getBytes("utf-8"), "iso-8859-1"); // tomcat 기본인코딩
-		response.setHeader("Content-Disposition", "attachment;filename=" + resFilename);
+				response.setContentType("application/octet-stream"); // 응답데이터 타입
+				// Content-Disposition 첨부파일인 경우, 브라우져 다운로드(Sava as)처리 명시
+				String resFilename = new String(originalFilename.getBytes("utf-8"), "iso-8859-1"); // tomcat 기본인코딩
+				response.setHeader("Content-Disposition", "attachment;filename=" + resFilename);
+				
+				// 파일을 읽어서(input) 응답메세지에 쓴다(output)
+				File file = new File(saveDirectory, renamedFilename);
+				
+				// 기본스트림 - 대상과 연결
+				// 보조스트림 - 기본스트림과 연결. 보조스트림을 제어
+				try (
+					BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+					BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+				){
+					byte[] buffer = new byte[8192];
+					int len = 0; // 읽어낸 byte수
+					while((len = bis.read(buffer)) != -1) {
+						bos.write(buffer, 0, len); // buffer의 0번지부터 len(읽은 개수)만치 출력
+					}
+				}
 		
-		// 파일을 읽어서(input) 응답메세지에 쓴다(output)
-		File file = new File(saveDirectory, renamedFilename);
-		
-		// 기본스트림 - 대상과 연결
-		// 보조스트림 - 기본스트림과 연결. 보조스트림을 제어
-		try (
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-			BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
-		){
-			byte[] buffer = new byte[8192];
-			int len = 0; // 읽어낸 byte수
-			while((len = bis.read(buffer)) != -1) {
-				bos.write(buffer, 0, len); // buffer의 0번지부터 len(읽은 개수)만치 출력
-			}
-		}
 	}
+
+
 }

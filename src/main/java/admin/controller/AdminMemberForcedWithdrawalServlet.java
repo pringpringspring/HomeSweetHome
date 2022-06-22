@@ -27,17 +27,13 @@ public class AdminMemberForcedWithdrawalServlet extends HttpServlet {
 		try {
 			//1. 사용자 입력값 처리
 			String memberId = request.getParameter("memberId");
-			
 			//2. 서비스로직호출
-//			int result = memberService.deleteMember(memberId);
+ 			int result = memberService.deleteMember(memberId);
 			
 			String msg = memberId + " 회원의 강제 탈퇴 처리를 완료하였습니다.";
 			 
 			request.getSession().setAttribute("msg", msg);
 			response.sendRedirect(request.getContextPath() + "/admin/memberList");
-			
-			
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

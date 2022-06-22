@@ -7,8 +7,39 @@
 <%
 	QnaBoardExt board = (QnaBoardExt) request.getAttribute("board");
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/qnaboard.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/community/qnaboard.css" />
+<style>
+ .filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+}
+.filebox label {
+    display: inline-block;
+    padding: 0.41rem 0.82rem;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #35c5f0;
+    opacity:0.87;
+    cursor: pointer;
+    height: 1.4rem;
+    margin-left: 1px;
+    margin-top:0.3rem;
+}
+  .filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
 
+</style>
 <section id="board-container">
 <form 
 	name="boardUpdateFrm" 
@@ -19,12 +50,13 @@
 	<table id="tbl-board-view">
 	<tr>
 		<th>제 목</th>
-		<td><input type="text" name="title" value="<%= board.getTitle() %>" required></td>
+		<td><input type="text" name="title" class="titleqa" value="<%= board.getTitle() %>" required></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="hidden" name="memberId" value="<%= board.getMemberId() %>" readonly/>
+			<input type="text" name="nickName"  class="nicknameqa" value="<%= board.getNickName() %>" readonly/>
 		</td>
 	</tr>
 	
@@ -46,20 +78,23 @@
 			}
 		}
 	%>
-			<input type="file" name="upFile1" value="">
-			<input type="file" name="upFile2" value="">
+		<div class="filebox">
+    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+</div>
 		</td>
 	</tr>
 	<tr>
 		<th>내 용</th>
 		<td>
-			<textarea rows="5" cols="40" name="content"><%= board.getContent() %></textarea>
+			<textarea rows="5" cols="40" name="content"  class="contentqa"><%= board.getContent() %></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th colspan="2">
-			<input type="submit" class="btn-updupd" value="수정하기"/>
-			<input type="button" value="취소" class="btn-cancel"onclick="history.go(-1);"/>
+			<input type="submit" class="btn-qa-update" value="수정하기"/>
+			<input type="button" value="취소" class="btn-qa-can"onclick="history.go(-1);"/>
 		</th>
 	</tr>
 </table>
@@ -106,5 +141,10 @@ document.boardUpdateFrm.onsubmit = (e) => {
 		return false;
 	}
 }
+
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -7,9 +7,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>    
+<%@ include file="/WEB-INF/views/common/communitysubmenu.jsp" %>
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/productEnroll.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/product/productEnroll.css" />
 <%
 	List<ProductMainCode> mainCodeList = (List<ProductMainCode>)request.getAttribute("productMainCodes");
 	List<ProductSubCode> subCodeList = (List<ProductSubCode>) request.getAttribute("productSubCodes");
@@ -169,6 +170,20 @@ window.onload = () => {
 			<input type="file" class="input-file-btn" name="upFile1">
 			<br>
 			<input type="file" class="input-file-btn" name="upFile2">
+			<br>
+			<input type="file" class="input-file-btn" name="upFile3">
+		</td>
+	</tr>
+	<tr>
+		<th>상품 설명 이미지 파일</th>
+		<td>			
+			<input type="file" class="input-file-btn" name="desFile1">
+			<br>
+			<input type="file" class="input-file-btn" name="desFile2">
+			<br />
+			<input type="file" class="input-file-btn" name="desFile3">
+			<br>
+			<input type="file" class="input-file-btn" name="desFile4">
 		</td>
 	</tr>
 	<tr>
@@ -199,6 +214,8 @@ searchTypeMain.addEventListener('change', (e) => {
 		case "furniture": id = "furniture"; break; 
 		case "electroics": id = "electroics"; break; 
 		case "lighting": id = "lighting"; break; 
+		case "organizing": id = "organizing"; break; 
+		case "living": id = "living"; break; 
 	}
 	
 	let ValMainCode = "";

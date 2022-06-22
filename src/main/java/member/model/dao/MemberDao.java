@@ -257,6 +257,7 @@ public class MemberDao {
 		}
 		return result;
 	}
+ 
 
 	/**
 	 * update member set 
@@ -363,4 +364,5 @@ public class MemberDao {
 		}
 		return findContents;
 	}
+
 }

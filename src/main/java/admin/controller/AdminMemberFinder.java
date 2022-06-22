@@ -51,15 +51,15 @@ public class AdminMemberFinder extends HttpServlet {
 					searchParam.put("searchKeyword", searchKeyword);
 					
 					// 2. 업무로직
-				//	List<Member> searchList = memberService.findBySomething(searchParam);
+					List<Member> searchList = memberService.findBySomething(searchParam);
 					
-				//	int findContents = memberService.getFindContents(searchParam);
+					int findContents = memberService.getFindContents(searchParam);
 					String url = request.getRequestURI(); 
-				//	String pagebar = HomeSweetHomeUtils.getPagebar(cPage, numPerPage, findContents, url);
+					String pagebar = HomeSweetHomeUtils.getPagebar(cPage, numPerPage, findContents, url);
 					
 					// 3. view단처리
-			//		request.setAttribute("pagebar", pagebar);
-				//	request.setAttribute("memberList", searchList);
+					request.setAttribute("pagebar", pagebar);
+					request.setAttribute("memberList", searchList);
 					request.getRequestDispatcher("/WEB-INF/views/admin/memberList.jsp")
 						.forward(request, response);
 					
