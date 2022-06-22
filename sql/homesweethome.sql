@@ -115,11 +115,12 @@ CREATE TABLE main_category (
 insert into main_category values ('furniture', '가구');
 insert into main_category values ('electroics', '전자제품');
 insert into main_category values ('lighting', '조명');
-insert into main_category values ('organizing_item', '수납/정리');
+insert into main_category values ('organizing', '수납/정리');
 insert into main_category values ('living', '생활용품');
 
+commit;
 select * from main_category;
-
+--delete from main_category where main_code = 'organizing_item';
 -- 상품 소분류 테이블
 CREATE TABLE sub_category (
 	sub_code	varchar2(30)		NOT NULL,
@@ -135,6 +136,7 @@ insert into sub_category values ( 'table_chair', 'furniture', '식탁의자');
 insert into sub_category values ( 'office_chair', 'furniture', '사무용의자');
 insert into sub_category values ( 'chest_of_drawers', 'furniture', '수납장');
 insert into sub_category values ( 'wardrobe', 'furniture', '옷장');
+insert into sub_category values ( 'bed', 'furniture', '침대');
 
 insert into sub_category values ( 'tv', 'electroics', 'TV');
 insert into sub_category values ( 'air_conditioner', 'electroics', '에어컨');
@@ -151,12 +153,12 @@ insert into sub_category values ( 'mood', 'lighting', '무드등');
 insert into sub_category values ( 'wall_light', 'lighting', '벽조명');
 insert into sub_category values ( 'sensor_light', 'lighting', '센서등');
 
-insert into sub_category values ( 'storage_closet', 'organizing_item', '서랍장');
-insert into sub_category values ( 'living_box', 'organizing_item', '리빙박스');
-insert into sub_category values ( 'basket', 'organizing_item', '바구니');
-insert into sub_category values ( 'clothes_rack', 'organizing_item', '행거');
-insert into sub_category values ( 'shelf', 'organizing_item', '선반');
-insert into sub_category values ( 'hanger', 'organizing_item', '옷걸이');
+insert into sub_category values ( 'storage_closet', 'organizing', '서랍장');
+insert into sub_category values ( 'living_box', 'organizing', '리빙박스');
+insert into sub_category values ( 'basket', 'organizing', '바구니');
+insert into sub_category values ( 'clothes_rack', 'organizing', '행거');
+insert into sub_category values ( 'shelf', 'organizing', '선반');
+insert into sub_category values ( 'hanger', 'organizing', '옷걸이');
 
 insert into sub_category values ( 'bathroom_products', 'living', '욕실용품');
 insert into sub_category values ( 'towel', 'living', '수건');
@@ -167,6 +169,7 @@ insert into sub_category values ( 'household_goods', 'living', '생활잡화');
 select * from sub_category;
 --drop table main_category;
 --drop table sub_category;
+
 commit;
 -- 브랜드 테이블
 CREATE TABLE brand (
@@ -175,19 +178,30 @@ CREATE TABLE brand (
     constraint pk_brand_brand_id  primary key(brand_id)
 );
 select * from brand;
+
+--select p.*, b.brand_name from ( select row_number() over(order by reg_date desc) rnum, p.* from  product p left join today_deal t  on p.product_id = t.product_id ) p left join brand b on p.brand_id = b.brand_id where rnum between 1 and 4;
+
 --drop table brand;
 insert into brand values ( 'furniture_dodot', 'dodot');
 insert into brand values ( 'furniture_desker', 'desker');
 insert into brand values ( 'furniture_livart', 'livart');
 insert into brand values ( 'furniture_hansam', '한샘');
+insert into brand values ( 'furniture_samik', '삼익가구');
+
 insert into brand values ( 'electroics_samsung', '삼성');
 insert into brand values ( 'electroics_lg', '엘지');
 insert into brand values ( 'electroics_carrier', '캐리어');
 insert into brand values ( 'electroics_winia', '위니아딤채');
+
 insert into brand values ( 'lighting_samsung', '삼성전자');
 insert into brand values ( 'lighting_philips', '필립스');
 insert into brand values ( 'lighting_lightingbank', '조명뱅크');
+insert into brand values ( 'lighting_oa', '오아');
 
+insert into brand values ( 'organizing_item_dearliving', '디얼리빙');
+
+insert into brand values ( 'living_cottonliving', '코튼리빙');
+commit;
 
 select * from brand;
 -- 상품 테이블
@@ -234,6 +248,21 @@ select * from product_image;
 -- 상품 이미지 테이블 시퀀스 코드
 create sequence seq_product_image_no nocache;
 
+-- 상품 설명용 이미지 테이블
+CREATE TABLE product_description_image (
+	attach_no	number		NOT NULL,
+	product_id	varchar2(80)		NOT NULL,
+	original_filename	varchar2(255)		NULL,
+	renamed_filename	varchar2(255)		NULL,
+	reg_date	date	DEFAULT sysdate,
+    constraint pk_product_description_image_attach_no primary key(attach_no),
+    constraint fk_product_description_image_product_id foreign key(product_id) references product(product_id) on delete cascade
+);
+--drop table product_image;
+select * from product_description_image;
+-- 상품 이미지 테이블 시퀀스 코드
+create sequence seq_product_description_image_no nocache;
+commit;
 -- 비회원 배송지 테이블
 CREATE TABLE nm_delivery_info (
 	non_member_code	varchar2(100)		NOT NULL,
@@ -281,15 +310,27 @@ CREATE TABLE event_applicants (
     
 );
 
--- 핫딜 테이블
-CREATE TABLE hot_deal (
-	today_deal_code 	varchar2(30)		NOT NULL,
+-- 오늘의딜 테이블
+CREATE TABLE today_deal (
+	today_deal_no 	number		NOT NULL,
 	product_id	varchar2(80)		NOT NULL,
 	discount_rate	number	,
-	discount_price	number	,
-    constraint pk_hot_deal_code primary key(today_deal_code),
-    constraint fk_hot_deal_product_id foreign key(product_id) references product(product_id) on delete cascade
+    constraint pk_today_deal_no primary key(today_deal_no),
+    constraint fk_today_deal_product_id foreign key(product_id) references product(product_id) on delete cascade
 );
+select * from today_deal;
+-- 오늘의딜 테이블 시퀀스 코드
+create sequence seq_today_deal_no nocache;
+commit;
+select p.*, b.brand_name, m.main_category_name, s.sub_category_name  from ( select row_number() over(order by reg_date desc) rnum, p.* from  product p left join today_deal t on p.product_id = t.product_id ) p left join brand b on p.brand_id = b.brand_id  left join main_category m on p.main_code = m.main_code left join sub_category s on p.sub_code = s.sub_code;
+
+insert into today_deal values (seq_today_deal_no.nextval, 'lighting_oa무드등 타이머 높이조절 캔들워머', 33);
+insert into today_deal values (seq_today_deal_no.nextval, 'furniture_samik델루나 LED 프리미엄 수납 호텔 침대', 41);
+insert into today_deal values (seq_today_deal_no.nextval, 'organizing_item_dearliving논슬립 바지걸이 20개', 61);
+insert into today_deal values (seq_today_deal_no.nextval, 'living_cottonliving코마사 40수 호텔수건', 61);
+
+commit;
+select * from product order by reg_date desc;
 
 -- 쿠폰 테이블
 CREATE TABLE coupon (

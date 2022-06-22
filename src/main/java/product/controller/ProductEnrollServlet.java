@@ -16,6 +16,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 import common.HomeSweetHomeFileRenamePolicy;
 import product.model.dto.ProductBrand;
+import product.model.dto.ProductDescriptionImage;
 import product.model.dto.ProductExt;
 import product.model.dto.ProductImage;
 import product.model.dto.ProductMainCode;
@@ -97,15 +98,38 @@ public class ProductEnrollServlet extends HttpServlet {
 			
 			File upFile1 = multiReq.getFile("upFile1");
 			File upFile2 = multiReq.getFile("upFile2");
+			File upFile3 = multiReq.getFile("upFile3");
+			
+			File desFile1 = multiReq.getFile("desFile1");
+			File desFile2 = multiReq.getFile("desFile2");
+			File desFile3 = multiReq.getFile("desFile3");
+			File desFile4 = multiReq.getFile("desFile4");
+			
+	
 			
 			// 첨부한 파일이 하나라도 있는 경우
-			if(upFile1 != null || upFile2 != null) {
+			if(upFile1 != null || upFile2 != null || upFile3 != null) {
 				List<ProductImage> productImages = new ArrayList<>();
 				if(upFile1 != null) 
 					productImages.add(getProductImage(multiReq, "upFile1"));
 				if(upFile2 != null) 
 					productImages.add(getProductImage(multiReq, "upFile2"));
+				if(upFile3 != null) 
+					productImages.add(getProductImage(multiReq, "upFile3"));
 				product.setProductImages(productImages);
+			}
+			
+			if(desFile1 != null || desFile2 != null || desFile3 != null || desFile4 != null) {
+				List<ProductDescriptionImage> productDescriptionImages = new ArrayList<>();
+				if(desFile1 != null) 
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile1"));
+				if(desFile2 != null) 
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile2"));
+				if(desFile3 != null) 
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile3"));
+				if(desFile4 != null) 
+					productDescriptionImages.add(getProductDescriptionImage(multiReq, "desFile4"));
+				product.setProductDescriptionImages(productDescriptionImages);
 			}
 			
 			System.out.println("product = " + product);
@@ -128,6 +152,15 @@ public class ProductEnrollServlet extends HttpServlet {
 		productImage.setOriginalFilename(originalFilename);
 		productImage.setRenamedFilename(renamedFilename);
 		return productImage;
+	}
+	
+	private ProductDescriptionImage getProductDescriptionImage(MultipartRequest multiReq, String name) {
+		ProductDescriptionImage productDescriptionImage = new ProductDescriptionImage();
+		String originalFilename = multiReq.getOriginalFileName(name); // 업로드한 파일명
+		String renamedFilename = multiReq.getFilesystemName(name); // 저장된 파일명
+		productDescriptionImage.setOriginalFilename(originalFilename);
+		productDescriptionImage.setRenamedFilename(renamedFilename);
+		return productDescriptionImage;
 	}
 
 }
