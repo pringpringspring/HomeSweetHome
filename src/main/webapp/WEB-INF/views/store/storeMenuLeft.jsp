@@ -29,7 +29,7 @@ aside{width:30px; background:white}
 
 
 <aside>
-  <div id="w" class="sidebar" align="left" style="width:30%">
+  <div id="w" class="sidebar" align="left" style="width:20%">
     <nav>
       <ul id="nav">
         <li><a href="/store/storeBest">베스트</a>
