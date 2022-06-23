@@ -164,10 +164,7 @@
 		</div>
 	</article>
 </div>
-<form name="moveToCartFrm" id="moveToCartFrm" method="POST" action="<%= request.getContextPath() %>/cart/insertCart">
-	<input type="hidden" name="productId" id="productId" value = "<%= product.getProductId() %>" />
-	<input type="hidden" name="productId" id="productId" value = "<%= loginMember.getMemberId() %>" />
-</form>
+
 <script>
 	const body = document.querySelector(".carousel-list-entry");
 window.onload = (e) =>{
