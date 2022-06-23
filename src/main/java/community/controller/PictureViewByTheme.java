@@ -75,7 +75,10 @@ public class PictureViewByTheme extends HttpServlet {
 		
 		
 		ArrayList<PictureExt> list =ps.productList(startRnum, endRnum, space, shape);
-
+		String url = request.getRequestURI()
+				+"?space="+space
+				+"&shape="+shape;
+		
 		request.setAttribute("productList", list);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

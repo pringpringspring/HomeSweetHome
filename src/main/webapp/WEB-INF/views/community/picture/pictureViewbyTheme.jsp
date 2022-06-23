@@ -19,22 +19,35 @@ int shape = (int) request.getAttribute("shape");
 
 <nav id="board_top">
 	<h2>사진</h2>
-		<div class="select-type">
-		<div>
-			<div>
-				<select name="selectType"  class="selectType" id="shapecategory" required>
-					<option selected>주거형태</option>
-					<option value="<%=request.getContextPath()%>/picture/pictureViewByTheme?shape=<%=46%>">원룸&오피스텔</option>
-					<option value="<%=request.getContextPath()%>/picture/pictureViewByTheme?shape=<%=47%>" >아파트</option>
-				</select>
-				<select name="selectType" class="selectType" id="spacecategory" required>
+	<div class="ViewByTheme">
+     	<section id="option-tab">
+     	
+     		<form action="<%= request.getContextPath() %>/picture/pictureViewByTheme" >
+	            
+	            <select name="space"  id="selectOption" >
 					<option selected>평수</option>
-					<option value="<%=request.getContextPath()%>/picture/pictureViewByTheme?space=<%=36%>">10~20평대</option>
-					<option value="<%=request.getContextPath()%>/picture/pictureViewByTheme?space=<%=37%>" >30~40평대</option>
-				</select>
-			</div>
-		</div>
-	</div>
+	                <option value="36">10-20평</option> 
+	                <option value="37">30-40평</option>
+	            </select>
+	
+	            <select name="shape"  id="selectOption" >
+	            <option selected>주거형태</option>
+	                <option value="46" >원룸&amp; 오피스텔</option>
+	                <option value="47" >아파트</option>
+	            </select>
+
+     			<input type="submit" class="search-btn" value="검색">
+     		</form>
+    
+     	</section>
+     </div>  
+
+     </div>  
+	
+		
+		
+
+		
 </nav>
 
 	
@@ -80,7 +93,7 @@ function getList(shapecategory,spacecategory) {
 		
 		console.log(oData);
 	$.ajax({
-		url : '/main/api/homemain',
+		url : '/picture/pictureViewByTheme',
 		type : 'GET',
 		data : oData,
 		dataType : 'JSON',

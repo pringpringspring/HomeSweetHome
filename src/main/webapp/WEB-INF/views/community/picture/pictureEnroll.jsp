@@ -43,18 +43,13 @@ window.onload = () => {
 	enctype="multipart/form-data">
 	<table id="tbl-board-view">
 	
-	<label for="categorySpace" ><b>평수선택</b></label>
-<select name="categorySpace"  id="categorySpace" >
-<option selected>평수</option>
-<option value="36">10-20평</option>
-<option value="37">30-40평</option>
-</select><br>
+
 
 <label for="categoryShape" ><b>주거형태</b></label>
 <select name="categoryShape"  id="categoryShape" >
 <option selected>주거형태</option>
-<option value="46">원룸/오피스텔</option>
-<option value="47">아파트</option>
+<option value="10">원룸/오피스텔</option>
+<option value="20">아파트</option>
 </select>
 	
 	
@@ -82,7 +77,7 @@ window.onload = () => {
 		<th>첨부파일</th>
 		<td>			
 		<div class="filebox">
-    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <input class="upload-name" value="1회 1장 첨부" >
     <label for="file">첨 부</label> 
     <input type="file" id="file" name="upFile1">
     <input type="file" id="file" name="upFile2">

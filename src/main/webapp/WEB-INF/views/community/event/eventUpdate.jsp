@@ -28,7 +28,7 @@
 	<tr>
 		<th>첨부파일</th>
 		<td >
-	<%
+<%
 		List<EventAttachment> attachments = event.getAttachments();
 		if(attachments != null && !attachments.isEmpty()){
 			for(int i = 0; i < attachments.size(); i++){
@@ -38,13 +38,13 @@
 			<%= attach.getOriginal_filename()%>
 			<input type="checkbox" name="delFile" id="delFile<%= i + 1 %>" value="<%= attach.getNo() %>"/>
 			<label for="delFile<%= i + 1 %>">삭제</label>
-			<br /> 
+			<br />
 	<%
 			}
 		}
 	%>
 			<div class="filebox">
-    <input class="upload-name" value="첨부파일" placeholder=" ">
+    <input class="upload-name" value="1회 1장 첨부">
     <label for="file">첨 부</label> 
     <input type="file" id="file" name="upFile1">
 		</td>

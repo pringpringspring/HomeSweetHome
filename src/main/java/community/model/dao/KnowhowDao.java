@@ -26,7 +26,7 @@ public class KnowhowDao {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rset;
-	
+
 	public KnowhowDao() {
 		String fileName = KnowhowDao.class.getResource("/sql/knowhow-query.properties").getPath();
 		try {
@@ -476,6 +476,109 @@ public class KnowhowDao {
 	}
 
 	
+	
+	/**이거는 다른거**/
+	
+	public LikeDTO selectLikeOne(Connection conn, String memberId, int no) {
+		LikeDTO ld = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectLikeOne");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, no);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ld = new LikeDTO();
+				ld.setMemberId(rset.getString("member_id"));
+				ld.setBoardNo(rset.getInt("no"));
+				ld.setLikeIt(rset.getString("likeit"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return ld;
+	}
+
+	public int insertLike(Connection conn, LikeDTO like) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertLike");
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, like.getMemberId());
+			pstmt.setInt(2, like.getBoardNo());
+			pstmt.setString(3, like.getLikeIt());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteLike(Connection conn, LikeDTO bl) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteLike"); 
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bl.getMemberId());
+			pstmt.setInt(2, bl.getBoardNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	/*
+	 * public int like_count (int no) throws Exception { Connection con =
+	 * JdbcTemplate.getConnection();
+	 * 
+	 * String sql = prop.getProperty("likecnt"); PreparedStatement ps =
+	 * con.prepareStatement(sql); ps.setInt(1, no);
+	 * 
+	 * ResultSet rs = ps.executeQuery();
+	 * 
+	 * int likeCnt = 0; if(rs.next()) { likeCnt = rs.getInt("likeCnt"); }
+	 * con.close();
+	 * 
+	 * return likeCnt; }
+	 * 
+	 * 
+	 */
+	/*
+	 * public int LikeCount(Connection conn, int no) { PreparedStatement pstmt =
+	 * null; int cnt = 0; ResultSet rset = null; String sql =
+	 * prop.getProperty("LikeCount");
+	 * 
+	 * try{ pstmt = conn.prepareStatement(sql); pstmt.setInt(1, no); //쿼리문실행 rset =
+	 * pstmt.executeQuery();
+	 * 
+	 * while(rset.next()){ cnt = rset.getInt("cnt"); } }catch(Exception e){
+	 * e.printStackTrace(); }finally{ close(rset); close(pstmt); }
+	 * 
+	 * return cnt; }
+	 */
 
 	
 }

@@ -4,6 +4,8 @@
 <%@page import="community.model.dto.LikeDTO"%>
 <%@page import="community.model.dto.Attachment"%>
 <%@ page import="member.model.dto.Member"%>
+<%@page import="community.model.dao.KnowhowDao"%>
+<%@page import="community.model.service.KnowhowService"%>
 <%@page import="community.model.dto.Knowhow"%>
 <%@page import="community.model.dto.KnowhowExt"%>
 <%@page import="community.model.dto.KnowhowComment"%>
@@ -16,6 +18,11 @@
 	href="<%=request.getContextPath()%>/css/community/knowhowView.css" />
 
 <%
+
+int no = Integer.parseInt(request.getParameter("no"));
+boolean like = (boolean)request.getAttribute("like");
+
+
 KnowhowExt knowhow = (KnowhowExt) request.getAttribute("knowhow");
 List<KnowhowComment> comments = knowhow.getComments();
 KnowhowComment qc = new KnowhowComment();
@@ -25,6 +32,9 @@ boolean canEdit = loginMember != null
 
 boolean canLike = loginMember != null;
 %>
+	<style>
+	#likeBtn:hover{cursor:pointer;}
+	</style>
 <section id="board-container">
 	<table id="tbl-board-view">
 
@@ -59,10 +69,21 @@ boolean canLike = loginMember != null;
 			<div class="view-end">
 				<br> No.<%=knowhow.getNo()%>&nbsp;&nbsp; 조회
 				<c><%=knowhow.getReadCount()%></c>
-
-
-
 			</div>
+			<div class="like-btn">
+<%-- 		<%if(canLike){%> --%>
+<form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView" method="POST">
+		<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" />
+		<input type="hidden" id=likeBoardNum name="no" value="<%= knowhow.getNo()%>" />
+
+	</form>
+
+	<div id="LikeAlarm">
+		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" width="25px"/>좋아요 
+
+	</div>
+			
+
 		</div>
 		<%
 		if (canEdit) {
@@ -162,30 +183,26 @@ boolean canLike = loginMember != null;
 </form>
 <script>
 
-
-<%-- 	    		
-		$(document).ready(function(){
-		    $("#likeBtn").click(function(){
-				$.ajax({
-					url: "<%= request.getContextPath() %>/knowhow/knowhowListView",
-					method: "POST", 
-					dataType: "text", //html, text, json, xml 리턴된 데이터에 따라 자동설정됨
-					data:  {"memberId": $("#likeMemId").val(),
-							"board_num" : $("#likeBoardNum").val()
-						}, //사용자 입력값전달
-					success: function(data){
-						history.go(0);
-					},
-					error: function(xhr, textStatus, errorThrown){
-						alert("요청 실패")
-						console.log("ajax 요청 실패!");
-						console.log(xhr, textStatus, errorThrown);
-					}
-				});
-		    });
+$(document).ready(function(){
+    $("#likeBtn").click(function(){
+		$.ajax({
+			url: "<%= request.getContextPath() %>/knowhow/knowhowListView",
+			method: "POST", 
+			dataType: "text", //html, text, json, xml 리턴된 데이터에 따라 자동설정됨
+			data:  {"memberId": $("#likeMemId").val(),
+					"no" : $("#likeBoardNum").val(),
+				}, //사용자 입력값전달
+			success: function(data){
+				history.go(0);
+			},
+			error: function(xhr, textStatus, errorThrown){
+				alert("인증번호가 일치하지 않습니다.")
+				console.log("ajax 요청 실패!");
+				console.log(xhr, textStatus, errorThrown);
+			}
 		});
-		
-		 --%>
+    });
+});
 /* function like(){	  
 	$.ajax({		    
 		type: "POST",		    

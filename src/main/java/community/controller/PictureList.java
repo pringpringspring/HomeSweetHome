@@ -42,8 +42,10 @@ public class PictureList extends HttpServlet {
 
 			List<PictureExt> list = ps.findAll(param);
 			System.out.println(list);
-
-
+			for(PictureExt pics : list) {
+				System.out.println("likeCount@servlet = " + pics.getLikeCount() );
+				
+			}
 			int totalContents = ps.getTotalContents();
 			String pagebar = HomeSweetHomeUtils.getPagebar(cPage, numPerPage, totalContents, request.getRequestURI());
 			System.out.println(pagebar);
@@ -52,6 +54,8 @@ public class PictureList extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("pagebar", pagebar);
 			request.getRequestDispatcher("/WEB-INF/views/community/picture/pictureList.jsp").forward(request, response);
+		
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

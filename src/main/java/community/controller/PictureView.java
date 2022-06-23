@@ -65,17 +65,21 @@ public class PictureView extends HttpServlet {
 
 			System.out.println(picture);
 
+
+			/*******************/
+		
 			
 			Member loginMember
 			= (Member)session.getAttribute("loginMember");
-			
+	
 			LikeDTO resultLD =ps.selectLikeOne(loginMember.getMemberId(),no);
 			boolean like = resultLD == null ? false:true;
 			
+			/* int cnt = ps.like_count(no); */
+		
+			
 			request.setAttribute("picture", picture);
 			request.setAttribute("like", like);
-			/* request.setAttribute("likeit", likeit); */
-			
 
 			request.getRequestDispatcher("/WEB-INF/views/community/picture/pictureView.jsp").forward(request, response);
 
@@ -88,24 +92,7 @@ public class PictureView extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * try { String memberId = request.getParameter("memberId"); int board_num =
-		 * Integer.parseInt(request.getParameter("board_num"));
-		 * request.setAttribute("like", (boolean)true);
-		 * 
-		 * List<KnowhowComment> replylist = ks.selectCommentList(board_num); comLike cl
-		 * = ks.selectLikeOne(board_num, memberId); boolean exitistLike = cl == null ?
-		 * false : true; if(exitistLike) { //like 삭제 int result =ks.deleteLike(cl);
-		 * System.out.println("insertLike="+result); }else { //like 추가 comLike like =
-		 * new comLike(memberId, board_num, "T"); int result = ks.insertLike(like);
-		 * System.out.println("insertLike="+result); }
-		 * 
-		 * comLike resultCl = ks.selectLikeOne(board_num, memberId); boolean like =
-		 * resultCl == null ? false : true; } catch(Exception e) { e.printStackTrace();
-		 * 
-		 * throw e; }
-		 */
-		
+
 		int no = Integer.parseInt(request.getParameter("no"));
 		String memberId = request.getParameter("memberId");
 		

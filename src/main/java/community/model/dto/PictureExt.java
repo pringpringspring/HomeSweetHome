@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PictureExt extends Picture {
 	private int attachCount;
-	private int likeCount;
+	 private int likeCount; 
 	private List<PictureAttachment> attachments;
 	private List<LikeDTO> likes;
 	public PictureExt() {
@@ -48,7 +48,8 @@ public class PictureExt extends Picture {
 		return "PictureExt [attachCount=" + attachCount + ", likeCount=" + likeCount + ", attachments=" + attachments
 				+ ", likes=" + likes + "]";
 	}
-
+	
+	
 	
 	
 

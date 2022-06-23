@@ -7,6 +7,7 @@ import java.util.Map;
 
 import community.model.dao.QnaNoticeDao;
 import community.model.dto.Attachment;
+import community.model.dto.LikeDTO;
 import community.model.dto.QnaNotice;
 import community.model.dto.QnaNoticeComment;
 import community.model.dto.QnaNoticeExt;
@@ -184,5 +185,42 @@ public class QnaNoticeService {
 		}
 		return result;
 	}
+	
+	
+	
+	/*******************************/
 
+	public LikeDTO selectLikeOne(String memberId, int no) {
+		Connection conn = getConnection();
+		LikeDTO bl= nd.selectLikeOne(conn, memberId,no);
+		close(conn);
+		return bl;
+	}
+
+	public int insertLike(LikeDTO like) {
+		Connection conn = getConnection();
+		//dao단에 요청
+		int result = nd.insertLike(conn, like);
+		
+		//트랜잭션 처리
+		if(result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		
+		//자원반납
+		close(conn);
+		return result;
+	}
+
+	public int deleteLike(LikeDTO bl) {
+		Connection conn = getConnection();
+		int result = nd.deleteLike(conn, bl);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
 }

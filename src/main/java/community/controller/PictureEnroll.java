@@ -48,7 +48,7 @@ public class PictureEnroll extends HttpServlet {
 			String memberId = multiReq.getParameter("memberId");
 			String nickName = multiReq.getParameter("nickName");
 			String title = multiReq.getParameter("title");
-			int categorySpace = Integer.parseInt(multiReq.getParameter("categorySpace"));
+	
 			int categoryShape = Integer.parseInt(multiReq.getParameter("categoryShape"));
 			String content = multiReq.getParameter("content");
 			String coverPhoto = multiReq.getParameter("coverPhoto");
@@ -58,7 +58,7 @@ public class PictureEnroll extends HttpServlet {
 			pic.setMemberId(memberId);
 			pic.setNickName(nickName);
 			pic.setTitle(title);
-			pic.setCategorySpace(categorySpace);
+
 			pic.setCategoryShape(categoryShape);
 			pic.setContent(content);
 			pic.setCoverPhoto(coverPhoto);

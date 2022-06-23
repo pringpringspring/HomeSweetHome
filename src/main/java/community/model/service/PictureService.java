@@ -1,4 +1,5 @@
 package community.model.service;
+
 import static common.JdbcTemplate.close;
 import static common.JdbcTemplate.commit;
 import static common.JdbcTemplate.getConnection;
@@ -16,17 +17,16 @@ import community.model.dto.Picture;
 import community.model.dto.PictureAttachment;
 import community.model.dto.PictureExt;
 
-
 public class PictureService {
 	PictureDao cd = new PictureDao();
-	
-	
+
 	public List<PictureExt> findAll(Map<String, Object> param) {
 		Connection conn = getConnection();
 		List<PictureExt> list = cd.findAll(conn, param);
 		close(conn);
 		return list;
 	}
+
 	public int getTotalContents() {
 		Connection conn = getConnection();
 		int totalContents = cd.getTotalContents(conn);
@@ -38,22 +38,22 @@ public class PictureService {
 		int result = 0;
 		Connection conn = getConnection();
 		try {
-			
-			result = cd.insertBoard(conn, img); 
 
-			int no = cd.findCurrentBoardNo(conn); 
+			result = cd.insertBoard(conn, img);
+
+			int no = cd.findCurrentBoardNo(conn);
 			img.setImgNo(no);
 			System.out.println("방금 등록된 사진.no = " + no);
 
 			List<PictureAttachment> attachments = ((PictureExt) img).getAttachments();
-			if(attachments != null && !attachments.isEmpty()) {
-				for(PictureAttachment attach : attachments) {
+			if (attachments != null && !attachments.isEmpty()) {
+				for (PictureAttachment attach : attachments) {
 					attach.setImgNo(no);
 					result = cd.insertAttachment(conn, attach);
 				}
 			}
 			commit(conn);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollback(conn);
 			throw e;
 		} finally {
@@ -77,7 +77,7 @@ public class PictureService {
 		try {
 			result = cd.updateReadCount(conn, no);
 			commit(conn);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollback(conn);
 			throw e;
 		} finally {
@@ -85,23 +85,23 @@ public class PictureService {
 		}
 		return result;
 	}
+
 	public PictureAttachment findAttachmentByNo(int no) {
 		Connection conn = getConnection();
 		PictureAttachment attach = cd.findAttachmentByNo(conn, no);
 		close(conn);
 		return attach;
 	}
-	
-	
+
 	public int deleteBoard(int no) {
 		Connection conn = getConnection();
 		int result = 0;
 		try {
 			result = cd.deleteBoard(conn, no);
 			commit(conn);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollback(conn);
-			throw e; 
+			throw e;
 		} finally {
 			close(conn);
 		}
@@ -112,20 +112,20 @@ public class PictureService {
 		int result = 0;
 		Connection conn = getConnection();
 		try {
-			
+
 			// 1. board 수정
 			result = cd.updateBoard(conn, img);
-			
+
 			// 2. attachment에 등록
 			List<PictureAttachment> attachments = ((PictureExt) img).getAttachments();
-			if(attachments != null && !attachments.isEmpty()) {
-				for(PictureAttachment attach : attachments) {
+			if (attachments != null && !attachments.isEmpty()) {
+				for (PictureAttachment attach : attachments) {
 					result = cd.insertAttachment(conn, attach);
 				}
 			}
-			
+
 			commit(conn);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollback(conn);
 			throw e;
 		} finally {
@@ -140,67 +140,65 @@ public class PictureService {
 		try {
 			result = cd.deleteAttachment(conn, no);
 			commit(conn);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollback(conn);
-			throw e; 
+			throw e;
 		} finally {
 			close(conn);
 		}
 		return result;
 	}
-	
-	public ArrayList<PictureExt> productList(int start, int end, int space, int shape)
-	{
+
+	public ArrayList<PictureExt> productList(int start, int end, int space, int shape) {
 		ArrayList<PictureExt> list = null;
 		Connection conn = JdbcTemplate.getConnection();
-		list = cd.productList(conn, start, end, space,shape);
+		list = cd.productList(conn, start, end, space, shape);
 		close(conn);
 		return list;
 	}
-	
+
 	public int getProductCount(int catenum, int catenum2) {
 		int result = 0;
 		Connection conn = JdbcTemplate.getConnection();
-		result = cd.getProductCount(conn, catenum,catenum2);		
+		result = cd.getProductCount(conn, catenum, catenum2);
 		return result;
 	}
-	
+
 	public List<PictureExt> sortRead(Map<String, Object> param) {
 		Connection conn = getConnection();
 		List<PictureExt> list = cd.sortRead(conn, param);
 		close(conn);
 		return list;
 	}
-	
+
 	public List<PictureExt> sortLike(Map<String, Object> param) {
 		Connection conn = getConnection();
 		List<PictureExt> list = cd.sortLike(conn, param);
 		close(conn);
 		return list;
 	}
-	
 
-	
-	/**이거는 다른거**/
+	/** 이거는 다른거 **/
 	public LikeDTO selectLikeOne(String memberId, int no) {
 		Connection conn = getConnection();
-		LikeDTO bl= cd.selectLikeOne(conn, memberId,no);
+		LikeDTO bl = cd.selectLikeOne(conn, memberId, no);
+		System.out.println("service@memberId = " + memberId + "     " + "no = " + no);
 		close(conn);
 		return bl;
 	}
 
 	public int insertLike(LikeDTO like) {
 		Connection conn = getConnection();
-		//dao단에 요청
+		// dao단에 요청
 		int result = cd.insertLike(conn, like);
-		
-		//트랜잭션 처리
-		if(result > 0)
+
+		// 트랜잭션 처리
+		if (result > 0)
 			commit(conn);
 		else
 			rollback(conn);
-		
-		//자원반납
+
+		// 자원반납
 		close(conn);
 		return result;
 	}
@@ -208,20 +206,30 @@ public class PictureService {
 	public int deleteLike(LikeDTO bl) {
 		Connection conn = getConnection();
 		int result = cd.deleteLike(conn, bl);
-		if(result>0)
+		if (result > 0)
 			commit(conn);
-		else 
+		else
 			rollback(conn);
 		close(conn);
 		return result;
 	}
+
+	// 수
+
+	/*
+	 * public int like_count(int no) {
+	 * 
+	 * int result = 0; Connection conn = getConnection(); try { result =
+	 * cd.like_count(conn, no); } catch (Exception e) { e.printStackTrace(); }
+	 * return result; }
+	 */
+
 	
-	//댓글수
-	public int likeCount(int no) { 
+	public int commentCount(int no) { 
 		Connection conn = getConnection(); 
-		int result = cd.likeCount(conn,no); 
+		int result = cd.commentCount(conn,no); 
 		close(conn); 
 		return result; 
 		}	
-
+	
 }

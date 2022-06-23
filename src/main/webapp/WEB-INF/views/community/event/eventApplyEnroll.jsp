@@ -42,9 +42,9 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 	<label for="eventNo"  class="eventNo"><b>이벤트 선택</b></label>
 <select name="eventNo"  id="eventNo" >
 <option selected>------필수선택------</option>
-<option value="102">꽃테리어 콘테스트 (진행중)</option>
-<option value="101">핸드메이드 콘테스트 (종료)</option>
-<option value="81">정리챌린지 (종료)</option>
+<option value="4">꽃테리어 콘테스트 (진행중)</option>
+<option value="3">핸드메이드 콘테스트 (종료)</option>
+<option value="1">정리챌린지 (종료)</option>
 
 </select>
 			<tr>
@@ -63,9 +63,11 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 	<tr>
 		<th>첨부파일</th>
 		<td>			
-			<input type="file" name="upFile1">
-			<br>
-			<input type="file" name="upFile2">
+		<div class="filebox">
+    <input class="upload-name" value="1회 1장 첨부" >
+    <label for="file">첨 부</label> 
+    <input type="file" id="file" name="upFile1">
+</div>
 		</td>
 	</tr>
 	<tr>
@@ -84,6 +86,12 @@ EventAppExt event = (EventAppExt) request.getAttribute("event");
 
  
 <script>
+<script>
+$("#file").on('change',function(){
+	  var fileName = $("#file").val();
+	  $(".upload-name").val(fileName);
+	});
+	
 eventNo.addEventListener('change', (e) => {
 	const{value}  = e.target;
 	console.log(value);

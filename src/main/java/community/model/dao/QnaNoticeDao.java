@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import community.model.dto.Attachment;
+import community.model.dto.LikeDTO;
 import community.model.dto.QnaNotice;
 import community.model.dto.QnaNoticeComment;
 import community.model.dto.QnaNoticeExt;
@@ -390,7 +391,77 @@ public class QnaNoticeDao {
 		return result;
 	}
 	
-	
+	/**********/
+	public LikeDTO selectLikeOne(Connection conn, String memberId, int no) {
+		LikeDTO ld = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("nselectLikeOne");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, no);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ld = new LikeDTO();
+				ld.setMemberId(rset.getString("member_id"));
+				ld.setBoardNo(rset.getInt("board_no"));
+				ld.setLikeIt(rset.getString("likeit"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return ld;
+	}
+
+	public int insertLike(Connection conn, LikeDTO like) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("ninsertLike");
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, like.getMemberId());
+			pstmt.setInt(2, like.getBoardNo());
+			pstmt.setString(3, like.getLikeIt());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteLike(Connection conn, LikeDTO bl) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("ndeleteLike"); 
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bl.getMemberId());
+			pstmt.setInt(2, bl.getBoardNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 
 	
