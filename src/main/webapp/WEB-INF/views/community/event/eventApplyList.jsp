@@ -11,7 +11,7 @@ List<EventAppExt> list = (List<EventAppExt>) request.getAttribute("list");
 
 <section id="event-applyList-container">
 <div class="title-view">
-<h2>참여작</h2>
+<h2>현재 진행중인 이벤트 참여작</h2>
  <img src="<%=request.getContextPath()%>/upload/community/event/e3.jpg" class="img_logo">
  </div>
  <div class="main">

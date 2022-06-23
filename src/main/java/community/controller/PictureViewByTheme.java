@@ -22,18 +22,10 @@ public class PictureViewByTheme extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String spaceStr = request.getParameter("space");
-		String shapeStr =  request.getParameter("shape");
-		
-		int space = 0;
-		int shape = 0;
-	
-		if(spaceStr != null) {
-			space = Integer.parseInt(spaceStr);
-		}
-		
-		if(shapeStr != null) {
-			shape = Integer.parseInt(shapeStr);
+		String catenumStr = request.getParameter("catenum");
+		int catenum = 0;
+		if(catenumStr != null) {
+			catenum = Integer.parseInt(catenumStr);
 		}
 		
 		final int PAGE_SIZE = 20;  //한페이지당 글 수 
@@ -50,9 +42,8 @@ public class PictureViewByTheme extends HttpServlet {
 		if(pageNum != null) {
 			currentPage = Integer.parseInt(pageNum);
 		}
-
-		rCount = ps.getProductCount(space , shape);
-	
+		rCount = ps.getProductCount(catenum);
+		
 		pageCount = (rCount/PAGE_SIZE) + (rCount%PAGE_SIZE == 0 ? 0 : 1);
 
 		startRnum = (currentPage - 1) * PAGE_SIZE + 1;
@@ -74,17 +65,14 @@ public class PictureViewByTheme extends HttpServlet {
 		
 		
 		
-		ArrayList<PictureExt> list =ps.productList(startRnum, endRnum, space, shape);
-		String url = request.getRequestURI()
-				+"?space="+space
-				+"&shape="+shape;
-		
+		ArrayList<PictureExt> list =ps.productList(startRnum, endRnum, catenum);
+
 		request.setAttribute("productList", list);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("pageCount", pageCount);
-		request.setAttribute("space", space);
-		request.setAttribute("shape", shape);
+		request.setAttribute("catenum", catenum);
+
 
 		request.getRequestDispatcher("/WEB-INF/views/community/picture/pictureViewbyTheme.jsp").forward(request, response);
 		

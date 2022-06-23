@@ -26,6 +26,10 @@ import member.model.dto.Member;
 		 * "/member/nickCheck", "/member/nicknameCheck", "/member/memberPassword", 
 		 * "/member/shopPage", "/member/adminChat",
 		 */
+		/*
+		 * "/picture/pictureView","/knowhow/knowhowListView","/qna/qnaBoardEnroll",
+		 * "/event/eventApplyEnroll","/picture/pictureEnroll","/knowhow/knowhowEnroll"
+		 */
 })
 public class LoginFilter implements Filter {
 

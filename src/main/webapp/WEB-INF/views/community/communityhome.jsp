@@ -19,35 +19,35 @@
 
 <div class="items">
 <div class="lists">
-<a href="<%= request.getContextPath() %>/#">
+<a href="<%= request.getContextPath() %>/store/storeCategory?mainCategory=organizing">
 <img src= "<%= request.getContextPath() %>/images/community/drawer.png" class="list_img">
 </a>
 <h3>수납정리</h3>
 </div>
 
 <div class="lists">
-<a href="<%= request.getContextPath() %>/#">
+<a href="<%= request.getContextPath() %>/store/storeCategory?mainCategory=lighting">
 <img src= "<%= request.getContextPath() %>/images/community/lamp.png" class="list_img">
 </a>
 <h3>조명</h3>
 </div>
 
 <div class="lists">
-<a href="<%= request.getContextPath() %>/#">
+<a href="<%= request.getContextPath() %>/store/storeCategory?mainCategory=living">
 <img src= "<%= request.getContextPath() %>/images/community/wipes.png" class="list_img">
 </a>
 <h3>생활용품</h3>
 </div>
 
 <div class="lists">
-<a href="<%= request.getContextPath() %>/#">
+<a href="<%= request.getContextPath() %>/store/storeCategory?mainCategory=furniture">
 <img src= "<%= request.getContextPath() %>/images/community/furniture.png" class="list_img">
 </a>
 <h3>가구</h3>
 </div>
 
 <div class="lists">
-<a href="<%= request.getContextPath() %>/#">
+<a href="<%= request.getContextPath() %>/store/storeCategory?mainCategory=electronics">
 <img src= "<%= request.getContextPath() %>/images/community/washing-machine.png" class="list_img">
 </a>
 <h3>가전제품</h3>

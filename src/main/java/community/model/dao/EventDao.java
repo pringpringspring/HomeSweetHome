@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import common.JdbcTemplate;
 import community.model.dto.Attachment;
 import community.model.dto.Event;
 import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
 import community.model.exception.EventException;
-import community.model.exception.QnaBoardException;
-import community.model.exception.QnaNoticeException;
 
 
 public class EventDao {
@@ -207,7 +206,7 @@ public class EventDao {
 
 		private EventAttachment handleAttachmentResultSet(ResultSet rset) throws SQLException {
 			EventAttachment att = new EventAttachment();
-			att.setNo(rset.getInt("no"));
+			att.setNo(rset.getInt("att_no"));
 			att.setOriginal_filename(rset.getString("original_filename"));
 			att.setRenamed_filename(rset.getString("renamed_filename"));
 			att.setEventNo(rset.getInt("event_no"));
@@ -292,6 +291,7 @@ public class EventDao {
 
 
 
+		
 
 
 

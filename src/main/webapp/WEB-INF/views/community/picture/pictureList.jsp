@@ -20,26 +20,16 @@ List<PictureExt> list = (List<PictureExt>) request.getAttribute("list");
 </h5>
 
 	<div class="ViewByTheme">
-     	<section id="option-tab">
-     	
-     		<form action="<%= request.getContextPath() %>/picture/pictureViewByTheme" >
-	            
-<!-- 	            <select name="spaceStr"  id="selectOption" >
-					<option selected>평수</option>
-	                <option value="36">10-20평</option> 
-	                <option value="37">30-40평</option>
-	            </select>
-	
-	            <select name="shapeStr"  id="selectOption" >
-	            <option selected>주거형태</option>
-	                <option value="46" >원룸&amp; 오피스텔</option>
-	                <option value="47" >아파트</option>
-	            </select>
+<input type="button" value="전체" id="btn-storage" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/community/picture';" />
+<input type="button" value="원룸&오피스텔" id="btn-oneoffi" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/picture/pictureViewByTheme?catenum=<%=10%>';" />
+<input type="button" value="아파트"  id="btn-apart" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/picture/pictureViewByTheme?catenum=<%=20%>';" />
 
-     			<input type="submit" class="search-btn" value="검색">
-     		</form> -->
-    
-     	</section>
      </div>  
 
 </nav>
