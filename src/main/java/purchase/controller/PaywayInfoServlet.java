@@ -20,15 +20,24 @@ public class PaywayInfoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 사용자입력값 처리
-		
-		// 2. 업무로직 
-		String info = "";
-		
-		// 3. view단 처리
-		request.setAttribute("info", info);
-		request.getRequestDispatcher("/WEB-INF/views/purchase/purchaseView.jsp")
-			.forward(request, response);
+		try {
+			// 들어온 입력값 처리
+			String memberId = request.getParameter("memberId");
+			String totalPrice = request.getParameter("totalPrice");
+
+			System.out.println("맴버아디:" + memberId);
+			System.out.println("총가격:" + totalPrice);
+			// 2 업무로직
+			
+			// 3. view단 처리
+			request.setAttribute("memberId", response);
+			request.setAttribute("totalPrice", totalPrice);
+			request.getRequestDispatcher("/WEB-INF/views/purchase/purchaseView.jsp")
+				.forward(request, response);	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 

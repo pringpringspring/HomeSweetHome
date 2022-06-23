@@ -173,10 +173,10 @@ public class ProductService {
 	public ProductExt findProductByProductId(String productId) {
 		Connection conn = getConnection();
 		ProductExt product = productDao.findProductByProductId(conn, productId);
-		List<ProductImage> productImages = productDao.findProductImagesByProductId(conn, productId);
-		List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
-		product.setProductImages(productImages);
-		product.setProductDescriptionImages(productDescriptionImages);
+		//List<ProductImage> productImages = productDao.findProductImagesByProductId(conn, productId);
+		//List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
+		//product.setProductImages(productImages);
+		//product.setProductDescriptionImages(productDescriptionImages);
 		close(conn);
 		return product;
 	}
