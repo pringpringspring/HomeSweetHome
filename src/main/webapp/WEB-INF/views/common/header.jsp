@@ -7,6 +7,8 @@
 	String msg = (String) session.getAttribute("msg");
 	if(msg != null)
 		session.removeAttribute("msg");
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -216,15 +218,16 @@ function logoutWithKakao() {
 									</div>
 								<% } else { %>
 									<div class="login-member-menu-wrapper">
-										<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
+									<!--	<a class="member-menu" href="<%= request.getContextPath() %>/member/adminChat">
 											<img class="scrap-btn" src= "<%=request.getContextPath() %>/images/bookmark-white.png;" />
 										</a>
+									 이벤트페이지  -->
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/notification">
 											<img class="notification-btn" src= "<%=request.getContextPath() %>/images/notification.png;" />
 										</a> 
 										<a class="member-menu" href="<%= request.getContextPath() %>/member/cart">
 												<img class="member-cart-btn" src= "<%=request.getContextPath() %>/images/cart.png;">
-													<span class="nav-counter">3</span>
+												<!-- <span class="nav-counter">3</span> -->	
 										</a>
 										<div class="member-menu-cont">
 											<div class="member-menu-cont-wrapper">
