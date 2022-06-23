@@ -170,6 +170,20 @@ window.onload = () => {
 			<input type="file" class="input-file-btn" name="upFile1">
 			<br>
 			<input type="file" class="input-file-btn" name="upFile2">
+			<br>
+			<input type="file" class="input-file-btn" name="upFile3">
+		</td>
+	</tr>
+	<tr>
+		<th>상품 설명 이미지 파일</th>
+		<td>			
+			<input type="file" class="input-file-btn" name="desFile1">
+			<br>
+			<input type="file" class="input-file-btn" name="desFile2">
+			<br />
+			<input type="file" class="input-file-btn" name="desFile3">
+			<br>
+			<input type="file" class="input-file-btn" name="desFile4">
 		</td>
 	</tr>
 	<tr>
@@ -200,6 +214,8 @@ searchTypeMain.addEventListener('change', (e) => {
 		case "furniture": id = "furniture"; break; 
 		case "electroics": id = "electroics"; break; 
 		case "lighting": id = "lighting"; break; 
+		case "organizing": id = "organizing"; break; 
+		case "living": id = "living"; break; 
 	}
 	
 	let ValMainCode = "";
