@@ -30,18 +30,14 @@
 </div>
 
 <div class="content-view">
-<%= board.getContent() %>
+<%= board.getContent() %><br>
 
 		<% 
 			List<Attachment> attachments = board.getAttachments();
 			if(attachments != null && !attachments.isEmpty()){
 				for(Attachment attach : attachments){
 		%>
-<h5>첨부파일
-				<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
-				<img alt="첨부파일" src="<%=request.getContextPath() %>/images/file.jpg" width=13px>
-				<a href="<%= request.getContextPath() %>/board/fileDownload?no=<%= attach.getNo() %>"><%= attach.getOriginalFilename() %></a>
-</h5>
+				<img src="<%=request.getContextPath()%>/upload/community/qna/<%=attach.getRenamedFilename()%>" width="320px"><br>
 		<%
 				}
 			}
@@ -96,12 +92,6 @@
 						<%= bc.getContent() %>
 					</td>
 					<td>
-					<%-- <form name="likeFrm" action="<%= request.getContextPath()%>/qna/qnaBoardView" method="POST">
-						<button class="btn-like" value="<%= bc.getNo() %>" onclick="likeUpDown()">좋아요</button>
-						<input type="hidden" id="likememberId" name="memberId" value="<%=loginMember.getMemberId()%>"/>
-						<input type="hidden" id="likeno" name="cono" value="<%=bc.getNo()%>"/>
-						</form>
-						<div id="like_result"><%=bc.getLikeCnt() %></div>													 --%>	
 						<button class="btn-reply" value="<%= bc.getNo() %>">답글</button>
 						<% if(canDelete){ %>
 							<button class="btn-delete" value="<%= bc.getNo() %>">삭제</button>

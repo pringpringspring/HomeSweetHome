@@ -9,6 +9,15 @@
 <%@page import="community.model.dto.PictureAttachment"%>
 <%@page import="community.model.dto.Picture"%>
 <%@page import="community.model.dto.PictureExt"%>
+  <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/community/pictureList.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -16,26 +25,16 @@
 	#likeBtn:hover{cursor:pointer;}
 	</style>
 <%
-int no = Integer.parseInt(request.getParameter("no"));
 
+int no = Integer.parseInt(request.getParameter("no"));
 boolean like = (boolean)request.getAttribute("like");
 
 PictureExt picture = (PictureExt) request.getAttribute("picture");
 boolean canEdit = loginMember != null
 		&& (loginMember.getMemberId().equals(picture.getMemberId()) || loginMember.getMemberRole() == MemberRole.A);
-/* boolean canLike = loginMember != null; */
+
 
 %>
-<script>
-<%-- 	$(function(){
-		$(".cancel_love").click(function(){
-			location.href="NoLike.do?no=<%=no%>";
-		});
-		$(".plus_love").click(function(){
-			location.href="Like.do?no=<%=no%>";
-		});
-	}); --%>
-</script>
 
 <section id="board-view-container">
 	<table id="tbl-board-view">
@@ -53,9 +52,11 @@ boolean canEdit = loginMember != null
 			if (attachments != null && !attachments.isEmpty()) {
 				for (PictureAttachment attach : attachments) {
 			%>
-			<img
+<img
 				src="<%=request.getContextPath()%>/upload/community/picture/<%=attach.getRenamedFilename()%>"
-				width=450px>
+				width=450px><br>
+
+    </div>
 			
 			<%
 			}
@@ -68,18 +69,16 @@ boolean canEdit = loginMember != null
 				&nbsp;&nbsp;
 			</div>
 	<div class="like-btn">
-<%-- 		<%if(canLike){%> --%>
+
 <form name="likeFrm" action="<%= request.getContextPath()%>/picture/pictureView" method="POST">
 		<input type="hidden" id="likeMemId" name="memberId" value="<%= loginMember.getMemberId() %>" />
 		<input type="hidden" id=likeBoardNum name="no" value="<%= picture.getImgNo()%>" />
+		
 	</form>
 
 	<div id="LikeAlarm">
-		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" width="25px"/>좋아요 
-			<%=picture.getLikeCount() %>
-	</div>
+		<img src=<%= like ? "../images/like.png" : "../images/dislike.png" %> id="likeBtn" width="25px" />좋아요 
 
-<%-- <%} %> --%>
 		</div>
 			
 	</div>
@@ -120,38 +119,7 @@ const updateBoard = () => {
 
 <script>
 
-<%-- const LikeBtn = (e) => {
-	   const likeItBtn = document.querySelector("#btn-like");
-	   let likeItBtnSrc = likeItBtn.lastElementChild.src;
-	   if(likeItBtnSrc == "like.png"){
-		   
-	      $.ajax({
-	         url : "<%= request.getContextPath() %>/picture/pictureView",
-	         data : {
-	            no : <%= picture.getImgNo()%>,
-	            memberId : "<%= loginMember.getMemberId() %>"
-	         },
-	         success(resp){
-	        	 likeItBtn.lastElementChild.src = "<%= request.getContextPath() %>/images/dislike.png";
-	         },
-	         error : 
-	        	 alert("통신오류")
-	      });
-} else {
-   $.ajax({
-      url : "<%= request.getContextPath() %>/picture/pictureView",
-      data : {
-         no : <%= picture.getImgNo() %>,
-         memberId : "<%= loginMember.getMemberId() %>"
-      },
-      success(resp){
-    	  likeItBtn.lastElementChild.src = "<%= request.getContextPath() %>/images/like.png";
-      },
-      error : 
-    	  alert("통신오류")
-   });
-}
-}; --%>
+//좋아요 자체
 $(document).ready(function(){
     $("#likeBtn").click(function(){
 		$.ajax({
@@ -173,5 +141,14 @@ $(document).ready(function(){
     });
 });
 
+
 </script>
+
+         <a style="display:scroll;position:fixed;bottom:92px; right:45px;" rel="nofollow"
+     href="#" >
+     <img src="<%=request.getContextPath()%>/images/top_button.png" width=20px></a>
+
+     <a style="display:scroll;position:fixed;bottom:55px; right:45px;" rel="nofollow"
+     href="#scrollbottom" ><img src="<%=request.getContextPath()%>/images/bot_button.png" width=20px></a>
+     <div id="scrollbottom"></div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

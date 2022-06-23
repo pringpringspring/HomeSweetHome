@@ -1,12 +1,15 @@
+<%@page import="community.model.dto.QnaBoardComment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="community.model.dto.Attachment"%>
 <%@page import="java.util.List"%>
+<%@page import="community.model.dto.LikeDTO"%>
 <%@page import="community.model.dto.QnaNoticeExt"%>
 <%@page import="community.model.dto.QnaNoticeComment"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <%
+int no = Integer.parseInt(request.getParameter("no"));
 QnaNoticeExt board = (QnaNoticeExt) request.getAttribute("board");
 List<QnaNoticeComment> comments = board.getComments();
 //공지crud는 관리자만
@@ -37,10 +40,10 @@ boolean canEdit2 = loginMember != null
 			첨부파일:
 			<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
 			<img alt="첨부파일" src="<%=request.getContextPath()%>/images/file.jpg"
-				width=16px> <a
-				href="<%=request.getContextPath()%>/board/fileDownload?no=<%=attach.getNo()%>"><%=attach.getOriginalFilename()%></a>
-			<br> <img
-				src="<%=request.getContextPath()%>/upload/community/qna/<%=attach.getRenamedFilename()%>"
+				width=16px><%--  <a
+				href="<%=request.getContextPath()%>/board/fileDownload?no=<%=attach.getNo()%>"><%=attach.getOriginalFilename()%></a> --%>
+			<br> 
+			<img src="<%=request.getContextPath()%>/upload/community/qna/<%=attach.getRenamedFilename()%>"
 				width=500px><br>
 
 			<%
@@ -50,16 +53,17 @@ boolean canEdit2 = loginMember != null
 			<%
 			}
 			%>
+			</div>
 			<%=board.getContent()%>
 
 			<div class="view-end">
 				No.<%=board.getNo()%>&nbsp;&nbsp; 조회
-				<c><%=board.getReadCnt()%></c>
+				<c><%=board.getReadCnt()%></c><br><br>
 
 				<%
 				if (canEdit) {
 				%>
-				<div class="bts"></div>
+			
 				<%-- 관리자만 마지막행 수정/삭제버튼이 보일수 있게 할 것 --%>
 				<input type="button" value="수정하기" onclick="updateBoard()"
 					class="notice-btn"> <input type="button" value="삭제하기"
@@ -67,7 +71,8 @@ boolean canEdit2 = loginMember != null
 				<%
 				}
 				%>
-			
+
+			</div>
 	</table>
 
 	<br style="margin-top: 3rem;" />
@@ -107,6 +112,8 @@ boolean canEdit2 = loginMember != null
 						<br />
 						<%= nc.getContent() %>
 					</td>
+
+					
 					<td>
 						<button class="btn-reply" value="<%= nc.getCommentNo() %>">답글</button>
 						<% if(canDelete){ %>
@@ -151,6 +158,7 @@ boolean canEdit2 = loginMember != null
 
 
 <script>
+
 
 document.querySelectorAll(".btn-delete").forEach((button) => {
 	button.onclick = (e) => {
@@ -288,11 +296,7 @@ if (canEdit) {
 	<input type="hidden" name="no" value="<%=board.getNo()%>" />
 </form>
 <script>
-/**
- * POST /board/boardDelete
- * - no전송
- * - 저장된 파일 삭제 : java.io.File 
- */
+
 const deleteBoard = () => {
 	if(confirm("정말 이 게시글을 삭제하시겠습니까?"))
 		document.boardDeleteFrm.submit();

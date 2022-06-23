@@ -18,12 +18,13 @@ import community.model.dto.LikeDTO;
 import community.model.dto.Picture;
 import community.model.dto.PictureAttachment;
 import community.model.dto.PictureExt;
+import community.model.dto.QnaBoardComment;
 import community.model.exception.PictureException;
 
 public class PictureDao {
 	private Properties prop = new Properties();
 	Connection con;
-	
+
 	public PictureDao() {
 		String fileName = KnowhowDao.class.getResource("/sql/picture.properties").getPath();
 		try {
@@ -65,7 +66,6 @@ public class PictureDao {
 		img.setNickName(rset.getString("nickname"));
 		img.setTitle(rset.getString("title"));
 		img.setContent(rset.getString("content"));
-		img.setCategorySpace(rset.getInt("img_theme_space"));
 		img.setCategoryShape(rset.getInt("img_theme_shape"));
 		img.setCoverPhoto(rset.getString("cover_photo"));
 		img.setReadCount(rset.getInt("read_count"));
@@ -105,9 +105,8 @@ public class PictureDao {
 			pstmt.setString(2, img.getNickName());
 			pstmt.setString(3, img.getTitle());
 			pstmt.setString(4, img.getContent());
-			pstmt.setInt(5, img.getCategorySpace());
-			pstmt.setInt(6, img.getCategoryShape());
-			pstmt.setString(7, img.getCoverPhoto());
+			pstmt.setInt(5, img.getCategoryShape());
+			pstmt.setString(6, img.getCoverPhoto());
 
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -314,7 +313,7 @@ public class PictureDao {
 		ResultSet rs = null;
 		String sql = prop.getProperty("viewByTheme");
 		try {
-			if ((space != 0 && shape != 0)) {
+			if ((space >0 && shape > 0)) {
 				ps = conn.prepareStatement(sql);
 				ps.setInt(1, space);
 				ps.setInt(2, shape);
@@ -359,7 +358,7 @@ public class PictureDao {
 				ps.setInt(1, no);
 				ps.setInt(2, no2);
 				result = ps.executeUpdate();
-				
+
 			}
 			/* rs = ps.executeQuery(); */
 			/*
@@ -430,8 +429,7 @@ public class PictureDao {
 		}
 		return list;
 	}
-	
-	
+
 	public List<PictureExt> sortLike(Connection conn, Map<String, Object> param) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -456,8 +454,7 @@ public class PictureDao {
 		}
 		return list;
 	}
-	
-	
+
 	/*
 	 * public List<PictureExt> likePicture(int no) throws Exception{ Connection con
 	 * = JdbcTemplate.getConnection(); String sql = prop.getProperty("likeit");
@@ -472,130 +469,128 @@ public class PictureDao {
 	 * return likeList; }
 	 * 
 	 */
-	 
-	
-	
 
-	/**이거는 다른거**/
+	/** 이거는 다른거 **/
+
+	public LikeDTO selectLikeOne(Connection conn, String memberId, int no) {
+		LikeDTO ld = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectLikeOne");
+		System.out.println("dao@memberId = " + memberId + "     " + "no = " + no);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				ld = new LikeDTO();
+				ld.setMemberId(rset.getString("member_id"));
+				ld.setBoardNo(rset.getInt("board_no"));
+				ld.setLikeIt(rset.getString("likeit"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return ld;
+	}
+
+	public int insertLike(Connection conn, LikeDTO like) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertLike");
+
+		try {
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, like.getMemberId());
+			pstmt.setInt(2, like.getBoardNo());
+			pstmt.setString(3, like.getLikeIt());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteLike(Connection conn, LikeDTO bl) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteLike");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bl.getMemberId());
+			pstmt.setInt(2, bl.getBoardNo());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int like_count(Connection conn, int no){
+		int result = 0;
+		PreparedStatement ps = null;
+		String sql = prop.getProperty("likecnt");
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, no);
 			
-			public LikeDTO selectLikeOne(Connection conn, String memberId, int no) {
-				LikeDTO ld = null;
-				PreparedStatement pstmt = null;
-				ResultSet rset = null;
-				String sql = prop.getProperty("selectLikeOne");
-				
-				try {
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, memberId);
-					pstmt.setInt(2, no);
-					rset = pstmt.executeQuery();
-					
-					if(rset.next()) {
-						ld = new LikeDTO();
-						ld.setMemberId(rset.getString("member_id"));
-						ld.setBoardNo(rset.getInt("board_no"));
-						ld.setLikeIt(rset.getString("likeit"));
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					close(rset);
-					close(pstmt);
-				}
-				return ld;
+			result = ps.executeUpdate();
+			/*
+			 * ResultSet rs = ps.executeQuery();
+			 */
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+
+		return result;
+	}
+
+	//
+	public int commentCount(Connection conn, int no) {
+		List<LikeDTO> list = new ArrayList<>();
+		LikeDTO bc = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("likecnt");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				bc = new LikeDTO();
+
+				bc.setMemberId(rset.getString("member_id"));
+				bc.setBoardNo(rset.getInt("board_no"));
+				bc.setLikeIt(rset.getString("likeit"));
+
+				list.add(bc);
 			}
 
-			public int insertLike(Connection conn, LikeDTO like) {
-				int result = 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-				PreparedStatement pstmt = null;
-				String sql = prop.getProperty("insertLike");
-				
-				try {
-					
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, like.getMemberId());
-					pstmt.setInt(2, like.getBoardNo());
-					pstmt.setString(3, like.getLikeIt());
-					
-					result = pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					close(pstmt);
-				}
-				return result;
-			}
-
-			public int deleteLike(Connection conn, LikeDTO bl) {
-				int result = 0;
-				PreparedStatement pstmt = null;
-				String query = prop.getProperty("deleteLike"); 
-
-				try {
-					pstmt = conn.prepareStatement(query);
-					pstmt.setString(1, bl.getMemberId());
-					pstmt.setInt(2, bl.getBoardNo());
-					
-					result = pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					close(pstmt);
-				}
-				
-				return result;
-			}
-
-			public int like_count (int no) throws Exception {
-				Connection con = JdbcTemplate.getConnection();
-				
-				String sql = "select C.community_img_no, C.title,count(L.board_no) like_count from community_image C left outer join like_img L  on c.community_img_no = L.board_no where community_img_no =? "
-						+ "group by C.community_img_no, C.title";
-				PreparedStatement ps = con.prepareStatement(sql);
-				ps.setInt(1, no);
-				
-				ResultSet rs = ps.executeQuery();
-				
-				int likeCnt = 0;
-				if(rs.next()) {
-					likeCnt = rs.getInt("likeCnt");
-				}
-				con.close();
-				
-				return likeCnt;
-			}
-
-			
-			public int likeCount(Connection conn, int no) {
-				List<LikeDTO> list = new ArrayList<>();
-				LikeDTO ld = null;
-				PreparedStatement pstmt = null;
-				ResultSet rset = null;
-				String sql = prop.getProperty("likecnt");
-
-				try {
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setInt(1, no);
-					rset = pstmt.executeQuery();
-					while (rset.next()) {
-						ld = new LikeDTO();
-						
-						ld.setMemberId(rset.getString("member_id"));
-						ld.setBoardNo(rset.getInt("board_no"));
-						ld.setLikeIt(rset.getString("likeit"));
-
-						list.add(ld);
-					}
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-				return list.size();
-			}
+		return list.size();
+	}
 }
-	
-

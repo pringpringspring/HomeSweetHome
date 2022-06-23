@@ -5,6 +5,7 @@ import static common.JdbcTemplate.getConnection;
 import static common.JdbcTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import community.model.dto.KnowhowExt;
 import community.model.dto.LikeDTO;
 
 public class KnowhowService {
-KnowhowDao kd = new KnowhowDao();
+private KnowhowDao kd = new KnowhowDao();
 
 
 public List<KnowhowExt> findAll(Map<String, Object> param) {
@@ -202,7 +203,43 @@ public ArrayList<KnowhowExt> productList(int start , int end, int catenum) {
 }
 
 
+/**이거는 다른거**/
+public LikeDTO selectLikeOne(String memberId, int no) {
+	Connection conn = getConnection();
+	LikeDTO bl= kd.selectLikeOne(conn, memberId,no);
+	close(conn);
+	return bl;
+}
 
+public int insertLike(LikeDTO like) {
+	Connection conn = getConnection();
+	//dao단에 요청
+	int result = kd.insertLike(conn, like);
+	
+	//트랜잭션 처리
+	if(result > 0)
+		commit(conn);
+	else
+		rollback(conn);
+	
+	//자원반납
+	close(conn);
+	return result;
+}
 
+public int deleteLike(LikeDTO bl) {
+	Connection conn = getConnection();
+	int result = kd.deleteLike(conn, bl);
+	if(result>0)
+		commit(conn);
+	else 
+		rollback(conn);
+	close(conn);
+	return result;
+}
 
+/*
+ * public int LikeCount(int no) { Connection conn = getConnection(); int cnt =
+ * kd.LikeCount(conn, no); close(conn); return cnt; }
+ */
 }

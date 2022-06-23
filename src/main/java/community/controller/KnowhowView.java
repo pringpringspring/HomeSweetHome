@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import community.model.dao.KnowhowDao;
 import community.model.dto.Knowhow;
 import community.model.dto.KnowhowComment;
 import community.model.dto.KnowhowExt;
@@ -59,24 +60,6 @@ public class KnowhowView extends HttpServlet {
 				response.addCookie(cookie); // 응답헤더에 Set-Cookie로 전송
 				System.out.println("> NoticeCookie가 새로 생성되었음.");
 			}
-
-			
-			/*
-			 * List<KnowhowComment> replylist = ks.selectCommentList(no); Knowhow kh =
-			 * ks.selectOne(no); int replycount = ks.selectreplyCount(no);
-			 * 
-			 * HttpSession session = request.getSession(); Member memberLoggedIn =
-			 * (Member)session.getAttribute("memberLoggedIn"); if(memberLoggedIn!=null) {
-			 * LikeDTO resultCl = ks.selectLikeOne(kh.getNo(),
-			 * memberLoggedIn.getMemberId()); boolean like = resultCl == null ? false :
-			 * true;
-			 * 
-			 * request.setAttribute("LikeIt", like); } request.setAttribute("replylist",
-			 * replylist); request.setAttribute("Knowhow", kh);
-			 * request.setAttribute("replycount", replycount);
-			 */
-			
-			
 			
 			// 게시글 조회
 			KnowhowExt knowhow = ks.findByNo(no);
@@ -84,10 +67,18 @@ public class KnowhowView extends HttpServlet {
 			// board#content 개행처리
 			knowhow.setContent(knowhow.getContent().replaceAll("\n", "<br/>"));
 
+			HttpSession session = request.getSession();
+			Member loginMemberId
+			= (Member)session.getAttribute("loginMember");
+			
+			LikeDTO resultLD =ks.selectLikeOne(loginMemberId.getMemberId(),no);
+			boolean like = resultLD == null ? false:true;
 			System.out.println(knowhow);
-
-			// 3.view단 위임
+			
 		
+
+			// 3.view단 위임		
+			request.setAttribute("like", like);
 			request.setAttribute("knowhow", knowhow);
 			request.getRequestDispatcher("/WEB-INF/views/community/knowhow/knowhowView.jsp").forward(request, response);
 
@@ -99,38 +90,23 @@ public class KnowhowView extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		/*
-		 * try { String memberId = request.getParameter("memberId"); int cono =
-		 * Integer.parseInt(request.getParameter("cono")); request.setAttribute("like",
-		 * (boolean)true);
-		 * 
-		 * List<KnowhowComment> replylist = ks.selectCommentList(cono); LikeDTO cl =
-		 * ks.selectLikeOne(cono, memberId); boolean exitistLike = cl == null ? false :
-		 * true; if(exitistLike) { //like 삭제 int result =ks.deleteLike(cl);
-		 * System.out.println("insertLike="+result); }else { //like 추가 LikeDTO like =
-		 * new LikeDTO(memberId, cono, "T"); int result = ks.insertLike(like);
-		 * System.out.println("insertLike="+result); }
-		 * 
-		 * LikeDTO resultCl = ks.selectLikeOne(cono, memberId); boolean like = resultCl
-		 * == null ? false : true; } catch(Exception e) { e.printStackTrace();
-		 * 
-		 * throw e; }
-		 */
-		/*
-		 * try { int no = Integer.parseInt(request.getParameter("no")); int cono =
-		 * Integer.parseInt(request.getParameter("cono")); String memberId =
-		 * request.getParameter("memberId");
-		 * 
-		 * LikeDTO like = ks.likeCheck(cono, memberId);
-		 * 
-		 * if(like == null) { ks.updateLikeCount(cono, memberId); } else {
-		 * ks.setPostingLike(like); }
-		 * 
-		 * request.setAttribute("like", like);
-		 * response.sendRedirect(request.getContextPath() +
-		 * "/knowhow/knowhowListView?no=" + no); } catch (Exception e) {
-		 * e.printStackTrace(); throw e; }
-		 */
+		int no = Integer.parseInt(request.getParameter("no"));
+		
+		String memberId = request.getParameter("memberId");
+		
+		LikeDTO bl = ks.selectLikeOne(memberId,no);
+		boolean existLike = bl == null ? false : true;
+		if(existLike) {
+			int result = ks.deleteLike(bl);
+			System.out.println("insertLike(취소) = "+result);
+		}else {
+			LikeDTO like =new LikeDTO(memberId,no,"T");
+			int result = ks.insertLike(like);
+			System.out.println("insertLike(추가) = "+result);
+		}
+		
+		LikeDTO resultLD = ks.selectLikeOne(memberId,no);
+		boolean like = resultLD == null ? false:true;
 		
 	}		
 }

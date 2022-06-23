@@ -49,7 +49,7 @@
 		}
 	%>
 <div class="filebox">
-    <input class="upload-name" value="게시글 첫 등록시 첨부파일 한 장만 가능" >
+    <input class="upload-name" value="1회 1장 첨부" >
     <label for="file">첨 부</label> 
     <input type="file" id="file" name="upFile1">
     <input type="file" id="file" name="upFile2">

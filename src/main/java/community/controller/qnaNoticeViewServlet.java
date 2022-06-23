@@ -1,16 +1,23 @@
 package community.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import community.model.dao.QnaNoticeDao;
+import community.model.dto.LikeDTO;
 import community.model.dto.QnaBoardExt;
+import community.model.dto.QnaNoticeComment;
 import community.model.dto.QnaNoticeExt;
 import community.model.service.QnaNoticeService;
+import member.model.dto.Member;
 
 /**
  * Servlet implementation class qnaNoticeViewServlet
@@ -23,10 +30,12 @@ public class qnaNoticeViewServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		try {
 			// 1.사용자입력값처리
 			int no = Integer.parseInt(request.getParameter("no"));
+
 			
 			// 쿠키처리
 			boolean hasRead = false;
@@ -62,6 +71,7 @@ public class qnaNoticeViewServlet extends HttpServlet {
 			
 			// 게시글 조회
 			QnaNoticeExt board = ns.findByNo(no);
+
 			
 			// XSS공격대비(Cross-site Scripting공격) 변환
 			board.setTitle(board.getTitle().replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
@@ -71,9 +81,12 @@ public class qnaNoticeViewServlet extends HttpServlet {
 			board.setContent(board.getContent().replaceAll("\n", "<br/>"));
 			
 			System.out.println(board);
+
+						
 			
 			// 3.view단 위임
 			request.setAttribute("board", board);
+
 			request.getRequestDispatcher("/WEB-INF/views/community/qna/qnaNoticeView.jsp")
 				.forward(request, response);
 			
@@ -82,5 +95,7 @@ public class qnaNoticeViewServlet extends HttpServlet {
 			throw e;
 		}
 	}
+	
+
 
 }

@@ -15,7 +15,7 @@ import community.model.service.QnaBoardService;
 /**
  * Servlet implementation class QnaBoardFileDownloadServlet
  */
-@WebServlet("/qna/qnaBoardFileDownload")
+@WebServlet("/board/fileDownload")
 public class qnaBoardFileDownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private QnaBoardService bs = new QnaBoardService();

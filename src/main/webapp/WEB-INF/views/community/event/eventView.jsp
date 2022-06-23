@@ -14,9 +14,10 @@ EventExt event = (EventExt) request.getAttribute("event");
 %>
 
 <section id="event-view-container">
-
 <h2><%=event.getEventTitle() %></h2>
 <h4><%=event.getEventContent() %></h4>
+
+		<div class="event-content-view">
 		<% 
 			List<EventAttachment> attach = event.getAttachments();
 			if(attach != null && !attach.isEmpty()){
@@ -27,6 +28,7 @@ EventExt event = (EventExt) request.getAttribute("event");
 				}
 			}
 		%>
+</div>
 
  		<div class="contest-participate">
 	<input type="button" value="챌린지 참여하기" class="btn-part" name="btn-part"

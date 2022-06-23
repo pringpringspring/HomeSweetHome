@@ -3,7 +3,7 @@ package community.model.dto;
 import java.sql.Connection;
 import java.sql.Date;
 
-public class QnaNoticeComment {
+public class QnaNoticeComment{
 	private int commentNo;
 	private String memberId;
 	private String nickName;
