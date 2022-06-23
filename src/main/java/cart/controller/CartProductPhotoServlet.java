@@ -1,4 +1,4 @@
-package member.controller;
+package cart.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,14 +19,14 @@ import member.model.dto.Member;
 import product.model.dto.ProductExt;
 import product.model.service.ProductService;
 
-
 /**
- * Servlet implementation class MemberCartServlet
+ * Servlet implementation class CartProductPhotoServlet
  */
-@WebServlet("/member/cart")
-public class MemberCartServlet extends HttpServlet {
+@WebServlet("/cart/productPhoto")
+public class CartProductPhotoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartService cartService = new CartService();
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -56,15 +56,11 @@ public class MemberCartServlet extends HttpServlet {
 			// 3. view단 처리
 			response.setContentType("application/json; charset=utf-8"); // 
 			new Gson().toJson(productList, response.getWriter());
-			request.setAttribute("cartList", cartList);
-			request.setAttribute("productList", productList);
-			request.getRequestDispatcher("/WEB-INF/views/cart/cartView.jsp")
-				.forward(request, response);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
 	}
-
 }
