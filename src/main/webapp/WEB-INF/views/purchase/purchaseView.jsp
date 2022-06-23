@@ -183,7 +183,7 @@
 								</div>
 								<div class="amount">
 									<div class="amount-name">배송비</div>
-									<div class="amount-content">XX원</div>
+									<div class="amount-content">원</div>
 								</div>
 								<div class="total-amount">
 									<div class="total-amount-name">최종결제금액</div>
