@@ -628,7 +628,7 @@ a {
 		<div class="commerce-cart-empty">
 			<div class="commerce-cart-empty__content">
 				<img class="commerce-cart-empty__content__image" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" alt="장바구니가 비었습니다.">
-					<a class="button button--color-blue button--size-50 button--shape-4 commerce-cart-empty__content__button" href="<%= request.getContextPath() %>/member/mypage">상품 담으러 가기</a>
+					<a class="button button--color-blue button--size-50 button--shape-4 commerce-cart-empty__content__button" href="<%= request.getContextPath() %>/community/home">상품 담으러 가기</a>
 			</div>
 		</div>
 <%

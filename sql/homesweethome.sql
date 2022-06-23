@@ -117,9 +117,10 @@ insert into main_category values ('electroics', '전자제품');
 insert into main_category values ('lighting', '조명');
 insert into main_category values ('organizing', '수납/정리');
 insert into main_category values ('living', '생활용품');
-
+desc main_category;
 commit;
 select * from main_category;
+drop table main_category;
 --delete from main_category where main_code = 'organizing_item';
 -- 상품 소분류 테이블
 CREATE TABLE sub_category (
@@ -127,16 +128,16 @@ CREATE TABLE sub_category (
     main_code varchar2(30) not null,
 	sub_category_name	varchar2(30)		NOT NULL,
     constraint pk_sub_category_sub_code  primary key(sub_code),
-     constraint fk_sub_category_main_code foreign key(main_code) references main_category(main_code)
+    constraint fk_sub_category_main_code foreign key(main_code) references main_category(main_code)
 );
-insert into sub_category values ( 'bookshelf', 'furniture', '책장');
-insert into sub_category values ( 'desk', 'furniture', '책상');
-insert into sub_category values ( 'table', 'furniture', '식탁');
-insert into sub_category values ( 'table_chair', 'furniture', '식탁의자');
-insert into sub_category values ( 'office_chair', 'furniture', '사무용의자');
-insert into sub_category values ( 'chest_of_drawers', 'furniture', '수납장');
-insert into sub_category values ( 'wardrobe', 'furniture', '옷장');
-insert into sub_category values ( 'bed', 'furniture', '침대');
+insert into sub_category values ( 'bookshelf' , '책장');
+insert into sub_category values ( 'desk', '책상');
+insert into sub_category values ( 'table','식탁');
+insert into sub_category values ( 'table_chair','식탁의자');
+insert into sub_category values ( 'office_chair','사무용의자');
+insert into sub_category values ( 'chest_of_drawers', '수납장');
+insert into sub_category values ( 'wardrobe',  '옷장');
+insert into sub_category values ( 'bed', '침대');
 
 insert into sub_category values ( 'tv', 'electroics', 'TV');
 insert into sub_category values ( 'air_conditioner', 'electroics', '에어컨');
@@ -204,6 +205,9 @@ insert into brand values ( 'living_cottonliving', '코튼리빙');
 commit;
 
 select * from brand;
+select * from sub_category;
+select * from main_category;
+--drop table main_category;
 -- 상품 테이블
 CREATE TABLE product (
 	product_id	varchar2(80)		NOT NULL,
@@ -224,9 +228,9 @@ CREATE TABLE product (
     constraint fk_product_brand_id foreign key(brand_id) references brand(brand_id)
 );
 --select p.* from product p left join main_category m on p.main_code = m.main_code left join sub_category s on p.sub_code = s.sub_code left join brand b on p.brand_id = b.brand_id where product_id like '%1800%' order by p.reg_date desc;
-
+desc product;
 --select p.product_name, i.*, s.stock from product_io i left join product p on i.product_id = p.product_id left join product_stock s on i.product_id = s.product_id  where p.main_code like 'furniture';
-
+insert into product values ('product1', '제품1', 12345, 2525, 'electroics_samsung', 20, 20, 20, 'blue', 200000, default,'example' ,'이건말이죠, 바로 샘플1!');
 select * from product;
 --alter table  product modify product_name	varchar2(100);
 --delete from product where product_id = 'furniture_dodot5단 철제 책장';
@@ -247,6 +251,7 @@ CREATE TABLE product_image (
 select * from product_image;
 -- 상품 이미지 테이블 시퀀스 코드
 create sequence seq_product_image_no nocache;
+commit;
 
 -- 상품 설명용 이미지 테이블
 CREATE TABLE product_description_image (
@@ -259,6 +264,7 @@ CREATE TABLE product_description_image (
     constraint fk_product_description_image_product_id foreign key(product_id) references product(product_id) on delete cascade
 );
 --drop table product_image;
+--drop table product_description_image;
 select * from product_description_image;
 -- 상품 이미지 테이블 시퀀스 코드
 create sequence seq_product_description_image_no nocache;
@@ -319,6 +325,8 @@ CREATE TABLE today_deal (
     constraint fk_today_deal_product_id foreign key(product_id) references product(product_id) on delete cascade
 );
 select * from today_deal;
+--drop table today_deal;
+--commit;
 -- 오늘의딜 테이블 시퀀스 코드
 create sequence seq_today_deal_no nocache;
 commit;
@@ -357,7 +365,10 @@ CREATE TABLE cart (
     constraint fk_cart_product_id foreign key(product_id) references product(product_id) on delete cascade
 );
 -- 회원 장바구니 테이블 시퀀스 코드
-create sequence seq_qa_notice_no nocache;
+create sequence seq_qa_cart_no nocache;
+select * from cart;
+--drop table cart;
+insert into cart values (1, 'honggd', ' ', 3);
 
 -- 구매-개별상품 테이블
 CREATE TABLE purchase (
@@ -372,6 +383,7 @@ CREATE TABLE purchase (
     constraint fk_purchase_product_id foreign key(product_id) references product(product_id)
     constraint fk_purchase_cart_no foreign key(cart_no) references cart(cart_no)
 );
+select * from purchase;
 
 -- 전체 구매목록 테이블
 CREATE TABLE orderlist (
@@ -394,7 +406,10 @@ commit;
 insert into product_stock values('furniture_hansam4인용 대리석 식탁', default);
 insert into product_stock values('furniture_dodot5단 철제 책장', default);
 insert into product_stock values('furniture_deskerDSAD118D 1800x700 컴퓨터데스크 5colors', default);
- select * from product_stock;
+select * from product_stock;
+--drop table product_stock;
+commit;
+ 
  update
         product_stock
 set
@@ -422,6 +437,9 @@ CREATE TABLE product_io (
 );
 select * from product_io order by io_datetime desc;
 select * from product_io where product_id = '%%';
+select * from product_io;
+drop table product_io;
+commit;
 
 --select i.* from product_io i join product p on i.product_id = p.product_id where p.main_code = 'furniture';
 
@@ -472,6 +490,7 @@ CREATE TABLE non_member_cart (
     constraint fk_non_member_cart_product_id foreign key(product_id) references product(product_id),
     constraint fk_non_member_cart_non_code foreign key(non_code) references non_member(non_code)
 );
+select * from non_member_cart;
 
 -- 비회원 구매-개별상품
 CREATE TABLE non_member_purchase (
@@ -486,6 +505,8 @@ CREATE TABLE non_member_purchase (
     constraint fk_non_member_purchase_non_code foreign key(non_code) references non_member(non_code),
     constraint fk_non_member_purchase_cart_no foreign key(cart_no) references non_member_cart(cart_no)
 );
+select * from non_member_purchase;
+
 
 -- 비회원 전체구매목록
 CREATE TABLE non_member_orderlist (
@@ -514,6 +535,10 @@ CREATE TABLE prodcut_review (
     constraint fk_prodcut_review_product_id foreign key(product_id) references product(product_id),
     constraint fk_prodcut_review_member_id foreign key(member_id) references member(member_id)
 );
+
+select * from prodcut_review;
+drop table prodcut_review;
+commit;
 
 -- 상품 리뷰 테이블 시퀀스 코드
 create sequence seq_prodcut_review_no nocache;
@@ -917,7 +942,7 @@ create sequence seq_qa_board_reply_no nocache;
 CREATE TABLE qa_notice (
 	notice_no	number		NOT NULL,
 	member_id	varchar2(50)		NOT NULL,
-     nickname	 varchar2(100),
+    nickname	 varchar2(100),
 	notice_title	varchar2(200),
 	content	varchar2(1000),
 	read_count	number 	DEFAULT 0,
@@ -1139,3 +1164,15 @@ create table clike(
 
 
 commit;
+
+------------------------------------------
+-- test table
+------------------------------------------
+select * from cart_test;
+insert into cart_test values (2, 'honggd', 'product3', 3);
+
+commit;
+select * from product_test;
+desc product_test;
+select * from product_test where product_id = 'product1';
+

@@ -24,7 +24,7 @@
 	String phone = loginMember.getPhone();
 	String gender = loginMember.getGender() != null ? loginMember.getGender() : "";
 	
-	
+	String totalPrice = request.getParameter("totalPrice");
 
 %>
 <script>
@@ -179,19 +179,15 @@
 								<h2 style="font-size: 20px; line-height: 30px; margin-bottom: 20px; font-weight: bold;">결제금액</h2>
 								<div class="amount">
 									<div class="amount-name">총 상품금액</div>
-									<div class="amount-content">XX원</div>
+									<div class="amount-content"><%= totalPrice %>원</div>
 								</div>
 								<div class="amount">
 									<div class="amount-name">배송비</div>
 									<div class="amount-content">XX원</div>
 								</div>
-								<div class="amount">
-									<div class="amount-name">쿠폰</div>
-									<div class="amount-content">XX원</div>
-								</div>
 								<div class="total-amount">
 									<div class="total-amount-name">최종결제금액</div>
-									<div class="total-amount-content"><strong style ="font-weight : bold;"><span style="color: rgb(53, 197, 240);font-family: Tahoma, sans;">500000</span>&nbsp;원</strong></div>					
+									<div class="total-amount-content"><strong style ="font-weight : bold;"><span style="color: rgb(53, 197, 240);font-family: Tahoma, sans;"><%= totalPrice %></span>&nbsp;원</strong></div>					
 								</div>
 							</div>
 						</div>
@@ -211,7 +207,7 @@
 							</div>
 						</div>
 					</div>
-					<button class="purchase-btn" type="button">500000원 결제하기</button>
+					<button class="purchase-btn" type="button"><%= totalPrice %>원 결제하기</button>
 				</div>
 			</div>
 		</div>

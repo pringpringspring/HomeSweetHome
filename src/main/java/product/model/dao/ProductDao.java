@@ -42,6 +42,7 @@ public class ProductDao {
 		}
 	}
 
+	// 임시 확인용 수정
 	private ProductExt handleProductResultSet(ResultSet rset) throws SQLException {
 		ProductExt product = new ProductExt();
 		product.setProductId(rset.getString("product_id"));
