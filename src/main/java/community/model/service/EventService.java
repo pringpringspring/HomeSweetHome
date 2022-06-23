@@ -2,14 +2,17 @@ package community.model.service;
 import static common.JdbcTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import common.JdbcTemplate;
 import community.model.dao.EventDao;
 import community.model.dto.Attachment;
 import community.model.dto.Event;
 import community.model.dto.EventAttachment;
 import community.model.dto.EventExt;
+import community.model.dto.KnowhowExt;
 import community.model.dto.QnaBoardExt;
 
 public class EventService {

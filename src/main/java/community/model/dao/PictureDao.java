@@ -14,11 +14,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import common.JdbcTemplate;
+import community.model.dto.KnowhowExt;
 import community.model.dto.LikeDTO;
 import community.model.dto.Picture;
 import community.model.dto.PictureAttachment;
 import community.model.dto.PictureExt;
-import community.model.dto.QnaBoardComment;
+import community.model.exception.KnowhowException;
 import community.model.exception.PictureException;
 
 public class PictureDao {
@@ -307,66 +308,26 @@ public class PictureDao {
 		return result;
 	}
 
-	public ArrayList<PictureExt> productList(Connection conn, int start, int end, int space, int shape) {
-		ArrayList<PictureExt> list = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String sql = prop.getProperty("viewByTheme");
-		try {
-			if ((space >0 && shape > 0)) {
-				ps = conn.prepareStatement(sql);
-				ps.setInt(1, space);
-				ps.setInt(2, shape);
-				ps.setInt(3, start);
-				ps.setInt(4, end);
-			}
-			rs = ps.executeQuery();
-
-			list = new ArrayList<PictureExt>();
-			while (rs.next()) {
-				PictureExt pic = new PictureExt();
-
-				pic.setImgNo(rs.getInt("community_img_no"));
-				pic.setCoverPhoto(rs.getString("cover_photo"));
-				pic.setNickName(rs.getString("nickname"));
-				pic.setReadCount(rs.getInt("read_count"));
-				pic.setTitle(rs.getString("title"));
-
-				list.add(pic);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new PictureException("카테고리별 조회 오류", e);
-		} finally {
-			JdbcTemplate.close(rs);
-			JdbcTemplate.close(ps);
-		}
-		return list;
-	}
-
-	public int getProductCount(Connection conn, int no, int no2) {
+	
+	public int getProductCount(Connection conn, int shape) {
 		int result = 0;
 		String sql = prop.getProperty("countAll");
 		String sql2 = prop.getProperty("countCate");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			if (no == 0) {
+			if(shape == 0) {
 				ps = conn.prepareStatement(sql);
-			} else {
+			}else {
 				ps = conn.prepareStatement(sql2);
-				ps.setInt(1, no);
-				ps.setInt(2, no2);
-				result = ps.executeUpdate();
-
+				ps.setInt(1, shape);
 			}
-			/* rs = ps.executeQuery(); */
-			/*
-			 * while (rs.next()) { result = rs.getInt(1); result = rs.getInt(1,2); }
-			 */
-
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
 		} catch (Exception e) {
-			// -1
+			//-1
 			System.out.println("연결 실패");
 			e.printStackTrace();
 		} finally {
@@ -375,6 +336,46 @@ public class PictureDao {
 		}
 		return result;
 	}
+	
+	public ArrayList<PictureExt> productList(Connection conn, int start , int end, int catenum) {
+		ArrayList<PictureExt> list = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = prop.getProperty("viewByTheme");
+		try {
+			if(catenum != 0) {
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, catenum);
+				ps.setInt(2, start);
+				ps.setInt(3, end);
+			}
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<PictureExt>();
+			while(rs.next()) {
+				PictureExt pic = new PictureExt();
+
+				pic.setImgNo(rs.getInt("community_img_no"));
+				pic.setCoverPhoto(rs.getString("cover_photo"));
+				pic.setNickName(rs.getString("nickname"));
+				pic.setReadCount(rs.getInt("read_count"));
+				pic.setTitle(rs.getString("title"));
+			
+				list.add(pic);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new KnowhowException("카테고리별 조회 오류", e);
+			
+		} finally {
+			JdbcTemplate.close(rs);
+			JdbcTemplate.close(ps);
+		}
+		return list;
+	}
+
+
+	
 
 	/*
 	 * public int insertLike(Connection conn, LikeDTO likey) { int result = 0;
@@ -455,20 +456,7 @@ public class PictureDao {
 		return list;
 	}
 
-	/*
-	 * public List<PictureExt> likePicture(int no) throws Exception{ Connection con
-	 * = JdbcTemplate.getConnection(); String sql = prop.getProperty("likeit");
-	 * PreparedStatement ps = con.prepareStatement(sql); ps.setInt(1, no); ResultSet
-	 * rs = ps.executeQuery();
-	 * 
-	 * List<PictureExt> likeList = new ArrayList<>(); while(rs.next()) { PictureExt
-	 * likeDto = new PictureExt(); likeDto.setImgNo(rs.getInt("community_img_no"));
-	 * likeDto.setLikeCount(rs.getInt("like_count")); likeList.add(likeDto); }
-	 * con.close();
-	 * 
-	 * return likeList; }
-	 * 
-	 */
+	
 
 	/** 이거는 다른거 **/
 

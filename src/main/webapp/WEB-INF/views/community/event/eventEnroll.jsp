@@ -47,8 +47,8 @@ window.onload = () => {
 				<td><input type="text" name="title" class="event-en-title" required></td>
 			</tr>
 
-	<tr>
-<!-- 				<th>첨부파일</th>
+<!-- 	<tr>
+				<th>첨부파일</th>
 				<td><input type="file" name="upFile1"></td>
 			</tr> -->
 			<tr>

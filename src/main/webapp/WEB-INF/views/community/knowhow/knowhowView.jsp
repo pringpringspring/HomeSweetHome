@@ -55,12 +55,12 @@ boolean canLike = loginMember != null;
 				src="<%=request.getContextPath()%>/upload/community/knowhow/<%=attach.getRenamedFilename()%>"
 				width=450px>
 			<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
-			<h5>
+<%-- 			<h5>
 				첨부파일 <img alt="첨부파일"
 					src="<%=request.getContextPath()%>/images/file.png" width=13px>
 				<a
 					href="<%=request.getContextPath()%>/board/fileDownload?no=<%=attach.getNo()%>"><%=attach.getOriginalFilename()%></a>
-			</h5>
+			</h5> --%>
 			<%
 			}
 

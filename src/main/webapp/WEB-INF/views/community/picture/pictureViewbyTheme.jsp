@@ -12,42 +12,26 @@ ArrayList<PictureExt> list = (ArrayList<PictureExt>) request.getAttribute("produ
 int startPage = (int) request.getAttribute("startPage");
 int endPage = (int) request.getAttribute("endPage");
 int pageCount = (int) request.getAttribute("pageCount");
-int space = (int) request.getAttribute("space");
-int shape = (int) request.getAttribute("shape");
+int catenum = (int) request.getAttribute("catenum");
 %>
 
 
 <nav id="board_top">
 	<h2>사진</h2>
+
 	<div class="ViewByTheme">
-     	<section id="option-tab">
-     	
-     		<form action="<%= request.getContextPath() %>/picture/pictureViewByTheme" >
-	            
-	            <select name="space"  id="selectOption" >
-					<option selected>평수</option>
-	                <option value="36">10-20평</option> 
-	                <option value="37">30-40평</option>
-	            </select>
-	
-	            <select name="shape"  id="selectOption" >
-	            <option selected>주거형태</option>
-	                <option value="46" >원룸&amp; 오피스텔</option>
-	                <option value="47" >아파트</option>
-	            </select>
-
-     			<input type="submit" class="search-btn" value="검색">
-     		</form>
-    
-     	</section>
-     </div>  
+<input type="button" value="전체" id="btn-storage" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/community/picture';" />
+<input type="button" value="원룸&오피스텔" id="btn-oneoffi" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/picture/pictureViewByTheme?catenum=<%=10%>';" />
+<input type="button" value="아파트"  id="btn-apart" name="btn-go"
+	class="btn-go"
+	onclick="location.href='<%=request.getContextPath()%>/picture/pictureViewByTheme?catenum=<%=20%>';" />
 
      </div>  
-	
-		
-		
 
-		
 </nav>
 
 	
@@ -74,39 +58,6 @@ int shape = (int) request.getAttribute("shape");
 </div>
 
 <br>
-
-<script>
-function getList(shapecategory,spacecategory) {
-	/*
-	 * pageNum, opt, keyword
-	 * 값이 없으면 초기값 사용.
-	 * 값이 있으면 입력받은 값 사용.
-	 */
-	
-	var shapecategory = !shapecategory ? '0': shapecategory
-	var spacecategory = ! spacecategory ? '0' : spacecategory
-	var oData = {
-		shapecategory : shapecategory,
-		spacecategory :spacecategory
-
-	};
-		
-		console.log(oData);
-	$.ajax({
-		url : '/picture/pictureViewByTheme',
-		type : 'GET',
-		data : oData,
-		dataType : 'JSON',
-		success : function(data) {
-			appendList(data.list); //화면에 뿌려주기 위함
-		},
-		error : function(error) {
-			console.log(error);
-		}
-	});
-}
-
-</script>
 
 
 

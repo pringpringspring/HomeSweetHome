@@ -149,21 +149,24 @@ public class PictureService {
 		return result;
 	}
 
-	public ArrayList<PictureExt> productList(int start, int end, int space, int shape) {
+	
+	public int getProductCount(int shape) {
+		int result = 0;
+		Connection conn = JdbcTemplate.getConnection();
+		result = cd.getProductCount(conn, shape);
+		return result;
+	}
+	
+	public ArrayList<PictureExt> productList(int start , int end, int catenum) {
 		ArrayList<PictureExt> list = null;
 		Connection conn = JdbcTemplate.getConnection();
-		list = cd.productList(conn, start, end, space, shape);
+		list = cd.productList(conn, start, end, catenum);
 		close(conn);
 		return list;
 	}
-
-	public int getProductCount(int catenum, int catenum2) {
-		int result = 0;
-		Connection conn = JdbcTemplate.getConnection();
-		result = cd.getProductCount(conn, catenum, catenum2);
-		return result;
-	}
-
+	
+	
+	
 	public List<PictureExt> sortRead(Map<String, Object> param) {
 		Connection conn = getConnection();
 		List<PictureExt> list = cd.sortRead(conn, param);
