@@ -15,7 +15,7 @@
 	List<ProductExt> productListByCategory = (List<ProductExt>) request.getAttribute("productListByCategory");
 	List<TodayDeal> todayDeals = (List<TodayDeal>) request.getAttribute("todayDeals");
 	String mainNameVal = (String) request.getAttribute("mainNameVal");
-
+	System.out.println(productListByDefaults);
 %>
 <body>
 <aside id="left-tab-menu">
@@ -171,8 +171,9 @@
 									<div class="category-item-image-item">
 										<div class="production-item-image">
 										 <%   
-											 	List<ProductImage> productImagesCate = productsDefault.getProductImages();
-												 	ProductImage pImg = productImagesCate.get(0);
+											 	List<ProductImage> productImagess = productsDefault.getProductImages();
+												 	ProductImage pImg = productImagess.get(0);
+												 	System.out.println(pImg.getOriginalFilename());
 											 %>
 											<img class="product-image" alt="" src="<%= request.getContextPath() %>/upload/product/<%= pImg.getRenamedFilename() %> ">
 												
@@ -373,7 +374,6 @@
 </script>
 <script>
  const categoryContent = document.querySelector(".store-category-list-section"); 
- let categorybody = $(".store-category-list-section");
 	$(".main_category").click((e) => {
 		console.log(e);
 		console.log(e.target);

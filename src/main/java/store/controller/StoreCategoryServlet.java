@@ -31,7 +31,7 @@ public class StoreCategoryServlet extends HttpServlet {
 			String code = request.getParameter("mainCategory");
 			System.out.println("code = " + code);
 			String mainCode = "furniture";
-			String mainNameVal = "가구";
+			String mainNameVal = "";
 			if(code != null) {
 				mainCode = code;
 				
@@ -42,7 +42,10 @@ public class StoreCategoryServlet extends HttpServlet {
 				case "organizing" : mainNameVal = "정리/수납"; break;
 				case "living" : mainNameVal = "생활용품"; break;
 				}
-			}
+			} 
+//			else {
+//				mainNameVal = "가구";
+//			}
 			// 1. 업무 로직
 			List<ProductExt> productsExtDealList = productService.findFourProductsByDeal();
 			List<ProductExt> productDealExtLists = new ArrayList<>();
