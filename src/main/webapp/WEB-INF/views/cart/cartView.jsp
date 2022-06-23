@@ -11,44 +11,8 @@
 	List<Cart> cartList = (List<Cart>) request.getAttribute("cartList");
 	List<ProductExt> productList = (List<ProductExt>) request.getAttribute("productList");
 	String memberId = loginMember.getMemberId();
-	
-	
-
 %>
 <script>
-
-//페이지로딩시
-window.addEventListener('load', () => { // .onload로 하면jsp에 하나만 쓸수 있고(아래가덮어씀) .addEventListener는 중복사용 가능 
-	// 첫 페이지 요청
-	getImg(); // 처음 페이지 열렸을 경우는 무조건 1페이지를 오픈
-});
-const getImg = () => {
-	$.ajax({
-		url : "<%= request.getContextPath() %>/cart/productPhoto", 
-		success(list) { // 성공하여 받은 객체 cPage정보겠지? / resp : gson으로 json된 데이터를 jquery가 자동으로 json변환처리 된 resp다
- 			console.log(list);
-			
-			const container = document.querySelector("#photo-container"); // 넣을 위치
-			list.forEach((product) => {
-				const {productImages : {renamedFilename}} = product;
-				console.log({productImages : {renamedFilename}});
-				 // 사진이 로드되는 상황에서 시간단축을 위해 동적으로 계산하여 출력
-				const img = new Image();
-				img.src = `<%= request.getContextPath() %>/upload/product/\${{productImages : {renamedFilename}}}`;
-				img.onload = () => { // 로딩될 떄 로 바로 바로 
-					const div = `
-					<picture>
-						<img src="\${img.src}" alt="" height="\${height}px"/> // 위에서 가져온 값들 대입
-					</picture>`;
-					container.insertAdjacentHTML('beforeend', div); // 자식요소로 맨 뒤에 추가 // |(NODE) 방법1. insertBefore 방법2. insertAdjacentElement |(HTML) 방법3. insertAdjacentHTML 
-				}
-				
-			});
-		
-		},
-		error : console.log,
-	});
-};
 
 </script>
 <style>
@@ -561,11 +525,13 @@ a {
 							int price = 0;
 							String productId = cartList.get(i).getProductId();
 							String brandName = "";
+							String photo = "";
 							productCnt = cartList.get(i).getProductCount();
 							for(int j = 0; j < productList.size() ; j++){
 								if(cartList.get(i).getProductId().equals(productList.get(j).getProductId())){
 									price = productList.get(j).getProductPrice();
 									brandName = productList.get(j).getBrandId();
+									photo = productList.get(j).getProductImages().get(0).getRenamedFilename();
 								}
 							}
 							totalPrice = price * productCnt;
@@ -589,9 +555,9 @@ a {
 										<a class="product-small-item product-small-item--clickable" href="/productions/1240953/selling">
 											<div class="product-small-item__image" id="photo-container">
 												<picture>
-													<img alt="" src="" srcset="">
+													<img alt="" src="<%= request.getContextPath() %>/upload/product/<%= photo %>" srcset="">
 												</picture>
-											</div>
+											</div> 
 												<div class="product-small-item__content">
 													<h1 class="product-small-item__title" ><%= cartList.get(i).getProductId() %></h1>
 													<p class="css-w0e4y9 e1xep4wb0">무료배송<!-- -->&nbsp;|&nbsp;<!-- -->화물택배<!-- -->&nbsp;&nbsp;<!-- --><p>수량 : <%= cartList.get(i).getProductCount() %></p><p>단가 : <%= price %></p><input type="hidden" id="count<%= i %>" value="<%= productList.get(i).getProductPrice() %>" />
@@ -602,7 +568,7 @@ a {
 													<path fill-rule="nonzero" d="M6 4.6L10.3.3l1.4 1.4L7.4 6l4.3 4.3-1.4 1.4L6 7.4l-4.3 4.3-1.4-1.4L4.6 6 .3 1.7 1.7.3 6 4.6z"></path>
 												</svg>
 											</button>
-											<input type="hidden" value="<%= productId %>"/>
+											<input type="hidden" value="<%= productId %>"/><br />
 										<div class="carted-product__footer">
 											<span class="carted-product__footer__left">
 												<button class="carted-product__order-btn" type="button" onclick="purchaseOne();">바로구매</button>
