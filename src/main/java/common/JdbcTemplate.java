@@ -22,7 +22,7 @@ public class JdbcTemplate {
 		try {
 			String fileName = JdbcTemplate.class.getResource("/datasource.properties").getPath();
 			prop.load(new FileReader(fileName));
-			
+			System.out.println(JdbcTemplate.class.getResource("/datasource.properties").getPath());
 			driverClass = prop.getProperty("driverClass");
 			url = prop.getProperty("url");
 			user = prop.getProperty("user");
@@ -35,8 +35,10 @@ public class JdbcTemplate {
 		try {
 			// 1. driver class 등록 
 			Class.forName(driverClass);
+//			System.out.println("시작 성공");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+//			System.out.println("시작 실패");
 		}
 		
 	}
@@ -47,8 +49,10 @@ public class JdbcTemplate {
 			// 2. Connection 생성(url, user, password) - setAutoCommit(false)
 			conn = DriverManager.getConnection(url, user, password);
 			conn.setAutoCommit(false);
+//			System.out.println("connection 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("connection 실패");
 		}
 		return conn;
 	}
@@ -57,8 +61,10 @@ public class JdbcTemplate {
 		try {
 			if(conn != null && !conn.isClosed())
 				conn.close();
+//			System.out.println("conn close 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("conn close 실패");
 		}
 	}
 	
@@ -66,8 +72,10 @@ public class JdbcTemplate {
 		try {
 			if(pstmt != null && !pstmt.isClosed())
 				pstmt.close();
+//			System.out.println("pstmt close 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("pstmt close 실패");
 		}
 	}
 	
@@ -75,8 +83,10 @@ public class JdbcTemplate {
 		try {
 			if(rset != null && !rset.isClosed())
 				rset.close();
+//			System.out.println("rset close 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("rset close 실패");
 		}
 	}
 	
@@ -84,8 +94,10 @@ public class JdbcTemplate {
 		try {
 			if(conn != null && !conn.isClosed())
 				conn.commit();
+//			System.out.println("conn commit 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("conn commit 실패");
 		}
 	}
 	
@@ -93,8 +105,10 @@ public class JdbcTemplate {
 		try {
 			if(conn != null && !conn.isClosed())
 				conn.rollback();
+//			System.out.println("conn rollback 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
+//			System.out.println("conn rollback 실패");
 		}
 	}
 }

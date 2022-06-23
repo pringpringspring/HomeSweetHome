@@ -35,19 +35,8 @@
 						
 							<div class="carousel-list-wrap production-selling-cover-image-carousel-wrap">
 								<div class="carousel-list" aria-live="polite" style="transform: translateX(0%); transition: transform 0s ease 0s;">
-						<%-- 	<% 
-								if(product != null) {
-									List<ProductImage> pImgs = product.getProductImages();
-									for(int i = 0; i < pImgs.size(); i++) {
-							%> --%>
 									<div class="carousel-list-entry" imgno ="" style="width: 100%;">
-										<%-- <img class="production-selling-cover-image-entry-image" src="">
-										<img class="production-selling-cover-image-entry-image" src="<%= request.getContextPath() %>/upload/product/<%= pImgs.get(i).getRenamedFilename() %>"> --%>
 									</div>		
-					<%-- 		<% 
-									}
-								}
-							%>		 --%>		
 								</div>
 							</div>
 						
@@ -71,8 +60,7 @@
 						 
 					</div>
 				</div>
-				<div
-					class="production-selling-overview-content ">
+				<div class="production-selling-overview-content ">
 					<div class="production-selling-header">
 						<h1 class="production-selling-header-title">
 							<p class="production-selling-header-title-brand-wrap">
@@ -85,10 +73,17 @@
 						<div class="production-selling-header-content"> 
 							<div class="production-selling-header-price">
 								<span class="production-selling-header-price-price-wrap">
-								<%
-									if(todayDeals != null && !todayDeals.isEmpty()) {
+								<%   
+									if(product.getDiscountRate() == 0) {
+								%>
+									<span class="production-selling-header-price-price">
+											<span class="number"><%= product.getProductPrice() %></span>
+											<span class="won">원</span>
+									</span>	
+										
+								<% } else {
 										for(TodayDeal todayDeal : todayDeals){
-											if( todayDeal.getProductId().equals(product.getProductId())){	
+											if(product.getProductId().equals(todayDeal.getProductId())){	
 								%>
 									<div class="discount-wrapper">
 										<span class="production-selling-header-price-discount">
@@ -102,21 +97,15 @@
 									</div>
 										<span class="production-selling-header-price-separator"></span>
 										<span class="production-selling-header-price-price">
-											<span class="number"><%= (int) Math.floor(product.getProductPrice() * todayDeal.getDiscountRate() / 1000)*10 %></span>
+											<span class="number"><%= (int) Math.floor(product.getProductPrice() * (100 - todayDeal.getDiscountRate()) / 1000)*10 %></span>
 											<span class="won">원</span>
 											<span class="production-selling-header-price-badge"> </span>
 										</span>	
-									<%
-											}
+									<%		}
 										}
 									}
-									else {
-									%>
-									<del class="production-selling-header-price-original">
-											<span class="number"><%= product.getProductPrice() %></span>
-											<span class="won">원</span>
-									</del>
-									<% } %>
+									%> 
+
 								</span>
 							</div>
 						</div>
@@ -146,12 +135,14 @@
 							</div>
 						</div>
 					</div>
+					<% if (loginMember != null){ %>
 					<div class="production-selling-option-form production-selling-overview-option-form">
 						<div class="production-selling-option-form-footer">
-							<button class="cart-btn" type="button">장바구니</button>
-							<button class="buy-btn" id="buy-button" type="button">바로구매</button>
+							<button class="cart-btn" type="button" onclick="moveToCart">장바구니</button>
+							<button class="buy-btn" id="buy-button" type="button" onclick="immediatelyBuy">바로구매</button>
 						</div>
 					</div>
+					<% } %>
 				</div>
 			</div>
 		</div>
@@ -173,6 +164,10 @@
 		</div>
 	</article>
 </div>
+<form name="moveToCartFrm" id="moveToCartFrm" method="POST" action="<%= request.getContextPath() %>/cart/insertCart">
+	<input type="hidden" name="productId" id="productId" value = "<%= product.getProductId() %>" />
+	<input type="hidden" name="productId" id="productId" value = "<%= loginMember.getMemberId() %>" />
+</form>
 <script>
 	const body = document.querySelector(".carousel-list-entry");
 window.onload = (e) =>{

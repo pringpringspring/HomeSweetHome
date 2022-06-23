@@ -53,7 +53,6 @@
 				<th>이메일</th>
 				<th>전화번호</th>
 				<th>가입일</th>
-				<th>활동정지</th>
 				<th>강제탈퇴</th>
 			</tr>
 		</thead>
@@ -80,7 +79,6 @@
 				<td><%= member.getEmail() != null ? member.getEmail() : "" %></td>
 				<td><%= member.getPhone() %></td>
 				<td><%= member.getEnrollDate() %></td>
-				<td><button type="button" class="btn-suspension" id="<%= i + 1 %>" name="<%= member.getMemberId() %>"  >활동정지</button></td>
 				<td><button type="button" class="btn-forced-withdrawal" id="<%= i + 1 %>" name="<%= member.getMemberId() %>" >강제탈퇴</button></td>
 			</tr>			
 <%
@@ -89,7 +87,7 @@
 		else {
 %>			
 			<tr>
-				<td colspan="10">조회된 회원이 없습니다.</td>
+				<td colspan="9">조회된 회원이 없습니다.</td>
 			</tr>
 <%
 		}
@@ -109,33 +107,14 @@
 	<input type="hidden" name="memberRole" />
 </form>
 <form 
-	action="<%= request.getContextPath() %>/admin/memberForcedWithdrawal" 
+	action="<%= request.getContextPath() %>/member/memberDelete" 
 	name="withdrawMemberFrm"
-	method="POST">
-	<input type="hidden" name="memberId" />
-</form>
-<form 
-	action="<%= request.getContextPath() %>/admin/memberSuspension" 
-	name="suspendMemberRoleFrm"
 	method="POST">
 	<input type="hidden" name="memberId" />
 </form>
 
 <script>
 
-	$(".btn-suspension").click(function(){                	      
-		const checkBtn = $(this);
-		const tr = checkBtn.parent().parent();    
-		const td = tr.children();    
-		const memberId = td.eq(1).text();   
-		const memberName = td.eq(2).text();         
-		
-	 	if(confirm(`정말로 [\${memberId} : \${memberName}] 회원을 강제로 활동을 정지시키시겠습니까?`)){
-		 	const frm = document.suspendMemberRoleFrm;
-			frm.memberId.value = memberId;
-			frm.submit(); 
-		} 
-	});
 
 	$(".btn-forced-withdrawal").click(function(){                	      
 			const checkBtn = $(this);

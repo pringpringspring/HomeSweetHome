@@ -2,22 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/Workspace/webserver_workspace/HomeSweetHome/HomeSweetHome/src/main/webapp/WEB-INF/lib/gson-2.8.7.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/Workspace/webserver_workspace/HomeSweetHome/HomeSweetHome/src/main/webapp/WEB-INF/lib/jstl.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/Workspace/webserver_workspace/HomeSweetHome/HomeSweetHome/src/main/webapp/WEB-INF/lib/standard.jar">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JAVA-11">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

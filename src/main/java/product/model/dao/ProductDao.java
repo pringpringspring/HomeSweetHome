@@ -42,7 +42,6 @@ public class ProductDao {
 		}
 	}
 
-	// 임시 확인용 수정
 	private ProductExt handleProductResultSet(ResultSet rset) throws SQLException {
 		ProductExt product = new ProductExt();
 		product.setProductId(rset.getString("product_id"));
@@ -58,7 +57,8 @@ public class ProductDao {
 		product.setRegDate(rset.getDate("reg_date"));	
 		product.setBrandName(rset.getString("brand_name"));
 		product.setMainCategoryName(rset.getString("main_category_name"));
-		product.setSubCategoryName(rset.getString("sub_category_name"));	
+		product.setSubCategoryName(rset.getString("sub_category_name"));
+		product.setDiscountRate(rset.getInt("discount_rate"));
 		return product;
 	}
 	
@@ -667,6 +667,7 @@ public class ProductDao {
 			while(rset.next()) {
 				ProductExt product = handleProductResultSet(rset);
 				productList.add(product);
+				System.out.println("product = " + product);
 			}
 		} catch (Exception e) {
 			throw new ProductException("오늘의 딜 상품 조회 오류", e);
@@ -819,6 +820,59 @@ public class ProductDao {
 			close(pstmt);
 		}
 		return productList;
+	}
+
+	public List<ProductExt> finallProductsByDefault(Connection conn, String mainCode) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productList = new ArrayList<>();
+		String sql = prop.getProperty("finallProductsByDefault");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mainCode);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductExt product = handleProductResultSet(rset);
+				productList.add(product);
+			}
+		} catch (Exception e) {
+			throw new ProductException("카테고리 홈 기본 상품(가구) 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productList;
+	}
+
+	public List<ProductExt> findProductsByCategory(Connection conn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<ProductExt> findAllProductsByCategory(Connection conn, Map<String, String> param) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<ProductExt> productExtList = new ArrayList<>();
+		String sql = prop.getProperty("findAllProductsByCategory");
+		sql = sql.replace("#", param.get("searchType"));
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, param.get("maincode"));
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductExt products = handleProductResultSet(rset);
+				productExtList.add(products);
+			}
+		} catch (Exception e) {
+			throw new ProductException("카테고리별 상품 조회 오류", e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return productExtList;
 	}
 
 

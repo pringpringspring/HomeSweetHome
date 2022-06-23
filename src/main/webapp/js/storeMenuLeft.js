@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $("#nav > li > a").on("click", function(e){
+  $("#main-catergory > li > a").on("click", function(e){
     if($(this).parent().has("ul")) {
       e.preventDefault();
     }

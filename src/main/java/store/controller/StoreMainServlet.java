@@ -33,6 +33,7 @@ public class StoreMainServlet extends HttpServlet {
 			
 			// 1. 업무 로직
 			List<ProductExt> productsExtList = productService.findFourProductsByDeal();
+			System.out.println("productsExtList@servlet = " + productsExtList);	
 			List<ProductExt> productExtLists = new ArrayList<>();
 			for(ProductExt product : productsExtList) {
 				List<ProductImage> productImages = productService.findProductImagesByProductId(product.getProductId());
@@ -41,7 +42,7 @@ public class StoreMainServlet extends HttpServlet {
 			}
 			
 			List<TodayDeal> todayDeals = productService.findAllTodayDeal();
-				
+			System.out.println("productExtLists@servlet = " + productExtLists);	
 			// 2. view단 처리
 			request.setAttribute("productExtLists", productExtLists);
 			request.setAttribute("todayDeals", todayDeals);

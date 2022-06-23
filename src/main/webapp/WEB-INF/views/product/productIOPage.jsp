@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div>
-						<a href="#" id="organizing_item"  class="main_category">수납/정리</a>
+						<a href="#" id="organizing"  class="main_category">수납/정리</a>
 						<div class="content-wrapper">
 							<a href="#" id="storage_closet" class="sub_category">서랍장</a>
 							<a href="#" id="living_box" class="sub_category">리빙박스</a>

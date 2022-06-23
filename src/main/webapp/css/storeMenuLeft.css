@@ -27,17 +27,17 @@ table { border-collapse: collapse; border-spacing: 0; }
 #w { display: block; width: 740px; margin: 0 auto; padding-top: 45px; float: left;}
 
 
-/* nav menu styles */
-#nav { 
+/* main-catergory menu styles */
+#main-catergory { 
   display: block; 
   width: 280px; 
   margin: 0 auto; 
   float: left;
 }
 
-#nav li { }
+#main-catergory li { }
 
-#nav > li > a { 
+#main-catergory > li > a { 
   display: block; 
   padding: 16px 18px;
   font-size: 1.3em;
@@ -48,20 +48,20 @@ table { border-collapse: collapse; border-spacing: 0; }
   background-color: white;
 
 }
-#nav > li > a:hover, #nav > li > a.open { 
+#main-catergory > li > a:hover, #nav > li > a.open { 
   color: #34C5F0;
   border-bottom-color: white;
   background-color: white;
 
 }
 
-#nav > li > a > ul:hover { 
+#main-catergory > li > a > ul:hover { 
 	font-size: 1.11rem; color: #34C5F0; font-weight: bold;
 }
 
-#nav li ul { display: none; background: white; }
+#main-catergory li ul { display: none; background: white; }
 
-#nav li ul li a { 
+#main-catergory li ul li a { 
   display: block; 
   background: none;
   padding: 10px 0px;
@@ -71,6 +71,6 @@ table { border-collapse: collapse; border-spacing: 0; }
   font-weight: bold;
   color: black;
 }
-#nav li ul li a:hover {
+#main-catergory li ul li a:hover {
   background: white;
 }
