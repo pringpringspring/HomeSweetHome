@@ -11,9 +11,45 @@
 	List<Cart> cartList = (List<Cart>) request.getAttribute("cartList");
 	List<ProductExt> productList = (List<ProductExt>) request.getAttribute("productList");
 	String memberId = loginMember.getMemberId();
+	
+	
 
 %>
 <script>
+
+//페이지로딩시
+window.addEventListener('load', () => { // .onload로 하면jsp에 하나만 쓸수 있고(아래가덮어씀) .addEventListener는 중복사용 가능 
+	// 첫 페이지 요청
+	getImg(); // 처음 페이지 열렸을 경우는 무조건 1페이지를 오픈
+});
+const getImg = () => {
+	$.ajax({
+		url : "<%= request.getContextPath() %>/cart/productPhoto", 
+		success(list) { // 성공하여 받은 객체 cPage정보겠지? / resp : gson으로 json된 데이터를 jquery가 자동으로 json변환처리 된 resp다
+ 			console.log(list);
+			
+			const container = document.querySelector("#photo-container"); // 넣을 위치
+			list.forEach((product) => {
+				const {productImages : {renamedFilename}} = product;
+				console.log({productImages : {renamedFilename}});
+				 // 사진이 로드되는 상황에서 시간단축을 위해 동적으로 계산하여 출력
+				const img = new Image();
+				img.src = `<%= request.getContextPath() %>/upload/product/\${{productImages : {renamedFilename}}}`;
+				img.onload = () => { // 로딩될 떄 로 바로 바로 
+					const div = `
+					<picture>
+						<img src="\${img.src}" alt="" height="\${height}px"/> // 위에서 가져온 값들 대입
+					</picture>`;
+					container.insertAdjacentHTML('beforeend', div); // 자식요소로 맨 뒤에 추가 // |(NODE) 방법1. insertBefore 방법2. insertAdjacentElement |(HTML) 방법3. insertAdjacentHTML 
+				}
+				
+			});
+		
+		},
+		error : console.log,
+	});
+};
+
 </script>
 <style>
 
@@ -551,10 +587,9 @@ a {
 											</div>
 										</div>
 										<a class="product-small-item product-small-item--clickable" href="/productions/1240953/selling">
-											<div class="product-small-item__image">
+											<div class="product-small-item__image" id="photo-container">
 												<picture>
-													<source src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=256&amp;h=256&amp;c=c&amp;webp=1" srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=360&amp;h=360&amp;c=c&amp;webp=1 1.5x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=480&amp;h=480&amp;c=c&amp;webp=1 2x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=720&amp;h=720&amp;c=c&amp;webp=1 3x" type="image/webp">
-													<img alt="" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=256&amp;h=256&amp;c=c" srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=360&amp;h=360&amp;c=c 1.5x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=480&amp;h=480&amp;c=c 2x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164731752120098168.jpg?w=720&amp;h=720&amp;c=c 3x">
+													<img alt="" src="" srcset="">
 												</picture>
 											</div>
 												<div class="product-small-item__content">
