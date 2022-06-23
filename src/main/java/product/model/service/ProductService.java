@@ -173,10 +173,10 @@ public class ProductService {
 	public ProductExt findProductByProductId(String productId) {
 		Connection conn = getConnection();
 		ProductExt product = productDao.findProductByProductId(conn, productId);
-		//List<ProductImage> productImages = productDao.findProductImagesByProductId(conn, productId);
-		//List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
-		//product.setProductImages(productImages);
-		//product.setProductDescriptionImages(productDescriptionImages);
+		List<ProductImage> productImages = productDao.findProductImagesByProductId(conn, productId);
+		List<ProductDescriptionImage> productDescriptionImages = productDao.findProductDescriptionImageByProductId(conn, productId);
+		product.setProductImages(productImages);
+		product.setProductDescriptionImages(productDescriptionImages);
 		close(conn);
 		return product;
 	}
@@ -309,4 +309,28 @@ public class ProductService {
 		close(conn);
 		return productList;
 	}
+
+	public List<ProductExt> findProductsByCategory() {
+		Connection conn = getConnection();
+		List<ProductExt> productList = productDao.findProductsByCategory(conn);
+		close(conn);
+		return productList;
+	}
+
+	public List<ProductExt> finallProductsByDefault(String mainCode) {
+		Connection conn = getConnection();
+		List<ProductExt> productList = productDao.finallProductsByDefault(conn, mainCode);
+		close(conn);
+		return productList;
+	}
+
+	public List<ProductExt> findAllProductsByCategory(Map<String, String> param) {
+		Connection conn = getConnection();
+		List<ProductExt> productExtList = productDao.findAllProductsByCategory(conn, param);
+		close(conn);
+		return productExtList;
+	}
 }
+
+
+

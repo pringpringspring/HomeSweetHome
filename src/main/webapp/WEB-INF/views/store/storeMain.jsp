@@ -8,6 +8,7 @@
 List<ProductExt> productExtLists = (List<ProductExt>) request.getAttribute("productExtLists");
 List<TodayDeal> todayDeals = (List<TodayDeal>) request.getAttribute("todayDeals");
 System.out.println("todayDeals = " + todayDeals);
+System.out.println("productExtLists = " + productExtLists);
 %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/store/storeMain.css" />
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -118,14 +119,8 @@ System.out.println("todayDeals = " + todayDeals);
 										<span class="today-deal-item-header-name"><%= products.getProductName() %></span>
 									</h1>
 									<span class="production-item-price">
-									<% for(TodayDeal todayDeal : todayDeals){
-												if( todayDeal.getProductId().equals(products.getProductId())){										
-											%>
-										
-										<span class="production-item-price-rate"><%= todayDeal.getDiscountRate() %> <span class="percentage">% </span></span>
-										<span class="production-item-price-price"><%= (int) Math.floor(products.getProductPrice() * todayDeal.getDiscountRate() / 1000)*10 %></span>
-										<% }
-										}%> 
+										<span class="production-item-price-rate"><%= products.getDiscountRate() %> <span class="percentage">% </span></span>
+										<span class="production-item-price-price"><%= (int) Math.floor(products.getProductPrice() * (100 - products.getDiscountRate()) / 1000)*10 %></span>
 									</span>
 								</div>
 							</div>
