@@ -66,7 +66,7 @@ values (
     'leesunsin', 'QLbxJQ64C+NOKeru0zJ8AJvX2OCxkhMitjWWdMO9u1Wojosget61PNSEm2Zx9Tcw5vSp2zpE5ISvtZGbfL0xHg==', '이순신', '불멸',  'U', '0101341564', 'sunsin@naver.com', to_date('19920608', 'yyyymmdd'), 'M', 'non', default
 ); -- 비밀번호 asdf456!
 
-commit;
+commit; 
 select * from  member order by enroll_date;
 --delete from member where member_id = 'google103542600240152876199';
 -- He5Pi8y1UOXqccN0PFCc2I0EG7+CoAM0f+EydSVuWFNmNhioqBkHsbln1/A0ee/9bG1mEc2YLFhH65AIUn3gjA==
