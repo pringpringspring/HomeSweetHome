@@ -3,7 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<<<<<<< HEAD
 
 <style>
 body, html {
@@ -110,6 +109,9 @@ input {
 			</form>
 	</fieldset>
 </section>
+<br />
+<br />
+<br />
 <script>
 newPasswordCheck.onblur = () => {
 	if(newPassword.value !== newPasswordCheck.value){
