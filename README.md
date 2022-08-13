@@ -12,7 +12,7 @@ IDE | Eclipse
 Back-End | Java , Servlet
 Front-End | JavaScript, Jquery, Html5, css
 Database | oracle
-Os | Winddows 10
+Os | Windows 10
 Server | Tomcat 9.0
 Version-management | Git
 
